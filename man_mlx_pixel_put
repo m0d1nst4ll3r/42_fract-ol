@@ -1,0 +1,62 @@
+MiniLibX(3)                                                        MiniLibX(3)
+
+
+
+NNAAMMEE
+       MiniLibX - Drawing inside windows
+
+SSYYNNOOPPSSYYSS
+       _i_n_t
+       mmllxx__ppiixxeell__ppuutt  (  _v_o_i_d _*_m_l_x___p_t_r_, _v_o_i_d _*_w_i_n___p_t_r_, _i_n_t _x_, _i_n_t _y_, _i_n_t _c_o_l_o_r
+       );
+
+       _i_n_t
+       mmllxx__ssttrriinngg__ppuutt ( _v_o_i_d _*_m_l_x___p_t_r_, _v_o_i_d _*_w_i_n___p_t_r_, _i_n_t _x_, _i_n_t _y_, _i_n_t _c_o_l_o_r_,
+       _c_h_a_r _*_s_t_r_i_n_g );
+
+
+
+DDEESSCCRRIIPPTTIIOONN
+       The  mmllxx__ppiixxeell__ppuutt  ()  function  draws  a  defined pixel in the window
+       _w_i_n___p_t_r using the ( _x , _y ) coordinates, and the specified _c_o_l_o_r .  The
+       origin  (0,0)  is the upper left corner of the window, the x and y axis
+       respectively  pointing  right  and  down.  The  connection  identifier,
+       _m_l_x___p_t_r , is needed (see the mmllxx man page).
+
+       Parameters  for  mmllxx__ssttrriinngg__ppuutt  () have the same meaning. Instead of a
+       simple pixel, the specified _s_t_r_i_n_g will be displayed at ( _x , _y ).
+
+       In both functions, it is impossible to  display  anything  outside  the
+       specified  window,  nor  display  in  another  window  in  front of the
+       selected one.
+
+
+CCOOLLOORR MMAANNAAGGEEMMEENNTT
+       The _c_o_l_o_r parameter has an integer type. The displayed color  needs  to
+       be encoded in this integer, following a defined scheme. All displayable
+       colors can be split in 3 basic colors: red, green and blue. Three asso-
+       ciated  values, in the 0-255 range, represent how much of each color is
+       mixed up to create the original color. Theses three values must be  set
+       inside the integer to display the right color. The three least signifi-
+       cant bytes of this integer are filled as shown in the picture below:
+
+               | 0 | R | G | B |   color integer
+               +---+---+---+---+
+
+
+       While filling the integer, make sure you avoid endian problems.  Remem-
+       ber that the "blue" byte should always be the least significant one.
+
+
+
+SSEEEE AALLSSOO
+       mlx(3), mlx_new_window(3), mlx_new_image(3), mlx_loop(3)
+
+
+
+AAUUTTHHOORR
+       Copyright ol@ - 2002-2015 - Olivier Crouzet
+
+
+
+                              September 19, 2002                   MiniLibX(3)

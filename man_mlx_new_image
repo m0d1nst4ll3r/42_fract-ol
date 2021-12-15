@@ -1,0 +1,113 @@
+MiniLibX(3)                                                        MiniLibX(3)
+
+
+
+NNAAMMEE
+       MiniLibX - Manipulating images
+
+SSYYNNOOPPSSYYSS
+       _v_o_i_d _*
+       mmllxx__nneeww__iimmaaggee ( _v_o_i_d _*_m_l_x___p_t_r_, _i_n_t _w_i_d_t_h_, _i_n_t _h_e_i_g_h_t );
+
+       _c_h_a_r _*
+       mmllxx__ggeett__ddaattaa__aaddddrr ( _v_o_i_d _*_i_m_g___p_t_r_, _i_n_t _*_b_i_t_s___p_e_r___p_i_x_e_l_, _i_n_t _*_s_i_z_e___l_i_n_e_,
+       _i_n_t _*_e_n_d_i_a_n );
+
+       _i_n_t
+       mmllxx__ppuutt__iimmaaggee__ttoo__wwiinnddooww ( _v_o_i_d _*_m_l_x___p_t_r_, _v_o_i_d _*_w_i_n___p_t_r_, _v_o_i_d  _*_i_m_g___p_t_r_,
+       _i_n_t _x_, _i_n_t _y );
+
+       _u_n_s_i_g_n_e_d _i_n_t
+       mmllxx__ggeett__ccoolloorr__vvaalluuee ( _v_o_i_d _*_m_l_x___p_t_r_, _i_n_t _c_o_l_o_r );
+
+       _v_o_i_d _*
+       mmllxx__xxppmm__ttoo__iimmaaggee  (  _v_o_i_d  _*_m_l_x___p_t_r_,  _c_h_a_r  _*_*_x_p_m___d_a_t_a_, _i_n_t _*_w_i_d_t_h_, _i_n_t
+       _*_h_e_i_g_h_t );
+
+       _v_o_i_d _*
+       mmllxx__xxppmm__ffiillee__ttoo__iimmaaggee ( _v_o_i_d _*_m_l_x___p_t_r_, _c_h_a_r _*_f_i_l_e_n_a_m_e_, _i_n_t _*_w_i_d_t_h_,  _i_n_t
+       _*_h_e_i_g_h_t );
+
+       _i_n_t
+       mmllxx__ddeessttrrooyy__iimmaaggee ( _v_o_i_d _*_m_l_x___p_t_r_, _v_o_i_d _*_i_m_g___p_t_r );
+
+
+
+DDEESSCCRRIIPPTTIIOONN
+       mmllxx__nneeww__iimmaaggee  ()  creates  a  new image in memory. It returns a _v_o_i_d _*
+       identifier needed to manipulate this image later.  It  only  needs  the
+       size of the image to be created, using the _w_i_d_t_h and _h_e_i_g_h_t parameters,
+       and the _m_l_x___p_t_r connection identifier (see the mmllxx manual).
+
+       The user can draw inside the image (see below), and can dump the  image
+       inside a specified window at any time to display it on the screen. This
+       is done using mmllxx__ppuutt__iimmaaggee__ttoo__wwiinnddooww (). Three identifiers are  needed
+       here,  for  the  connection  to the display, the window to use, and the
+       image (respectively _m_l_x___p_t_r , _w_i_n___p_t_r and _i_m_g___p_t_r ). The  (  _x  ,  _y  )
+       coordinates define where the image should be placed in the window.
+
+       mmllxx__ggeett__ddaattaa__aaddddrr  ()  returns  information  about  the  created image,
+       allowing a user to modify it later. The _i_m_g___p_t_r parameter specifies the
+       image  to  use.  The  three  next parameters should be the addresses of
+       three different valid integers.  _b_i_t_s___p_e_r___p_i_x_e_l will be filled with the
+       number of bits needed to represent a pixel color (also called the depth
+       of the image).  _s_i_z_e___l_i_n_e is the number of bytes used to store one line
+       of  the  image  in memory.  This information is needed to move from one
+       line to another in the image.  _e_n_d_i_a_n tells you wether the pixel  color
+       in the image needs to be stored in little endian ( _e_n_d_i_a_n == 0), or big
+       endian ( _e_n_d_i_a_n == 1).
+
+       mmllxx__ggeett__ddaattaa__aaddddrr returns a _c_h_a_r _* address that represents the begining
+       of  the  memory  area  where the image is stored. From this adress, the
+       first _b_i_t_s___p_e_r___p_i_x_e_l bits represent the color of the first pixel in the
+       first line of the image. The second group of _b_i_t_s___p_e_r___p_i_x_e_l bits repre-
+       sent the second pixel of the first line, and so on.  Add  _s_i_z_e___l_i_n_e  to
+       the  adress  to  get the begining of the second line. You can reach any
+       pixels of the image that way.
+
+       mmllxx__ddeessttrrooyy__iimmaaggee destroys the given image ( _i_m_g___p_t_r ).
+
+
+SSTTOORRIINNGG CCOOLLOORR IINNSSIIDDEE IIMMAAGGEESS
+       Depending on the display, the number of bits  used  to  store  a  pixel
+       color  can  change.  The  user  usually represents a color in RGB mode,
+       using one byte for each component (see mmllxx__ppiixxeell__ppuutt manual). This must
+       be  translated  to fit the _b_i_t_s___p_e_r___p_i_x_e_l requirement of the image, and
+       make the color understandable to the graphical  system.   That  is  the
+       purpose of the mmllxx__ggeett__ccoolloorr__vvaalluuee () function. It takes a standard RGB
+       _c_o_l_o_r parameter, and returns an _u_n_s_i_g_n_e_d _i_n_t value.  The _b_i_t_s___p_e_r___p_i_x_e_l
+       least significant bits of this value can be stored in the image.
+
+       Keep  in  mind  that the least significant bits position depends on the
+       local computer's endian. If the endian of the image (in fact the endian
+       of  the  X-Server's  computer  for remote X11 display) differs from the
+       local endian, then the value should be transformed before being used.
+
+
+XXPPMM IIMMAAGGEESS
+       The mmllxx__xxppmm__ttoo__iimmaaggee () and  mmllxx__xxppmm__ffiillee__ttoo__iimmaaggee  ()  functions  will
+       create a new image the same way.  They will fill it using the specified
+       _x_p_m___d_a_t_a or _f_i_l_e_n_a_m_e , depending on which function is used.  Note  that
+       MiniLibX does not use the standard Xpm library to deal with xpm images.
+       You may not be able to read all types of xpm images. It however handles
+       transparency.
+
+
+RREETTUURRNN VVAALLUUEESS
+       The   three   functions   that   create   images,   mmllxx__nneeww__iimmaaggee(())   ,
+       mmllxx__xxppmm__ttoo__iimmaaggee(()) and mmllxx__xxppmm__ffiillee__ttoo__iimmaaggee(()) , will return NULL if an
+       error  occurs.  Otherwise  they  return  a non-null pointer as an image
+       identifier.
+
+
+
+SSEEEE AALLSSOO
+       mlx(3), mlx_new_window(3), mlx_pixel_put(3), mlx_loop(3)
+
+
+AAUUTTHHOORR
+       Copyright ol@ - 2002-2015 - Olivier Crouzet
+
+
+
+                              September 19, 2002                   MiniLibX(3)

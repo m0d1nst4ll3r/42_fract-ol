@@ -1,0 +1,51 @@
+MiniLibX(3)                                                        MiniLibX(3)
+
+
+
+NNAAMMEE
+       MiniLibX - Managing windows
+
+SSYYNNOOPPSSYYSS
+       _v_o_i_d _*
+       mmllxx__nneeww__wwiinnddooww ( _v_o_i_d _*_m_l_x___p_t_r_, _i_n_t _s_i_z_e___x_, _i_n_t _s_i_z_e___y_, _c_h_a_r _*_t_i_t_l_e );
+
+       _i_n_t
+       mmllxx__cclleeaarr__wwiinnddooww ( _v_o_i_d _*_m_l_x___p_t_r_, _v_o_i_d _*_w_i_n___p_t_r );
+
+       _i_n_t
+       mmllxx__ddeessttrrooyy__wwiinnddooww ( _v_o_i_d _*_m_l_x___p_t_r_, _v_o_i_d _*_w_i_n___p_t_r );
+
+
+
+DDEESSCCRRIIPPTTIIOONN
+       The  mmllxx__nneeww__wwiinnddooww  ()  function  creates  a new window on the screen,
+       using the _s_i_z_e___x and _s_i_z_e___y parameters to determine its size, and _t_i_t_l_e
+       as  the  text  that should be displayed in the window's title bar.  The
+       _m_l_x___p_t_r parameter is the connection identifier returned by mmllxx__iinniitt  ()
+       (see  the  mmllxx  man  page).   mmllxx__nneeww__wwiinnddooww () returns a _v_o_i_d _* window
+       identifier that can be used by other MiniLibX  calls.   Note  that  the
+       MiniLibX can handle an arbitrary number of separate windows.
+
+       mmllxx__cclleeaarr__wwiinnddooww  ()  and  mmllxx__ddeessttrrooyy__wwiinnddooww () respectively clear (in
+       black) and destroy the given window. They both have  the  same  parame-
+       ters:  _m_l_x___p_t_r  is  the  screen connection identifier, and _w_i_n___p_t_r is a
+       window identifier.
+
+
+RREETTUURRNN VVAALLUUEESS
+       If mmllxx__nneeww__wwiinnddooww(()) fails to create a new window (for wathever reason),
+       it will return NULL, otherwise a non-null pointer is returned as a win-
+       dow identifier.   mmllxx__cclleeaarr__wwiinnddooww  and  mmllxx__ddeessttrrooyy__wwiinnddooww  right  now
+       return nothing.
+
+
+SSEEEE AALLSSOO
+       mlx(3), mlx_pixel_put(3), mlx_new_image(3), mlx_loop(3)
+
+
+AAUUTTHHOORR
+       Copyright ol@ - 2002-2015 - Olivier Crouzet
+
+
+
+                              September 19, 2002                   MiniLibX(3)
