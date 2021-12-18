@@ -26,7 +26,7 @@ Started 16/12/2021
 	- Really optimized code so the program runs as fast as possible
 
 
-#Resources:
+# Resources:
 - Understand how to use mlx
 	- https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-introduction/videos/introduction-to-minilibx
 	- https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-events/videos/minilibx-events
@@ -42,7 +42,7 @@ Started 16/12/2021
 	- https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set (complicated math for drawing mandelbrot fractals)
 
 
-#Explanation on Julia and Mandelbrot:
+# Explanation on Julia and Mandelbrot:
 Take a complex number. Complex numbers are x + yi. x and y are variable, i is the square root of -1 (an imaginary number).
 
 Square it. Add c, c being another complex number (x+yi). Square it and add c. Square it and add c. Do this infinitely.
@@ -55,11 +55,11 @@ Take every possible starting point in an area (the area is infinite on a mathema
 
 And you're done. You've got a visualisation of a Julia set.
 
->>>This<<< is how a Julia set works. There are infinite Julia sets since there are infinite complex numbers. Each Julia set will have some starting points approaching infinity, some not. Varying c gives you differents Julia sets. 0 0 gives you a simple sphere of radius 1. -1 0 gives you an interesting julia set.
+\>\>\>This<<< is how a Julia set works. There are infinite Julia sets since there are infinite complex numbers. Each Julia set will have some starting points approaching infinity, some not. Varying c gives you differents Julia sets. 0 0 gives you a simple sphere of radius 1. -1 0 gives you an interesting julia set.
 
 Now, go back and instead of considering c to always be the same and varying the starting points, consider the starting point to always be the same (0, 0) and vary c. This time, take every possible c in an area. Operate the function on each one of them, keep the starting point at 0, 0, and once again, some will approach infinity, some won't. Color those that do black, those that don't white.
 
->>>This<<< is the Mandelbrot set. You've got a visualisation of it. The Mandelbrot set is like the mother of all Julia sets. Each point in the Mandelbrot set (each c) has its own Julia set (where the c is now constant and the starting points vary).
+\>\>\>This<<< is the Mandelbrot set. You've got a visualisation of it. The Mandelbrot set is like the mother of all Julia sets. Each point in the Mandelbrot set (each c) has its own Julia set (where the c is now constant and the starting points vary).
 
 Now... consider that any point outside a circle of radius 2 of center 0, 0 (after adding c) will always tend towards infinity. This is a mathematical rule. This is how you decide whether something approaches infinity or not, since you lack infinite computation with which to actually test every point.
 
@@ -70,35 +70,31 @@ If you decide to color stuff that's gone after 1 iteration in black, 2 in dark g
 You can set the amount of iterations that's the limit. If n = 1, you'll have a simple sphere. n = 2, you'll start seeing the beginning of your fractal. n = 3, etc etc... at around n=7 you should already have something pretty pleasing visually. No need for heavy computation.
 
 
-#Thoughts on how to do this:
-This the first (really) complicated project of 42... it really doesn't seem easy at first glance.
+# Zooming and moving
+Your window is an area inside the Mandelbrot set's plane. Each pixel represents a complex number.
 
-Thinking about basic fractal shapes (ex: triangles composed of triangles composed of triangles... refer to the video above), it's relatively easy (with some basic math) to draw them on screen with mlx. The two challenges in this are getting the math & recursion right, and coding sub-functions (like drawing a line) which would be pre-made in other, simpler languages, with better libs. Note that even drawing a simple line is not as easy as it would seem.
+Assuming you start your calculations from the top left of your screen, the very first pixel's complex number can be considered to be your position in the set. Moving around is only a matter of changing that first pixel's complex number, or its position.
 
-Two thoughts about such basic fractals : how do you zoom in, and also, how do you increase the depth without having to wait for exponentially increasing amounts of time?
+Using this method, you can draw the initial Mandelbrot shape by choosing a starting point not too far from the center of the plane (0,0). When moving pixel by pixel (to draw on your window), it's just a matter of adding a certain value to your starting point. Let us consider this value to be our step.
 
-Before thinking about zooming let's think about moving around. Moving around is essentially just moving the pixels on-screen. We can first note that efficiency requires that we devise a way to only redraw pixels that need to be replaced, ex: no need to redraw white pixels over 99% of the screen when they haven't moved. Then, we can note that moving pixels out of the screen, we need to remember they're still there somewhere. So, if we were following the basic video linked above, we note that we have to do it differently as soon as we want to move pixels around for directional keys or zooming in.
+Choosing a smaller step will cause the visual to be more zoomed in, and vice versa. Now we know how we can zoom : just changing the step.
 
-One way of solving our problem is simply remembering where the pixels are. There are two obvious ways of doing this... we can remember the position of each pixel (won't work for zooming in and out, but will work for moving around), or we can simply remember the geometric points, and redraw the lines between them. Note that remembering the geometric points isn't simple either. Due to inevitable rounding of values, points might get translated differently after two opposite operations (zoom +100%, zoom -100%).
+This step value will also be needed when moving around, because we have to account for zoom when changing our starting position. It's a simple matter of factoring step into our movement. We can decide one key-press moves by one pixel, for example, and so we'll have to change our starting position by... you got it, step. If we want to move by 2 pixels, we change our starting position by 2 * step. Etc.
 
-A problem arises when considering these solutions for fractals... fractals are technically infinite, and should in practice at least go pretty far when zooming in. Now the problem is that if we have to remember every point, including those off screen, and calculate their fractal offsprings (which will of course be necessary for our graphical representation, even if the starting fractal points are off-screen), we'll very quickly be locked into infinite calculations, if we don't run out of memory before that. So, we'd need a way to remember points outside the screen without using up too much memory and we'd need a way not to do useless off-screen calculations.
+So far, we're only zooming to the top-left of our screen. How can we zoom towards our mouse's position?
 
-Not only that, but we have to limit depth to what'll make a visible difference in our drawings, so we don't make useless calculations, but still calculate more depth as we zoom in. To do this, we'd need to have a depth limit, and increase that depth as we zoom in. Or, we could keep the same depth, but start the calculations from the shapes that are visible on screen (and more... since off-screen shapes can have offspring which are visible on-screen...).
+Imagine that we're zooming in based on the cursor position. What does that mean? The step still decreases the same amount, it's just that our top-left position will change. Imagine our cursor is top-left. The position will barely change. Imagine it's bottom-right. Now the position will change a great deal.
 
-... We start to get an idea of just how complicated this is getting. Almost like we have fractal problems. Literally problems generating problems infinitely. But the real problem is that we're using a very basic & naive approach which can get simplified by tons if only we dive into the complicated maths of fractals. Unfortunately, I've got no idea how to even approach the non-naive solution described in the wikipedia article, or what it's even about.
+What's zooming based on the cursor, anyway? Zooming is making everything go away from the center of the zoom (in our case, the cursor). Making everything move backwards on a line that goes through the center and the thing we're moving. But our top-left position isn't a thing we're making go away, it's where our drawing starts on the plane. In fact, unlike the "objects", it should get closer to the center, since... well... we're zooming IN. The area should get smaller. And thus, the starting position of our area should get closer to the center of the zoom.
 
-Given the complexity of this project, it's clear we have to proceed slowly, step by step, so we can fully understand what we're doing instead of blindly following wikipedia articles. So... todo-list.
+One thing we can notice when playing around with zooms from other programs (such as 42's holy graph for example) is that the position will only ever move towards the cursor. That's only logical based on what we figured out right above. It moves on a line drawn between the top-left of the screen and the cursor. It will move way more if the cursor is far away, too. In fact, it will move a certain percentage of the distance, on that line.
 
+What does moving on a line mean mathematically, anyway? Thinking about it for a few minutes we can realize that our top-left x,y (xa,ya) and our cursor x,y (xb,yb) represent both extremities of the line. xb,yb is just xa,ya + ((xb,yb) - (xa,ya)) or in other words, our cursor's position is our top-left position plus the difference between our cursor and our top left. And any movement on that line will be top-left plus some fraction of the cursor's position.
 
-#Todo list:
-- Understand how to use mlx by following the guide
-	- Get the basics of manipulating images, writing pixels to them, and everything
-	- Create basic functions, for example to draw lines or shapes, to make sure the basics are understood and dive into a bit of maths and graphical problems
-	- Manipulate events to, for example, exit the program
-- With the help of the functions created above, do the same as the basic fractal vids
-	- This is the naive approach but whatever, let's at least try it, if we can't do the naive approach we'll never understand anything about the non-naive one
-- Make a first attempt at being able to move around the image using events
-- Make a first attempt at zooming in, without adding more depth or anything
-- At this point, either try to see if I get any ideas about how to solve the depth problem for these basic shapes, or...
-- Read more material about escape time algorithms (which is the non-naive approach) and try to make it work, without zooming or anything
-- If I get that far I'll have more ideas about where to go next
+If that fraction is 0, we've got our top-left position. If it is 1, we've got our cursor position. If it is anything between 0 and 1, it'll be on our line.
+
+Ok so that's how we move our top-left position relative to the cursor. But how much do you move it? 1%? 99%? Well... it's going to depend on how much you want to zoom, and it's going to have to be relative to your step ratio (how much you multiply or divide your step). Moving the top-left position by 99% of the difference can make sense if you zoom really really hard. 1% can also make sense if you barely zoom at all. But what's the math formula that links them?
+
+Imagine your cursor is bottom-right. If you move top-left by 50%, you should also divide step by 2. If you move top-left by 75%, you should divide step by 4. And so on. These two examples are enough to see the formula : if you divide step by x, divide 100 by x and subtract it to 100. That's how much you move your top-left on the top-left/cursor line.
+
+This is it for the theory and mathematics of zooming and moving around. There are ways to optimize moving around, by avoiding calculations we've already done, but zooming in is much more complicated.

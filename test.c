@@ -1,17 +1,24 @@
-#include <mlx.h>
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/17 22:21:02 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/12/17 22:24:17 by rpohlen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "mlx/mlx.h"
 
 int	main()
 {
-	void *mlx_ptr;
-	void *win_ptr;
+	void *mlx;
+	void *win;
 
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 2400, 1300, "test");
-	for (int j = 0; j < 1000; j++)
-	{
-		for (int i = 0; i < 1000; i++)
-			mlx_pixel_put(mlx_ptr, win_ptr, j + i, i, i);
-	}
-	mlx_loop(mlx_ptr);
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 1000, 1000, "test");
+	mlx_pixel_put(mlx, win, 5, 5, 0xFF0000);
+	mlx_loop(mlx);
 }
