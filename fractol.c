@@ -6,11 +6,46 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/18 01:01:35 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/18 15:22:50 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+int	get_rgb(int r, int g, int b)
+{
+	return (r << 16 | g << 8 | b );
+}
+
+int	*palette_fire(int size)
+{
+	int	*palette;
+	int	step;
+	int	r;
+	int	g;
+	int	b;
+
+	palette = malloc(size * sizeof(int));
+	r = 0;
+	g = 0;
+	b = 0;
+	for (int i = 0; i < size; i++)
+	{
+		step = 255 * 3 / size;
+		while (step > 0)
+		{
+			if (r < 255)
+				r++;
+			else if (g < 255)
+				g++;
+			else
+				b++;
+			step--;
+		}
+		palette[i] = get_rgb(r, g, b);
+	}
+	return (palette);
+}
 
 void	pixel_put(t_fract data, int x, int y, int color)
 {
@@ -39,21 +74,36 @@ int	escape_time(long double cx, long double cy, int depth)
 		x = cx + x2 - y2;
 		x2 = x * x;
 		y2 = y * y;
+		iter++;
 		if (x2 + y2 > 4)
 			break;
-		iter++;
 	}
-	if (depth == iter)
-		return (0);
-	return (0xFFFF00 + 0xFF - (int)(((float)depth - (float)iter) / (float)depth * 0xFF));
-	//return (0xffffff);
+	return (iter);
 }
 
 void	draw(t_fract data)
 {
+	int	color;
+	int	iter;
+
 	for (int y = 0; y < WIN_Y; y++)
+	{
 		for (int x = 0; x < WIN_X; x++)
-			pixel_put(data, x, y, escape_time(data.posx + x * data.step, data.posy - y * data.step, data.depth));
+		{
+			iter = escape_time(data.posx + x * data.step, data.posy - y * data.step, data.depth);
+			if (iter == data.depth)
+				color = 0;
+			else
+			{
+				iter--;
+				if (iter % (data.palette_size * 2) >= data.palette_size)
+					color = data.palette[(data.palette_size - iter % (data.palette_size * 2)) % data.palette_size];
+				else
+					color = data.palette[iter % data.palette_size];
+			}
+			pixel_put(data, x, y, color);
+		}
+	}
 }
 
 int	key_hook(int key, t_fract *data)
@@ -106,6 +156,8 @@ int	main(void)
 {
 	t_fract	data;
 
+	data.palette_size = 25;
+	data.palette = palette_fire(data.palette_size);
 	data.depth = 1;
 	if (DEPTH > 0)
 		data.depth = DEPTH;

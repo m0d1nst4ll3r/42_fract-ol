@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/18 01:03:51 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/18 14:50:38 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_fract
 	long double		posy;
 	long double		step;
 	int			depth;
+	int			*palette;
+	int			palette_size;
 }				t_fract;
 
 #endif

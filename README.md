@@ -1,6 +1,20 @@
 # 42_fract-ol
 Started 16/12/2021
 
+- I was going for fluid motion but fluid motion is impossible.
+	- So, since it's all about static and slow zooming, zooming should be as good as possible.
+	- Zooming with mousewheel doesn't make much sense if the user is trying to get a specific shot.
+	- It's either too fast and the user will be frustrated or too slow and the computer will spend forever on each frame.
+	- The best way is to allow the use to draw an area by holding LMB and dragging the mouse.
+- Colors need to be improved badly.
+	- For this I can use palettes of differing sizes (50, 100, 250, 500, 1000, 2500, 5000) with differing colors.
+	- Palettes of differing sizes means you've got the same colors, but spread out further.
+	- Then, 1 iteration before escape is palette[0], 2 is palette[1], 50 is palette[49], 51 is back to palette[0], etc...
+- There's a problem with rendering. There needs to be some kind of anti-aliasing option
+- Program can probably be way more optimized
+- Beyond some point, even long doubles aren't big enough and the image starts being badly pixelated ... it's pretty much the point at which https://math.hws.edu/eck/js/mandelbrot/MB.html starts having to take way longer "high precision, 22 digits". There needs to be a solution for that.
+- Need Julia sets
+
 # Project goals:
 - Program opens a window where the mandelbrot set or a julia set is drawn
 - Arrow keys can be used to move around fluidly
@@ -40,6 +54,10 @@ Started 16/12/2021
 	- https://www.youtube.com/watch?v=bIfNwgUVjV8 (very basic fractal shapes)
 	- https://www.youtube.com/watch?v=8JmoI4q7fTg (fractal trees, still pretty basic)
 	- https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set (complicated math for drawing mandelbrot fractals)
+- Online fractal program
+	- https://math.hws.edu/eck/js/mandelbrot/MB.html
+- Anti-aliasing with fractal examples
+	- https://en.wikipedia.org/wiki/Spatial_anti-aliasing
 
 
 # Explanation on Julia and Mandelbrot:
