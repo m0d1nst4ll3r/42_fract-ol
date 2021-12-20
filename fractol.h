@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/18 14:50:38 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/20 19:21:11 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # define WIN_Y 1000
 # define STEP 0.0025
 # define ZOOM 4
+# define DEPTH_MOD 200
+# define MOVE_MOD 50
 # ifndef DEPTH
-#  define DEPTH 1
+#  define DEPTH 200
 # endif
 
 # include "mlx/mlx.h"
@@ -29,19 +31,19 @@
 
 typedef struct s_fract
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*addr;
-	int			bpp;
-	int			end;
-	int			llen;
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*addr;
+	int				bpp;
+	int				end;
+	int				llen;
 	long double		posx;
 	long double		posy;
 	long double		step;
-	int			depth;
-	int			*palette;
-	int			palette_size;
-}				t_fract;
+	int				depth;
+	int				*palette;
+	int				palette_size;
+}					t_fract;
 
 #endif

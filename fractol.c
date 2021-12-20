@@ -6,11 +6,22 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/18 15:22:50 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/20 19:22:28 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+int	pendulum(int len, int val)
+{
+	int	mod;
+
+	mod = val % ((len + 1) * 2);
+	if (mod > len)
+		return (len * 2 - mod + 1);
+	else
+		return (mod);
+}
 
 int	get_rgb(int r, int g, int b)
 {
@@ -83,8 +94,8 @@ int	escape_time(long double cx, long double cy, int depth)
 
 void	draw(t_fract data)
 {
-	int	color;
-	int	iter;
+	int		color;
+	int		iter;
 
 	for (int y = 0; y < WIN_Y; y++)
 	{
@@ -94,37 +105,43 @@ void	draw(t_fract data)
 			if (iter == data.depth)
 				color = 0;
 			else
-			{
-				iter--;
-				if (iter % (data.palette_size * 2) >= data.palette_size)
-					color = data.palette[(data.palette_size - iter % (data.palette_size * 2)) % data.palette_size];
-				else
-					color = data.palette[iter % data.palette_size];
-			}
+				color = data.palette[pendulum(data.palette_size - 1, iter)];
 			pixel_put(data, x, y, color);
 		}
 	}
 }
 
+void	print_info(t_fract data)
+{
+	printf("=-._.-=Fractal Information=-._.-=\n");
+	printf("- Current pos : %Le, %Le\n", data.posx, data.posy);
+	printf("- Current step : %Le\n", data.step);
+	printf("- Current depth : %d\n", data.depth);
+}
+
 int	key_hook(int key, t_fract *data)
 {
-	if (key == 61 || (key == 45 && data->depth > 1) || (key >= 65361 && key <= 65364))
+	if (key == 61 || key == 45 || (key >= 65361 && key <= 65364))
 	{
 		if (key == 61)
-			data->depth++;
+			data->depth += DEPTH_MOD;
+		else if (key == 45 && data->depth <= DEPTH_MOD)
+			data->depth = 1;
 		else if (key == 45)
-			data->depth--;
+			data->depth -= DEPTH_MOD;
 		else if (key == 65362)
-			data->posy += 5 * data->step;
+			data->posy += MOVE_MOD * data->step;
 		else if (key == 65361)
-			data->posx -= 5 * data->step;
+			data->posx -= MOVE_MOD * data->step;
 		else if (key == 65364)
-			data->posy -= 5 * data->step;
+			data->posy -= MOVE_MOD * data->step;
 		else if (key == 65363)
-			data->posx += 5 * data->step;
+			data->posx += MOVE_MOD * data->step;
 		draw(*data);
 		mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	}
+	else if (key == 104)
+		print_info(*data);
 	return (0);
 }
 
