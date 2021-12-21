@@ -6,27 +6,11 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/20 19:22:28 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/21 14:26:57 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-int	pendulum(int len, int val)
-{
-	int	mod;
-
-	mod = val % ((len + 1) * 2);
-	if (mod > len)
-		return (len * 2 - mod + 1);
-	else
-		return (mod);
-}
-
-int	get_rgb(int r, int g, int b)
-{
-	return (r << 16 | g << 8 | b );
-}
 
 int	*palette_fire(int size)
 {
@@ -111,14 +95,6 @@ void	draw(t_fract data)
 	}
 }
 
-void	print_info(t_fract data)
-{
-	printf("=-._.-=Fractal Information=-._.-=\n");
-	printf("- Current pos : %Le, %Le\n", data.posx, data.posy);
-	printf("- Current step : %Le\n", data.step);
-	printf("- Current depth : %d\n", data.depth);
-}
-
 int	key_hook(int key, t_fract *data)
 {
 	if (key == 61 || key == 45 || (key >= 65361 && key <= 65364))
@@ -167,8 +143,6 @@ int	mouse_hook(int key, int x, int y, t_fract *data)
 	return (0);
 }
 
-//void	mouse_pos(int key)
-
 int	main(void)
 {
 	t_fract	data;
@@ -185,18 +159,13 @@ int	main(void)
 	data.mlx = mlx_init();
 	data.img = mlx_new_image(data.mlx, WIN_X, WIN_Y);
 	data.addr = mlx_get_data_addr(data.img, &data.bpp, &data.llen, &data.end);
-	data.win = mlx_new_window(data.mlx, WIN_X, WIN_Y, "test");
+	data.win = mlx_new_window(data.mlx, WIN_X, WIN_Y, "=-._.-=fract-ol=-._.-=");
 
 	draw(data);
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
-	printf("mlx %p, win %p\n", data.mlx, data.win);
-	printf("data %p\n", &data);
 	mlx_hook(data.win, 2, 1L<<0, key_hook, &data);
 	mlx_hook(data.win, 4, 1L<<2, mouse_hook, &data);
-	//	mlx_mouse_hook(data.win, mouse_hook, &data);
-	//	mlx_hook(data.win, 2, 1L<<0, mouse_hook, &data);
-	//	mlx_hook(data.win, 7, 1L<<7, mouse_hook, &data);
 	mlx_loop(data.mlx);
 	return (0);
 }

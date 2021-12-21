@@ -1,17 +1,28 @@
 # 42_fract-ol
 Started 16/12/2021
 
-- I was going for fluid motion but fluid motion is impossible.
-	- So, since it's all about static and slow zooming, zooming should be as good as possible.
-	- Zooming with mousewheel doesn't make much sense if the user is trying to get a specific shot.
-	- It's either too fast and the user will be frustrated or too slow and the computer will spend forever on each frame.
-	- The best way is to allow the use to draw an area by holding LMB and dragging the mouse.
-- Colors need to be improved badly.
-	- For this I can use palettes of differing sizes (50, 100, 250, 500, 1000, 2500, 5000) with differing colors.
-	- Palettes of differing sizes means you've got the same colors, but spread out further.
-	- Then, 1 iteration before escape is palette[0], 2 is palette[1], 50 is palette[49], 51 is back to palette[0], etc...
-- There's a problem with rendering. There needs to be some kind of anti-aliasing option
+# Todo
+
+- Clean up code, it's fugly
+- Find a good scalable solution for color palettes
+- Scale depth based on step size
+
+# Notes
+- Fluid motion might or might not be possible up to a certain degree of precision
+	- It might be possible, look at Xaos, look at the fractol 42 vid
+	- By default, without trying to zoom fluidly, I should modify my mousewheel zoom so that it's more fluid and implement a box zoom
+- Colors are ok but can still be improved
+	- I'm using a red/orange palette. I could implement more palettes, and I could also change the way I'm generating them
+	- I have a gradient function that I can use to code a palette-constructor function which could take an array of colors (say 5 colors) and spit out a much bigger array of a gradient between all colors, of a size given as argument
+	- Such a function could be very useful for constructing an infinite amount of palettes
+	- I could offer the user tools for constructing their own palettes
+	- Or I could use it myself with my own pre-determined colors to build palettes quickly
+	- Palette size is very important if I use my iteration number as the palette's index without any modifications. Bigger palettes will be prettier when iteration counts change really really fast (in some, but not all motifs, this is a big problem)
+	- One of the problems with that is that it depends mostly on the motif you're looking at. The spirals in seahorse valley get ugly real fast with a 50 size palette, but other motifs like minibrots look better with 50 size palettes.
+	- There's no real solution for that other than asking the user what colors they want. There could be a way, calculating how fast iteration counts change in the screen and changing the palette size based on that...
+- The image is fugly and needs anti-aliasing...
 - Program can probably be way more optimized
+	- Movement can be way optimized
 - Beyond some point, even long doubles aren't big enough and the image starts being badly pixelated ... it's pretty much the point at which https://math.hws.edu/eck/js/mandelbrot/MB.html starts having to take way longer "high precision, 22 digits". There needs to be a solution for that.
 - Need Julia sets
 
