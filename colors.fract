@@ -3,8 +3,8 @@
 # <name> <size> <color1> <color2> <color3> ... <colorN>
 
 # Colors must be described as hexadecimal RGB values (0xrrggbb)
-# You can use a technically infinite amount of colors
-# Each line will create a palette of size colors to be used in the program
+# You can use a technically infinite amount of colors, you must use at least one
+# Each line will create a gradient based on the palette size and the colors
 
 fire	25	000000 ff0000 ffff00 ffffff
 
