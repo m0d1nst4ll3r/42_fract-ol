@@ -3,9 +3,20 @@ Started 16/12/2021
 
 # Todo
 
-- Clean up code, it's fugly
-- Find a good scalable solution for color palettes
+- Clean up code, it's fugly - fractol.c is messy
+	- Also comment code better
+	- Will have to make the t_fract structure more coherent
+- Implement multithreading for faster calculations
+- Finish implementing scalable solution for palettes
+	- This will mean holding a chained list in memory with all available colors
+	- Have to experiment with colors after that to find good ones
+	- Also have to figure out whether I need to implement dynamic palette size
+- Make colors blur together
 - Scale depth based on step size
+	- Keep a way to increase or decrease depth
+- Implement Julia
+	- Possibly in another window
+- Implement parameters
 
 # Notes
 - Fluid motion might or might not be possible up to a certain degree of precision

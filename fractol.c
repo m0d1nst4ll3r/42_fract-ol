@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/21 14:26:57 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/22 18:47:19 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	pixel_put(t_fract data, int x, int y, int color)
 	*(int *)dst = color;
 }
 
-int	escape_time(long double cx, long double cy, int depth)
+//	x2 and y2 are used to save on multiplications
+int	escape_time_mandelbrot(long double cx, long double cy, int depth)
 {
 	long double	x;
 	long double	y;
@@ -76,22 +77,33 @@ int	escape_time(long double cx, long double cy, int depth)
 	return (iter);
 }
 
+//	cx and cy are necessary to save on multiplications and only ever add floats
 void	draw(t_fract data)
 {
-	int		color;
-	int		iter;
+	int			color;
+	int			iter;
+	int			x;
+	int			y;
+	long double	cx;
+	long double	cy;
 
-	for (int y = 0; y < WIN_Y; y++)
+	cx = data.posx;
+	cy = data.posy;
+	y = -1;
+	while (++y < WIN_Y)
 	{
-		for (int x = 0; x < WIN_X; x++)
+		x = -1;
+		while (++x < WIN_X)
 		{
-			iter = escape_time(data.posx + x * data.step, data.posy - y * data.step, data.depth);
+			iter = escape_time_mandelbrot(cx, cy, data.depth);
 			if (iter == data.depth)
 				color = 0;
 			else
 				color = data.palette[pendulum(data.palette_size - 1, iter)];
 			pixel_put(data, x, y, color);
+			cx += data.step;
 		}
+		cy -= data.step;
 	}
 }
 
@@ -147,6 +159,7 @@ int	main(void)
 {
 	t_fract	data;
 
+	data.colors = decode_colors(COLORS_FILE);
 	data.palette_size = 25;
 	data.palette = palette_fire(data.palette_size);
 	data.depth = 1;
