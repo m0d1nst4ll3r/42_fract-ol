@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/22 18:47:19 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/22 19:06:39 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ void	draw(t_fract data)
 	long double	cx;
 	long double	cy;
 
-	cx = data.posx;
 	cy = data.posy;
 	y = -1;
 	while (++y < WIN_Y)
 	{
+		cx = data.posx;
 		x = -1;
 		while (++x < WIN_X)
 		{
@@ -160,8 +160,8 @@ int	main(void)
 	t_fract	data;
 
 	data.colors = decode_colors(COLORS_FILE);
-	data.palette_size = 25;
-	data.palette = palette_fire(data.palette_size);
+	data.palette_size = data.colors->palette_size;
+	data.palette = data.colors->palette;
 	data.depth = 1;
 	if (DEPTH > 0)
 		data.depth = DEPTH;

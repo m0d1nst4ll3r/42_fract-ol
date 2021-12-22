@@ -6,7 +6,8 @@
 # You can use a technically infinite amount of colors, you must use at least one
 # Each line will create a gradient based on the palette size and the colors
 
-fire	100		000000 ff0000 ffff00 ffffff
 test	100		0000ff 000000
+fire	25		000000 ff0000 ffff00 ffffff
+sky		25		ffffff 872319 181180 ffffff
 
 # Add more later
