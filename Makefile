@@ -6,7 +6,7 @@
 #    By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/20 14:37:51 by rpohlen           #+#    #+#              #
-#    Updated: 2021/12/22 19:13:25 by rpohlen          ###   ########.fr        #
+#    Updated: 2021/12/23 18:28:59 by rpohlen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ SRCS		= fractol.c \
 			  fractol_colors_check.c \
 			  fractol_colors_decode.c \
 			  fractol_colors_decode2.c \
-			  fractol_utils.c \
-			  fractol_utils_color.c \
-			  fractol_utils_color2.c \
-			  fractol_utils_list.c \
+			  fractol_draw.c \
+			  fractol_list.c \
+			  fractol_mlx.c \
+			  fractol_printf.c \
 
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -Imlx -Ilibft/includes

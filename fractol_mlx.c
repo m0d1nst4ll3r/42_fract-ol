@@ -1,37 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol_utils_color.c                              :+:      :+:    :+:   */
+/*   fractol_mlx.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 10:22:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/21 15:09:33 by rpohlen          ###   ########.fr       */
+/*   Created: 2021/12/23 13:42:03 by rpohlen           #+#    #+#             */
+/*   Updated: 2021/12/23 17:31:59 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-//	Combines 8 bit r g b values into one 32 bit int
-int	get_rgb(int r, int g, int b)
+void	pixel_put(t_img img, int x, int y, int color)
 {
-	return (r << 16 | g << 8 | b);
-}
+	char	*dst;
 
-//	Extracts 8 bit r value from 32 bit rgb value
-int	get_r(int rgb)
-{
-	return (rgb >> 16 & 0xff);
-}
-
-//	Extracts 8 bit g value from 32 bit rgb value
-int	get_g(int rgb)
-{
-	return (rgb >> 8 & 0xff);
-}
-
-//	Extracts 8 bit b value from 32 bit rgb value
-int	get_b(int rgb)
-{
-	return (rgb & 0xff);
+	dst = img.addr + (y * img.llen + x * img.bpp / 8);
+	*(int *)dst = color;
 }

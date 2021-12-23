@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/22 18:21:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2021/12/23 18:51:32 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,34 @@ typedef struct s_color
 	struct s_color	*next;
 }					t_color;
 
+typedef struct s_complex
+{
+	long double	x;
+	long double	y;
+}				t_complex;
+
+/* -------------------------------------------------------------------- *\
+|		t_img
+|
+|	Holds all information pertaining to an image.
+|	Typically used in pairs to avoid writing on an image being displayed.
+|
+|	- img		img address to be used when displaying the image
+|	- addr		address of the image's pixels to be used when updating them
+|	- bpp		bits per pixel
+|	- end		endian
+|	- llen		line length
+|				the 3 above values are used to update pixels using addr
+\* -------------------------------------------------------------------- */
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		end;
+	int		llen;
+}			t_img;
+
 /* -------------------------------------------------------------------- *\
 |		t_fract
 |
@@ -62,65 +90,69 @@ typedef struct s_color
 |	Only one instance of this structure ever exists at once in the
 |		program, but more could be used later on when Julia-Mandelbrot
 |		linking is implemented.
-|	
-|	- mlx			minilibx required address to use its functions
-|	- win			minilibx address of current window
-|	- img			minilibx address of image
-|	- addr			minilibx address of the image's contents
-|	- bpp			minilibx bits per pixel value for image calculations
-|	- end			minilibx endian value, unused but needed for mlx funcs
-|	- llen			minilibx line length needed for image calculations
-|	- posx			fractal x, y complex position of current area
-|	- posy			.
+|
+|	- type			type of fractal (m for mandelbrot, j for julia...)
+|	- mlx			mlx address to use when updating window
+|	- win			window address pertaining to this particular fractal
+|	- img_main
+|	- img_temp		the two images used in tandem to avoid screen tearing
+|						the images are swapped so that img_main, the image
+|						displayed on screen, is never written on directly
+|	- pos			fractal x, y complex position of current area
 |	- step			fractal step value (describes level of zoom)
-|	- depth			fractal depth value (max iterations)
+|	- max_iter		max iterations of our fractal calculations
 |	- palette		current palette being used
 |	- palette_size	current palette's size
 |	- colors		chained list containing all available colors
 \* -------------------------------------------------------------------- */
 typedef struct s_fract
 {
-	void			*mlx;
-	void			*win;
-	void			*img;
-	char			*addr;
-	int				bpp;
-	int				end;
-	int				llen;
-	long double		posx;
-	long double		posy;
-	long double		step;
-	int				depth;
-	int				*palette;
-	int				palette_size;
-	t_color			*colors;
-}					t_fract;
+	char		type;
+	void		*mlx;
+	void		*win;
+	t_img		img_main;
+	t_img		img_temp;
+	t_complex	pos;
+	t_complex	constant;
+	long double	step;
+	int			max_iter;
+	int			*palette;
+	int			palette_size;
+	t_color		*colors;
+}				t_fract;
 
-//// All the functions related to color manipulation
-//	 fractol_utils_color.c
-//	 fractol_utils_color2.c
-int		get_rgb(int r, int g, int b);
-int		get_r(int rgb);
-int		get_g(int rgb);
-int		get_b(int rgb);
-int		get_gradient(int color1, int color2, float ratio);
-int		*get_gradient_palette(int *colors, int color_count, int size);
+//// Functions to calculate and draw different fractals
+// fractol_draw.c
+void	draw_mandelbrot(t_fract data);
+void	draw_julia(t_fract data);
+
+//// Functions related to manipulating the minilibx
+// fractol_mlx.c
+void	pixel_put(t_img img, int x, int y, int color);
 
 //// Parses colors.fract file and fills palettes
 //// Used once during program init
-//	 fractol_colors_check.c
-//	 fractol_colors_decode.c
-//	 fractol_colors_decode2.c
+// fractol_colors_check.c
+// fractol_colors_decode.c
+// fractol_colors_decode2.c
 int		is_valid_line(char *line);
 int		*create_palette(char *line, int size);
 t_color	*decode_colors(char *file);
 
-//// Utility functions
-//	 fractol_utils.c
-//	 fractol_utils_list.c
-int		pendulum(int len, int val);
+//// Functions that print stuff
+// fractol_printf.c
 void	print_info(t_fract data);
+void	print_usage(void);
+void	print_guide(void);
+
+//// List functions
+// fractol_list.c
 void	fractol_lstadd(t_color **lst, t_color *new);
 void	fractol_lstclear(t_color *lst);
+
+//// Key and mouse functions
+// fractol_keys.c
+int		key_hook(int key, t_fract *data);
+int		mouse_hook(int key, int x, int y, t_fract *data);
 
 #endif
