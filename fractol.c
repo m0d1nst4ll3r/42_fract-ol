@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/23 19:25:05 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/03 19:17:02 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	main(int ac, char **av)
 	data.colors = decode_colors(COLORS_FILE);
 	data.palette_size = data.colors->palette_size;
 	data.palette = data.colors->palette;
-	data.depth = 1;
+	data.max_iter = 1;
 	if (DEPTH > 0)
-		data.depth = DEPTH;
+		data.max_iter = DEPTH;
 	data.step = STEP;
-	data.posx = - WIN_X / 2 * STEP;
-	data.posy = WIN_Y / 2 * STEP;
+	data.pos.x = - WIN_X / 2 * STEP;
+	data.pos.y = WIN_Y / 2 * STEP;
 
 	data.mlx = mlx_init();
 	data.img = mlx_new_image(data.mlx, WIN_X, WIN_Y);

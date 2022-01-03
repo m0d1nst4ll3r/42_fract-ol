@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:10:24 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/23 18:34:15 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/03 15:43:53 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ static int	step_check(char c, int *step)
 |		whether a line from your colors config file is utter rubbish!
 |
 |	You will only have to skip whitespaces, make sure there's at least
-|		1 character to describe the palette name and its size (which
+|		1 character to describe the palette's name and its size (which
 |		can't only be zeroes, of course!), and that there are at least
 |		2 valid hexadecimal values to describe the start and end colors
 |

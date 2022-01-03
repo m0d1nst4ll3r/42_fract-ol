@@ -6,23 +6,11 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/23 19:25:02 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/03 15:41:30 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-static int	get_color_iter(int *palette, int palette_size,
-			int iter, int max_iter)
-{
-	int	color;
-
-	if (iter == max_iter)
-		color = 0;
-	else
-		color = palette[iter % palette_size];
-	return (color);
-}
 
 /* --------------------------------------------------------------------- *\
 |		escape_time
@@ -69,6 +57,38 @@ static int	escape_time(t_complex s, t_complex c, int depth)
 	return (iter);
 }
 
+/* --------------------------------------------------------------------- *\
+|		get_color_iter
+|
+|	Returns a color based on the number of iterations a complex number
+|		took to escape.
+|
+|	If the complex number didn't escape (it reached max iterations), the
+|		color is black.
+|
+|	Otherwise, the color is taken from a palette of colors with the
+|		number of iterations as the index. If the number is greater than
+|		the palette allows, we just circle back to its beginning.
+\* --------------------------------------------------------------------- */
+static int	get_color_iter(int *palette, int palette_size,
+			int iter, int max_iter)
+{
+	int	color;
+
+	if (iter == max_iter)
+		color = 0;
+	else
+		color = palette[iter % palette_size];
+	return (color);
+}
+
+/* --------------------------------------------------------------------- *\
+|		draw_pixel
+|
+|	Calculates the escape time of a complex number for a given pixel.
+|	Then, calculates the color of the pixel based on that escape time.
+|	Finally, updates the pixel's color on the buffered image.
+\* --------------------------------------------------------------------- */
 static void	draw_pixel(t_fract data, int x, int y, t_complex variable)
 {
 	int	iter;
@@ -84,26 +104,23 @@ static void	draw_pixel(t_fract data, int x, int y, t_complex variable)
 }
 
 /* --------------------------------------------------------------------- *\
-|		draw_mandelbrot
+|		draw_fractal
 |
-|	For each pixel of an image, a given starting point (as a complex number)
-|		and a given floating point value with which to increment the complex
-|		number each pixel...
+|	For each pixel in an image, transforms that pixel into a complex number
+|		and calculates how fast that complex number will escape a circle of
+|		radius 2, centered at point (0, 0) of the complex numbers graph.
 |
-|	...This function calculates the amount of squaring and adding operations
-|		that can occur before the value gets out of a circle of radius 2
-|		centered at point 0, 0...
+|	This is called an escape time algorithm and is the basis of drawing a
+|		mandelbrot or julia set fractal.
 |
-|	...Starting at point 0, 0
+|	data contains the starting, first pixel, top-left complex number, [pos],
+|		initialized at the start of the program based on window size.
+|	[pos] is then incremented for each pixel by [step] to update our complex
+|		number. The bigger step is, the less zoomed-in the image.
 |
-|	The exact formula for iteration N is result(N-1)² + C
-|		iteration 1 starts at (0, 0) + C
-|		iteration 2 starts at C² + C
-|
-|	The resulting amount of iterations is then used to color the pixel
-|		according to a palette of colors
-|
-|	cx and cy are used to save on multiplications
+|	We increment [pos] by [step] instead of multiplying it to save on
+|		floating point multiplications. This causes image deformation when
+|		approaching max long double precision.
 \* --------------------------------------------------------------------- */
 void	draw_fractal(t_fract data)
 {
@@ -124,48 +141,6 @@ void	draw_fractal(t_fract data)
 			x++;
 		}
 		variable.y -= data.step;
-		y++;
-	}
-}
-
-/* --------------------------------------------------------------------- *\
-|		draw_julia
-|
-|	Does the exact same as draw_mandelbrot, but this time, starting from
-|		a variable point depending on the pixel
-|
-|	The exact formula for iteration N is result(N-1)² + C
-|		iteration 1 is S² + C
-|		iteration 2 is (S² + C)² + C
-|
-|	The resulting amount of iterations is then used to color the pixel
-|		according to a palette of colors
-|
-|	s is used to save on multiplications (we could otherwise describe the
-|		complex number as posx + x * step and posy - y * step)
-\* --------------------------------------------------------------------- */
-void	draw_julia(t_fract data)
-{
-	int			x;
-	int			y;
-	t_complex	s;
-
-	s.y = data.pos.y;
-	y = 0;
-	while (y < WIN_Y)
-	{
-		s.x = data.pos.x;
-		x = 0;
-		while (x < WIN_X)
-		{
-			pixel_put(data.img_temp, x, y,
-				get_color_iter(data.palette, data.palette_size,
-					escape_time(data.constant, s,
-						data.max_iter), data.max_iter));
-			s.x += data.step;
-			x++;
-		}
-		s.y -= data.step;
 		y++;
 	}
 }

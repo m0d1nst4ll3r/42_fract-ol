@@ -3,39 +3,38 @@ Started 16/12/2021
 
 # Todo
 
-- Clean up code, it's fugly - fractol.c is messy
-	- Also comment code better
-	- Will have to make the t_fract structure more coherent
-- Implement multithreading for faster calculations
-- Finish implementing scalable solution for palettes
-	- This will mean holding a chained list in memory with all available colors
-	- Have to experiment with colors after that to find good ones
-	- Also have to figure out whether I need to implement dynamic palette size
-- Make colors blur together
-- Scale depth based on step size
-	- Keep a way to increase or decrease depth
-- Implement Julia
-	- Possibly in another window
-- Implement parameters
+
+1. Implement parameters
+	- Need an init function that goes through each av from the main
+		- This init function will feed data by looking at parameters one by one
+		- If it finds an error, ex: non-existant fractal type, non-existant flag name, incorrect flag parameters, and the string "help" "h" "-h" "-help" "--help" is found there, print user guide, else print usage and an error description
+		- The first window is then created, after mlx init, and the data is fed to its struct, the hooks are set, and the loop is made
+2. Fix keyhooks with new image buffering system
+3. Fix movement with keys to not recalculate whole screen, at the same time implement right-click moving
+4. Implement box-zooming with left-click
+5. Implement auto-changing depth based on screen size and step value
+6. Implement multiple windows julia
+7. Make colors blur together
+8. Implement anti-aliasing
+	- At this point, I believe the project is almost done, except that it'll still be incredibly slow, which is where we can start optimizing
+9. Implement a way to measure time taken to render last frame, so we can have a metric for optimization
+10. Test several configurations. Floating point mults instead of adds, code optimizing (no variables when possible), especially escape time and draw functions.
+11. Find other ways to optimize.
+12. Implement multithreading for faster calculations
+	- This could be done earlier but is left for last since it uses unauthorized functions in the project and there needs to be a functional project without multithreading, to turn in
 
 # Notes
 - Fluid motion might or might not be possible up to a certain degree of precision
 	- It might be possible, look at Xaos, look at the fractol 42 vid
 	- By default, without trying to zoom fluidly, I should modify my mousewheel zoom so that it's more fluid and implement a box zoom
 - Colors are ok but can still be improved
-	- I'm using a red/orange palette. I could implement more palettes, and I could also change the way I'm generating them
-	- I have a gradient function that I can use to code a palette-constructor function which could take an array of colors (say 5 colors) and spit out a much bigger array of a gradient between all colors, of a size given as argument
-	- Such a function could be very useful for constructing an infinite amount of palettes
-	- I could offer the user tools for constructing their own palettes
-	- Or I could use it myself with my own pre-determined colors to build palettes quickly
 	- Palette size is very important if I use my iteration number as the palette's index without any modifications. Bigger palettes will be prettier when iteration counts change really really fast (in some, but not all motifs, this is a big problem)
 	- One of the problems with that is that it depends mostly on the motif you're looking at. The spirals in seahorse valley get ugly real fast with a 50 size palette, but other motifs like minibrots look better with 50 size palettes.
 	- There's no real solution for that other than asking the user what colors they want. There could be a way, calculating how fast iteration counts change in the screen and changing the palette size based on that...
 - The image is fugly and needs anti-aliasing...
 - Program can probably be way more optimized
 	- Movement can be way optimized
-- Beyond some point, even long doubles aren't big enough and the image starts being badly pixelated ... it's pretty much the point at which https://math.hws.edu/eck/js/mandelbrot/MB.html starts having to take way longer "high precision, 22 digits". There needs to be a solution for that.
-- Need Julia sets
+- Beyond some point, even long doubles aren't big enough and the image starts being badly pixelated ... it's pretty much the point at which https://math.hws.edu/eck/js/mandelbrot/MB.html starts having to take way longer "high precision, 22 digits". There needs to be a solution for that. Look into perturbation theory.
 
 # Project goals:
 - Program opens a window where the mandelbrot set or a julia set is drawn
