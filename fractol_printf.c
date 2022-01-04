@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/03 19:02:55 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/04 17:15:41 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ Usage:\n\
 	  (more later)\n\
 \n\
 	OPTIONS:\n\
+	  -help or -h	displays the user guide\n\
 	  -c		specify a color theme (defaults to a random one)\n\
-	  -w [x] [y]	window size, defaults to 1800 x 1000\n\
+	  -w [x] [y]	window size, 100x100 minimum, defaults to 1800 x 1000\n\
 	  -d [max_iter]	specify a starting value for max iterations (defaults at 200)\n\
 	  -z [zoom]	specify a zoom value (starting at 1, defaults at 1.05)\n\
 	  -f [file]	specify another config file for colors\n\
@@ -73,6 +74,7 @@ fractol user guide:\n\
 	    Spacebar	hold to shift the julia set based on cursor position\n\
 	    Esc		close current window\n\
 \n\
-	- Close all windows or press Shift + Esc to exit\n\
+	- Close all windows or press Shift + Esc to exit\n\n\
+	- You can look at and configure colors by editing colors.fract\n\
 ");
 }
