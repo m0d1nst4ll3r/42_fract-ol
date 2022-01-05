@@ -12,8 +12,8 @@ wobver	108		00ffff 005aff 0000ff ff7fff ffff00 b4ff7d 117d11 00ffff
 grayr	100		000000 ffffff ff0000 ffffff 000000
 grayg	100		000000 ffffff 00ff00 ffffff 000000
 grayb	100		000000 ffffff 0000ff ffffff 000000
-rainbow	108		ff0000 ffa500 ffff00 008000 0000ff 4b0082 ee82ee ff0000
 gray	10		000000 ffffff 000000
-fire	10		000000 ff0000 ffff00 ffffff ffff00 ff0000 000000
+rainbow	108		ff0000 ffa500 ffff00 008000 0000ff 4b0082 ee82ee ff0000
+fire	54		000000 ff0000 ffff00 ffffff ffff00 ff0000 000000
 
 # Add more later

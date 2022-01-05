@@ -7,7 +7,7 @@ Started 16/12/2021
 1. Implement parameters
 	- Need an init function that goes through each av from the main
 		- This init function will feed data by looking at parameters one by one
-		- If it finds an error, ex: non-existant fractal type, non-existant flag name, incorrect flag parameters, and the string "help" "h" "-h" "-help" "--help" is found there, print user guide, else print usage and an error description
+		- I need a better, tidier way to print error strings. My strings are too long and defines are limited by the norm, such that the only way is to escape newlines and vim coloring gets fucked. I can always use two functions...
 		- The first window is then created, after mlx init, and the data is fed to its struct, the hooks are set, and the loop is made
 2. Fix keyhooks with new image buffering system
 3. Fix movement with keys to not recalculate whole screen, at the same time implement right-click moving

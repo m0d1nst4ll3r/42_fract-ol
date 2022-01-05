@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/04 17:08:43 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/05 19:53:54 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,21 @@
 # define DEFAULT_FILE "colors.fract"
 # define DEPTH_MOD 1
 # define MOVE_MOD 1
+
 # define BASE_16 "0123456789abcdef"
+
+# define ERR_TYPE		1
+# define ERR_PARAM		2
+# define ERR_NOWIN		3
+# define ERR_BADWIN		31
+# define ERR_NOFILE		4
+# define ERR_BADFILE	41
+# define ERR_BADCOLOR	42
+# define ERR_NOCOLORS	43
+# define ERR_NODEPTH	5
+# define ERR_BADDEPTH	51
+# define ERR_NOZOOM		6
+# define ERR_BADZOOM	61
 
 # include "libft.h"
 # include "mlx.h"
@@ -50,20 +64,22 @@ typedef struct s_complex
 |	- zoom		zoom modifier (higher than 1)
 |	- depth		starting depth (higher than 0)
 |	- type		fractal type
+|	- constant	complex point we use as our constant (for julia params)
 |	- noauto	whether or not to disable auto-increasing max iterations
 |	- file		filename to use when building color palettes
 |	- color		name of the color palette to use
 \* -------------------------------------------------------------------- */
 typedef struct s_params
 {
-	int		winx;
-	int		winy;
-	float	zoom;
-	int		depth;
-	char	type;
-	char	noauto;
-	char	*file;
-	char	*color;
+	int			winx;
+	int			winy;
+	float		zoom;
+	int			depth;
+	char		type;
+	t_complex	constant;
+	char		noauto;
+	char		*file;
+	char		*color;
 }			t_params;
 
 /* -------------------------------------------------------------------- *\
