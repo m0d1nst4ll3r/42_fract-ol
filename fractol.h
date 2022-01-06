@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/06 16:59:23 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/06 19:20:55 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,15 +187,6 @@ typedef struct s_fract
 	char		autoiter;
 }				t_fract;
 
-//// Functions to calculate and draw different fractals
-// fractol_draw.c
-void	draw_mandelbrot(t_fract data);
-void	draw_julia(t_fract data);
-
-//// Functions related to manipulating the minilibx
-// fractol_mlx.c
-void	pixel_put(t_img img, int x, int y, int color);
-
 //// Parses colors.fract file and fills palettes
 //// Used once during program init
 // fractol_colors_check.c
@@ -205,8 +196,34 @@ int		is_valid_line(char *line);
 int		*create_palette(char *line, int size);
 t_color	*decode_colors(char *file);
 
+//// Parses program arguments, fills program data
+//// Or prints a user guide
+//// Used once during program init
+// fractol_params.c
+// fractol_params2.c
+// fractol_params3.c
+int		params_color(t_params *params, int *i, int ac, char **av);
+int		params_window(t_params *params, int *i, int ac, char **av);
+int		params_depth(t_params *params, int *i, int ac, char **av);
+int		params_zoom(t_params *params, int *i, int ac, char **av);
+int		params_file(t_params *params, int *i, int ac, char **av);
+int		params_type(t_params *params, int *i, int ac, char **av);
+int		params_noauto(t_params *params, int *i);
+void	params_error(int code, char *param);
+int		params_is_help(char *s);
+
+//// Functions to calculate and draw different fractals
+// fractol_draw.c
+void	draw_mandelbrot(t_fract data);
+void	draw_julia(t_fract data);
+
+//// Functions related to manipulating the minilibx
+// fractol_mlx.c
+void	pixel_put(t_img img, int x, int y, int color);
+
 //// Functions that print stuff
 // fractol_printf.c
+void	print_error(int code, char *arg);
 void	print_info(t_fract data);
 void	print_usage(void);
 void	print_guide(void);

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 16:12:27 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/06 18:10:52 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/06 19:22:26 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ void	params_init(t_params *params)
 	params->constant.y = 0;
 }
 
-int	is_help(char *s)
+int	params_is_help(char *s)
 {
-	if (!strcmp("help", s) || !strcmp("-help", s) || !strcmp("h", s)
-			|| !strcmp("--help", s) || !strcmp("-h", s))
+	if (!ft_strcmp("help", s) || !ft_strcmp("-help", s) || !ft_strcmp("h", s)
+		|| !ft_strcmp("--help", s) || !ft_strcmp("-h", s))
 		return (1);
 	return (0);
 }
 
 void	params_error(int code, char *param)
 {
-	if (param && is_help(param))
+	if (param && params_is_help(param))
 		print_guide();
 	else
 	{
@@ -48,21 +48,21 @@ void	params_error(int code, char *param)
 
 int	params_check(t_params *params, int *i, int ac, char **av)
 {
-	if (!strcmp("-c", av[i]))
-		return (params_color(&params, i, ac, av));
-	else if (!strcmp("-w", av[i]))
-		return (params_window(&params, i, ac, av));
-	else if (!strcmp("-d", av[i]))
-		return (params_depth(&params, i, ac, av));
-	else if (!strcmp("-z", av[i]))
-		return (params_zoom(&params, i, ac, av));
-	else if (!strcmp("-f", av[i]))
-		return (params_file(&params, i, ac, av));
-	else if (!strcmp("-noauto", av[i]))
-		return (params_noauto(&params, i));
+	if (!ft_strcmp("-c", av[*i]))
+		return (params_color(params, i, ac, av));
+	else if (!ft_strcmp("-w", av[*i]))
+		return (params_window(params, i, ac, av));
+	else if (!ft_strcmp("-d", av[*i]))
+		return (params_depth(params, i, ac, av));
+	else if (!ft_strcmp("-z", av[*i]))
+		return (params_zoom(params, i, ac, av));
+	else if (!ft_strcmp("-f", av[*i]))
+		return (params_file(params, i, ac, av));
+	else if (!ft_strcmp("-noauto", av[*i]))
+		return (params_noauto(params, i));
 	else
 	{
-		params_error(ERR_PARAM, av[i]);
+		params_error(ERR_PARAM, av[*i]);
 		return (1);
 	}
 }
@@ -75,19 +75,18 @@ int	params_check(t_params *params, int *i, int ac, char **av)
 |	Returns NULL in case any error is found. Automatically prints a
 |		relevant message pertaining to the error.
 \* --------------------------------------------------------------------- */
-t_params	fill_params(int ac, char **av)
+int	fill_params(t_params *params, int ac, char **av)
 {
 	int			i;
-	t_params	params;
 
-	params_init(&params);
+	params_init(params);
 	i = 1;
-	if (params_type(&params, &i, ac, av))
-		return (NULL);
+	if (params_type(params, &i, ac, av))
+		return (1);
 	while (i < ac)
 	{
-		if (params_check(&params, &i, ac, av))
-			return (NULL);
+		if (params_check(params, &i, ac, av))
+			return (1);
 	}
-	return (params);
+	return (0);
 }
