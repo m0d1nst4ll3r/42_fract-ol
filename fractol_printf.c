@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/05 19:53:51 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/06 16:58:44 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	print_error2(int code, char *arg)
 	else if (code == ERR_NOCOLORS)
 		printf("No valid color line found in color file. Using default \
 palette.\n");
+	else if (code == ERR_NOCOLOR)
+		printf("Flag '-c' requires a color name.\n");
 }
 
 void	print_error(int code, char *arg)

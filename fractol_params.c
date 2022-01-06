@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 16:12:27 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/05 17:56:22 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/06 18:10:52 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,46 +34,37 @@ int	is_help(char *s)
 	return (0);
 }
 
-void	params_error(char *param, char *error)
+void	params_error(int code, char *param)
 {
-	if (is_help(param))
+	if (param && is_help(param))
 		print_guide();
 	else
 	{
-		printf("%s", error);
+		if (code)
+			print_error(code, param);
 		print_usage();
 	}
 }
 
-int	params_julia(t_params *params, int *i, int ac, char **av)
+int	params_check(t_params *params, int *i, int ac, char **av)
 {
-	params->constant.x = -1;
-	params->constant.y = 0;
-	if ()
-}
-
-int	params_type(t_params *params, int *i, int ac, char **av)
-{
-	if (i == ac)
-		print_usage();
-	else if (!strxcmp("julia", av[i]))
-	{
-		params->type = 'j';
-		(*i)++;
-		if (*i + 2 )
-			params_julia(params, i, ac, av);
-		return (0);
-	}
-	else if (!strxcmp("mandelbrot", av[i]))
-	{
-		(*i)++;
-		return (0);
-	}
-	else if (is_help(av[i]))
-		print_guide();
+	if (!strcmp("-c", av[i]))
+		return (params_color(&params, i, ac, av));
+	else if (!strcmp("-w", av[i]))
+		return (params_window(&params, i, ac, av));
+	else if (!strcmp("-d", av[i]))
+		return (params_depth(&params, i, ac, av));
+	else if (!strcmp("-z", av[i]))
+		return (params_zoom(&params, i, ac, av));
+	else if (!strcmp("-f", av[i]))
+		return (params_file(&params, i, ac, av));
+	else if (!strcmp("-noauto", av[i]))
+		return (params_noauto(&params, i));
 	else
-		print_usage();
-	return (1);
+	{
+		params_error(ERR_PARAM, av[i]);
+		return (1);
+	}
 }
 
 /* --------------------------------------------------------------------- *\
@@ -93,10 +84,10 @@ t_params	fill_params(int ac, char **av)
 	i = 1;
 	if (params_type(&params, &i, ac, av))
 		return (NULL);
-	while (i <= ac)
+	while (i < ac)
 	{
-
+		if (params_check(&params, &i, ac, av))
+			return (NULL);
 	}
-
 	return (params);
 }

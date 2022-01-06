@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/05 19:53:54 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/06 16:59:23 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define ERR_BADFILE	41
 # define ERR_BADCOLOR	42
 # define ERR_NOCOLORS	43
+# define ERR_NOCOLOR	44
 # define ERR_NODEPTH	5
 # define ERR_BADDEPTH	51
 # define ERR_NOZOOM		6
