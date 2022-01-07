@@ -4,11 +4,8 @@ Started 16/12/2021
 # Todo
 
 
-1. Implement parameters
-	- Need an init function that goes through each av from the main
-		- This init function will feed data by looking at parameters one by one
-		- I need a better, tidier way to print error strings. My strings are too long and defines are limited by the norm, such that the only way is to escape newlines and vim coloring gets fucked. I can always use two functions...
-		- The first window is then created, after mlx init, and the data is fed to its struct, the hooks are set, and the loop is made
+1. Fix program init so that it's compilable again and runs without hitches
+		- Starts with fill_params, first t_fract, mlx_init, hooks, initial draw, and loop
 2. Fix keyhooks with new image buffering system
 3. Fix movement with keys to not recalculate whole screen, at the same time implement right-click moving
 4. Implement box-zooming with left-click
@@ -22,6 +19,7 @@ Started 16/12/2021
 11. Find other ways to optimize.
 12. Implement multithreading for faster calculations
 	- This could be done earlier but is left for last since it uses unauthorized functions in the project and there needs to be a functional project without multithreading, to turn in
+?. Protect mlx errors? ...
 
 # Notes
 - Fluid motion might or might not be possible up to a certain degree of precision

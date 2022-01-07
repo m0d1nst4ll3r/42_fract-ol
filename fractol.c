@@ -6,18 +6,59 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/03 19:17:02 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/07 23:50:30 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+t_color	*rand_color(t_color *list)
+{}
+
+void	choose_color(t_fract *data, char *color)
+{}
+
+void	copy_params(t_params params, t_fract *firstwin)
+{
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+	firstwin-> = ;
+}
+
+int	fractol_init(t_fract *firstwin, int ac, char **av)
+{
+	t_params	params;
+
+	if (fill_params(&params, ac, av))
+		return (1);
+	copy_params(params, firstwin);
+	firstwin->mlx = ;
+	firstwin->win = ;
+	firstwin->img_main = ;
+	firstwin->img_temp = ;
+	firstwin->colors = ;
+	if (!firstwin->colors);
+		//build default color
+	choose_color(firstwin, params.color);
+	firstwin->pos = ; //(depends on win)
+	firstwin->step = ; //depends on win
+	//rest (type, constant, max iter, zoom, autoiter) filled by params
+}
+
 int	main(int ac, char **av)
 {
-	t_fract	data;
+	t_fract	firstwin;
 
-	(void)ac;
-	(void)av;
+	if (fractol_init(&firstwin, ac, av))
+		return (1);
 	data.colors = decode_colors(COLORS_FILE);
 	data.palette_size = data.colors->palette_size;
 	data.palette = data.colors->palette;
