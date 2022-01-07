@@ -6,13 +6,28 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 16:12:27 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/06 19:22:26 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/07 22:15:36 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	params_init(t_params *params)
+/* --------------------------------------------------------------------- *\
+|		params_init
+|
+|	See fractol.h for detailed descriptions of elements
+|
+|	- winx			Defaults to the define (1800 as of writing)
+|	- winy			... 1000
+|	- zoom			... 1.05
+|	- depth			... 200
+|	- type			Defaults to mandelbrot
+|	- noauto		Defaults to 0, auto max_iter incrementation is on
+|	- file			Defaults to "colors.fract" as per define
+|	- color			Defaults to a random color (NULL is handled later)
+|	- constant		Defaults to 0, 0, the mandelbrot value
+\* --------------------------------------------------------------------- */
+static void	params_init(t_params *params)
 {
 	params->winx = DEFAULT_WINX;
 	params->winy = DEFAULT_WINY;
@@ -26,7 +41,7 @@ void	params_init(t_params *params)
 	params->constant.y = 0;
 }
 
-int	params_is_help(char *s)
+static int	params_is_help(char *s)
 {
 	if (!ft_strcmp("help", s) || !ft_strcmp("-help", s) || !ft_strcmp("h", s)
 		|| !ft_strcmp("--help", s) || !ft_strcmp("-h", s))
@@ -34,6 +49,9 @@ int	params_is_help(char *s)
 	return (0);
 }
 
+//	When the string that caused a param error contains "help" in some form,
+//		prints the user guide, otherwise, prints an error string and
+//		regular usage.
 void	params_error(int code, char *param)
 {
 	if (param && params_is_help(param))
@@ -46,7 +64,9 @@ void	params_error(int code, char *param)
 	}
 }
 
-int	params_check(t_params *params, int *i, int ac, char **av)
+//	Depending on the flag found, launches a specific function
+//	If the flag does not exist, error out
+static int	params_check(t_params *params, int *i, int ac, char **av)
 {
 	if (!ft_strcmp("-c", av[*i]))
 		return (params_color(params, i, ac, av));
@@ -70,15 +90,21 @@ int	params_check(t_params *params, int *i, int ac, char **av)
 /* --------------------------------------------------------------------- *\
 |		fill_params
 |
-|	Parses parameters and returns a list of them in structure form.
+|	Parses program arguments and fills a list of parameters.
 |
-|	Returns NULL in case any error is found. Automatically prints a
-|		relevant message pertaining to the error.
+|	Returns 1 in case any error is found. Automatically prints a
+|		relevant message pertaining to the error, as well as a
+|		usage/user guide message.
 \* --------------------------------------------------------------------- */
 int	fill_params(t_params *params, int ac, char **av)
 {
 	int			i;
 
+	if (params_duplicate(ac, av))
+	{
+		params_error(ERR_DUPLICATE, 0);
+		return (1);
+	}
 	params_init(params);
 	i = 1;
 	if (params_type(params, &i, ac, av))

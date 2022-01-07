@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/06 19:20:55 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/07 22:16:11 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define ERR_BADDEPTH	51
 # define ERR_NOZOOM		6
 # define ERR_BADZOOM	61
+# define ERR_DUPLICATE	7
 
 # include "libft.h"
 # include "mlx.h"
@@ -210,7 +211,8 @@ int		params_file(t_params *params, int *i, int ac, char **av);
 int		params_type(t_params *params, int *i, int ac, char **av);
 int		params_noauto(t_params *params, int *i);
 void	params_error(int code, char *param);
-int		params_is_help(char *s);
+int		params_duplicate(int ac, char **av);
+int		fill_params(t_params *params, int ac, char **av);
 
 //// Functions to calculate and draw different fractals
 // fractol_draw.c

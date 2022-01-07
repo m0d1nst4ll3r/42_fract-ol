@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:05 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/06 19:19:30 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/07 22:06:07 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	params_depth(t_params *params, int *i, int ac, char **av)
 		return (1);
 	}
 	params->depth = depth;
+	params->noauto = 1;
 	*i += 2;
 	return (0);
 }

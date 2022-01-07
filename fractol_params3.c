@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:52 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/06 19:21:09 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/07 22:41:46 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	params_julia(t_params *params, int *i, int ac, char **av)
 	params->type = 'j';
 	params->constant.x = -1;
 	params->constant.y = 0;
-	if (*i >= ac - 2 && ft_isfloat(av[(*i) + 1]) && ft_isfloat(av[(*i) + 2]))
+	if (*i < ac - 2 && ft_isfloat(av[(*i) + 1]) && ft_isfloat(av[(*i) + 2]))
 	{
 		params->constant.x = ft_atof(av[(*i) + 1]);
 		params->constant.y = ft_atof(av[(*i) + 2]);
@@ -43,6 +43,31 @@ int	params_type(t_params *params, int *i, int ac, char **av)
 	else
 		params_error(ERR_TYPE, av[*i]);
 	return (1);
+}
+
+int	params_duplicate(int ac, char **av)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < ac)
+	{
+		if (!ft_strcmp(av[i], "-w") || !ft_strcmp(av[i], "-c")
+			|| !ft_strcmp(av[i], "-d") || !ft_strcmp(av[i], "-z")
+			|| !ft_strcmp(av[i], "-f") || !ft_strcmp(av[i], "-noauto"))
+		{
+			j = i - 1;
+			while (j > 0)
+			{
+				if (!ft_strcmp(av[i], av[j]))
+					return (1);
+				j--;
+			}
+		}
+		i++;
+	}
+	return (0);
 }
 
 int	params_noauto(t_params *params, int *i)
