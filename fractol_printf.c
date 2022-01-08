@@ -6,12 +6,13 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/07 22:20:22 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/08 22:27:20 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+//	Errors detected during program init
 static void	print_error2(int code, char *arg)
 {
 	if (code == ERR_BADZOOM)
@@ -58,7 +59,7 @@ palette.\n", arg);
 		print_error2(code, arg);
 }
 
-//	Prints out values useful for debugging
+//	Prints out values useful for debugging, when the I key is pressed
 void	print_info(t_fract data)
 {
 	printf("=-._.-=Fractal Information=-._.-=\n");
@@ -67,7 +68,7 @@ void	print_info(t_fract data)
 	printf("- Current depth : %d\n", data.max_iter);
 }
 
-//	Prints usage instructions
+//	Used when program arguments are absent or wrong
 void	print_usage(void)
 {
 	printf("\
@@ -96,31 +97,31 @@ Usage:\n\
 ");
 }
 
+//	Used when help is found in program arguments
 void	print_guide(void)
 {
-	printf("\
-fractol user guide:\n\
-\n\
+	printf("fractol user guide:\n\n\
 	- Run the program\n\
-	   ./fractol mandelbrot\n\
-\n\
+	   ./fractol mandelbrot\n\n\
 	- Use the following mouse commands to explore the fractal\n\
 	    RMB		hold and move the mouse to move around the fractal\n\
 	    LMB		hold and move the mouse to draw an area to zoom into\n\
-	    Mousewheel	zoom in and out\n\
-\n\
+	    Mousewheel	zoom in and out\n\n\
 	  Alternatively, you can use keyboard keys\n\
 	    Shift	hold to zoom in\n\
 	    Ctrl	hold to zoom out\n\
-	    Arrow keys	hold to move around the fractal\n\
-\n\
+	    Arrow keys	hold to move around the fractal\n\n\
 	  More useful commands\n\
+	    r		go back to the beginning (reset)\n\
+	    v, c	change color\n\
+	    b, n	change max iterations by 1 (disables auto iterations)\n\
+	    shift+b, n	change max iterations by 10\n\
+	    ctrl+b, n	change max iterations by 100\n\
+	    m		re-enable auto iterations\n\
 	    i		displays useful information\n\
 	    j		open a new window with a julia set based on cursor position\n\
 	    Spacebar	hold to shift the julia set based on cursor position\n\
-	    Esc		close current window\n\
-\n\
+	    Esc		close current window\n\n\
 	- Close all windows or press Shift + Esc to exit\n\n\
-	- You can look at and configure colors by editing colors.fract\n\
-");
+	- You can look at and configure colors by editing colors.fract\n");
 }

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 16:59:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/23 18:29:29 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/08 21:55:41 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ t_color	*decode_colors(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 3)
+	{
+		print_error(ERR_BADFILE, file);
 		return (NULL);
+	}
 	colors = NULL;
 	line = get_next_line(fd);
 	while (line)
@@ -102,5 +105,17 @@ t_color	*decode_colors(char *file)
 		free(line);
 		line = get_next_line(fd);
 	}
+	return (colors);
+}
+
+//	Quickly builds a default color in case the file was empty
+//		or could not be read
+t_color	*default_color(void)
+{
+	t_color	*colors;
+
+	colors = NULL;
+	create_color("rainbow 108 ff0000 ffa500 ffff00 008000 0000ff \
+4b0082 ee82ee ff0000\n", &colors);
 	return (colors);
 }

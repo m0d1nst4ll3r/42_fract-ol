@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 19:12:25 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/22 13:36:43 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/08 21:41:17 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,12 @@ void	fractol_lstclear(t_color *lst)
 		free(lst);
 		lst = elem;
 	}
+}
+
+//	Used to seek a specific color in the list
+t_color	*fractol_lstseek(t_color *lst, char *name)
+{
+	while (lst && ft_strcmp(lst->name, name))
+		lst = lst->next;
+	return (lst);
 }

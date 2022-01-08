@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/03 15:41:30 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/08 21:54:16 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	draw_pixel(t_fract data, int x, int y, t_complex variable)
 		iter = escape_time(data.constant, variable, data.max_iter);
 	else
 		iter = escape_time(variable, data.constant, data.max_iter);
-	color = get_color_iter(data.palette, data.palette_size,
+	color = get_color_iter(data.current->palette, data.current->palette_size,
 			iter, data.max_iter);
 	pixel_put(data.img_temp, x, y, color);
 }
@@ -130,11 +130,11 @@ void	draw_fractal(t_fract data)
 
 	variable.y = data.pos.y;
 	y = 0;
-	while (y < WIN_Y)
+	while (y < data.winy)
 	{
 		variable.x = data.pos.x;
 		x = 0;
-		while (x < WIN_X)
+		while (x < data.winx)
 		{
 			draw_pixel(data, x, y, variable);
 			variable.x += data.step;

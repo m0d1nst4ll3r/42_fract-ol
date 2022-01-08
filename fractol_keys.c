@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:35:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/23 18:49:29 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/08 23:01:26 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	key_hook(int key, t_fract *data)
 			data->pos.y -= MOVE_MOD * data->step;
 		else if (key == 65363)
 			data->pos.x += MOVE_MOD * data->step;
-		draw_mandelbrot(*data);
+		draw_fractal(*data);
 		mlx_put_image_to_window(data->mlx, data->win, data->img_main.img, 0, 0);
 	}
 	else if (key == 104)
@@ -44,17 +44,17 @@ int	mouse_hook(int key, int x, int y, t_fract *data)
 	{
 		if (key == 4)
 		{
-			data->pos.x += x * data->step - x * data->step / ZOOM;
-			data->pos.y -= y * data->step - y * data->step / ZOOM;
-			data->step = data->step / ZOOM;
+			data->pos.x += x * data->step - x * data->step / data->zoom;
+			data->pos.y -= y * data->step - y * data->step / data->zoom;
+			data->step = data->step / data->zoom;
 		}
 		else if (key == 5)
 		{
-			data->pos.x -= x * data->step - x * data->step / ZOOM;
-			data->pos.y += y * data->step - y * data->step / ZOOM;
-			data->step = data->step * ZOOM;
+			data->pos.x -= x * data->step - x * data->step / data->zoom;
+			data->pos.y += y * data->step - y * data->step / data->zoom;
+			data->step = data->step * data->zoom;
 		}
-		draw_mandelbrot(*data);
+		draw_fractal(*data);
 		mlx_put_image_to_window(data->mlx, data->win, data->img_main.img, 0, 0);
 	}
 	return (0);

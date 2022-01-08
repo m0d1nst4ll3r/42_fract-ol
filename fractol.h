@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/07 22:16:11 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/08 22:05:36 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,18 +151,14 @@ typedef struct s_img
 |						displayed on screen, is never written on directly
 |	- colors		chained list containing all available colors
 |						used when changing colors
-|	- palette_name	current palette's name
-|						used when displaying color information
-|	- palette		current palette being used
-|	- palette_size	current palette's size
-|						both are used in drawing functions
+|	- current		current color palette being used
 |	- type			type of fractal (m for mandelbrot, j for julia)
 |						used in drawing to decide which algorithm to use
 |	- pos			fractal x, y complex position of current area
 |	- constant		mandel/julia value that will never change
 |					(either starting point or c that we add every iteration)
 |	- step			fractal step value (describes level of zoom)
-|	- max_iter		max iterations of our fractal calculations
+|	- max_iter		max iterations of our fractal calculations (or depth)
 |						all four are used for escape time and drawing
 |	- zoom			by how much to zoom in or out (higher than 1)
 |	- autoiter		whether to dynamically change max_iter based on zoom level
@@ -176,9 +172,7 @@ typedef struct s_fract
 	t_img		img_main;
 	t_img		img_temp;
 	t_color		*colors;
-	char		*palette_name;
-	int			*palette;
-	int			palette_size;
+	t_color		*current;
 	char		type;
 	t_complex	pos;
 	t_complex	constant;
@@ -188,6 +182,19 @@ typedef struct s_fract
 	char		autoiter;
 }				t_fract;
 
+//// List functions to add, free, seek
+// fractol_list.c
+void	fractol_lstadd(t_color **lst, t_color *new);
+void	fractol_lstclear(t_color *lst);
+t_color	*fractol_lstseek(t_color *lst, char *name);
+
+//// Functions that print info, usage, errors
+// fractol_printf.c
+void	print_error(int code, char *arg);
+void	print_info(t_fract data);
+void	print_usage(void);
+void	print_guide(void);
+
 //// Parses colors.fract file and fills palettes
 //// Used once during program init
 // fractol_colors_check.c
@@ -196,6 +203,7 @@ typedef struct s_fract
 int		is_valid_line(char *line);
 int		*create_palette(char *line, int size);
 t_color	*decode_colors(char *file);
+t_color	*default_color(void);
 
 //// Parses program arguments, fills program data
 //// Or prints a user guide
@@ -214,26 +222,13 @@ void	params_error(int code, char *param);
 int		params_duplicate(int ac, char **av);
 int		fill_params(t_params *params, int ac, char **av);
 
-//// Functions to calculate and draw different fractals
-// fractol_draw.c
-void	draw_mandelbrot(t_fract data);
-void	draw_julia(t_fract data);
-
 //// Functions related to manipulating the minilibx
 // fractol_mlx.c
 void	pixel_put(t_img img, int x, int y, int color);
 
-//// Functions that print stuff
-// fractol_printf.c
-void	print_error(int code, char *arg);
-void	print_info(t_fract data);
-void	print_usage(void);
-void	print_guide(void);
-
-//// List functions
-// fractol_list.c
-void	fractol_lstadd(t_color **lst, t_color *new);
-void	fractol_lstclear(t_color *lst);
+//// Functions to calculate and draw different fractals
+// fractol_draw.c
+void	draw_fractal(t_fract data);
 
 //// Key and mouse functions
 // fractol_keys.c
