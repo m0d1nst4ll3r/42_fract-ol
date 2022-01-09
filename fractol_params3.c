@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:52 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/07 22:41:46 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/09 20:56:17 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static void	params_julia(t_params *params, int *i, int ac, char **av)
 {
 	params->type = 'j';
-	params->constant.x = -1;
-	params->constant.y = 0;
+	params->constant.x = 0;
+	params->constant.y = -0.8;
 	if (*i < ac - 2 && ft_isfloat(av[(*i) + 1]) && ft_isfloat(av[(*i) + 2]))
 	{
 		params->constant.x = ft_atof(av[(*i) + 1]);

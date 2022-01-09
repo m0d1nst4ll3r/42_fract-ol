@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/08 21:54:16 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/09 20:48:08 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static int	escape_time(t_complex s, t_complex c, int depth)
 	long double	y2;
 	int			iter;
 
-	x2 = 0;
-	y2 = 0;
+	x2 = s.x * s.x;
+	y2 = s.y * s.y;
 	iter = 0;
 	while (x2 + y2 <= 4 && iter < depth)
 	{

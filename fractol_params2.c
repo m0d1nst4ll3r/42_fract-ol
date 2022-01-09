@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:05 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/07 22:06:07 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/09 20:57:13 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	params_window(t_params *params, int *i, int ac, char **av)
 	winx = ft_atoi(av[(*i) + 1]);
 	winy = ft_atoi(av[(*i) + 2]);
 	if (!ft_isint(av[(*i) + 1]) || !ft_isint(av[(*i) + 2])
-		|| winx < 100 || winy < 100)
+		|| winx < 200 || winy < 200)
 	{
 		params_error(ERR_BADWIN, av[(*i) + 1]);
 		return (1);

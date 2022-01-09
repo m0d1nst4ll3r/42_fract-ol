@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/08 22:27:20 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/09 20:57:29 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ mandelbrot, julia.\n", arg);
 palette.\n", arg);
 	else if (code == ERR_BADWIN)
 		printf("Incorrect window size. Must be two integers higher than \
-100x100.\n");
+200x200.\n");
 	else if (code == ERR_BADDEPTH)
 		printf("Incorrect max iterations value. Must be higher than 0.\n");
 	else
@@ -77,13 +77,13 @@ Usage:\n\
 \n\
 	Supported sets:\n\
 	  mandelbrot\n\
-	  julia [constant] (defaults to [-1,0])\n\
+	  julia [constant] (defaults to [0,-0.8])\n\
 	  (more later)\n\
 \n\
 	OPTIONS:\n\
 	  -help or -h	displays the user guide\n\
 	  -c		specify a color theme (defaults to a random one)\n\
-	  -w [x] [y]	window size, 100x100 minimum, defaults to 1800x1000\n\
+	  -w [x] [y]	window size, 200x200 minimum, defaults to 1800x1000\n\
 	  -d [max_iter]	specify a starting value for max iterations (defaults to 200)\n\
 	  -z [zoom]	specify a zoom value (higher than 1, defaults to 1.05)\n\
 	  -f [file]	specify another config file for colors\n\

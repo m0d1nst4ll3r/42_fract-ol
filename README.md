@@ -4,20 +4,19 @@ Started 16/12/2021
 # Todo
 
 
-1. Fix program init so that it's compilable again and runs without hitches
-		- Starts with fill_params, first t_fract, mlx_init, hooks, initial draw, and loop
-2. Fix keyhooks with new image buffering system
-3. Fix movement with keys to not recalculate whole screen, at the same time implement right-click moving
-4. Implement box-zooming with left-click
-5. Implement auto-changing depth based on screen size and step value
-6. Implement multiple windows julia
-7. Make colors blur together
-8. Implement anti-aliasing
+1. Fix keyhooks with new image buffering system
+2. Fix movement with keys to not recalculate whole screen, at the same time implement right-click moving
+3. Implement box-zooming with left-click
+4. Implement auto-changing depth based on screen size and step value
+5. Implement multiple windows julia
+6. Make colors blur together
+7. Implement anti-aliasing
 	- At this point, I believe the project is almost done, except that it'll still be incredibly slow, which is where we can start optimizing
-9. Implement a way to measure time taken to render last frame, so we can have a metric for optimization
-10. Test several configurations. Floating point mults instead of adds, code optimizing (no variables when possible), especially escape time and draw functions.
-11. Find other ways to optimize.
-12. Implement multithreading for faster calculations
+8. Implement a way to measure time taken to render last frame, so we can have a metric for optimization
+	- Use clock() and CLOCKS_PER_SEC - these functions are prohibited but I can remove them once I'm ready to turn in
+9. Test several configurations. Floating point mults instead of adds, code optimizing (no variables when possible), especially escape time and draw functions.
+10. Find other ways to optimize.
+11. Implement multithreading for faster calculations
 	- This could be done earlier but is left for last since it uses unauthorized functions in the project and there needs to be a functional project without multithreading, to turn in
 ?. Protect mlx errors? ...
 

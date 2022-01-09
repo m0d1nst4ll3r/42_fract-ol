@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 03:11:23 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/08 23:18:41 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/09 20:59:52 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	fractol_init_mlx(t_fract *fw)
 	fw->mlx = mlx_init();
 	if (!fw->mlx)
 		return (1);
-	fw->win = mlx_new_window(fw->mlx, fw->winx,	fw->winy,
+	fw->win = mlx_new_window(fw->mlx, fw->winx, fw->winy,
 			"°º¤ø,¸¸,ø¤º°` FR4CT-0L `°º¤ø,¸,ø¤º°");
 	if (!fw->win)
 		return (1);
@@ -86,7 +86,7 @@ void	fractol_reset_pos(t_fract *fractal)
 		step_tmp = 2.5 / fractal->winy;
 		if (fractal->step < step_tmp)
 			fractal->step = step_tmp;
-		fractal->pos.x = - fractal->winx / 2 * fractal->step - 0.75;
+		fractal->pos.x = -fractal->winx / 2 * fractal->step - 0.75;
 		fractal->pos.y = fractal->winy / 2 * fractal->step;
 	}
 	else
@@ -95,7 +95,7 @@ void	fractol_reset_pos(t_fract *fractal)
 		step_tmp = 3.0 / fractal->winy;
 		if (fractal->step < step_tmp)
 			fractal->step = step_tmp;
-		fractal->pos.x = - fractal->winx / 2 * fractal->step;
+		fractal->pos.x = -fractal->winx / 2 * fractal->step;
 		fractal->pos.y = fractal->winy / 2 * fractal->step;
 	}
 }
