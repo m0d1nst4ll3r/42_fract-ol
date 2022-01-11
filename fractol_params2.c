@@ -6,12 +6,14 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:05 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/09 20:57:13 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/11 12:51:40 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+//	Handles "-c" and its mandatory following color name
+//	The address from av is directly copied, the string is not duplicated
 int	params_color(t_params *params, int *i, int ac, char **av)
 {
 	if (*i >= ac - 1)
@@ -24,6 +26,8 @@ int	params_color(t_params *params, int *i, int ac, char **av)
 	return (0);
 }
 
+//	Handles "-w" and its mandatory two integers
+//	A define could be added instead of "200"
 int	params_window(t_params *params, int *i, int ac, char **av)
 {
 	int	winx;
@@ -48,6 +52,7 @@ int	params_window(t_params *params, int *i, int ac, char **av)
 	return (0);
 }
 
+// Handles "-d" and its mandatory integer
 int	params_depth(t_params *params, int *i, int ac, char **av)
 {
 	int	depth;
@@ -69,6 +74,7 @@ int	params_depth(t_params *params, int *i, int ac, char **av)
 	return (0);
 }
 
+//	Handles "-z" and its mandatory floating point
 int	params_zoom(t_params *params, int *i, int ac, char **av)
 {
 	float	zoom;
@@ -89,6 +95,8 @@ int	params_zoom(t_params *params, int *i, int ac, char **av)
 	return (0);
 }
 
+//	Handles "-f" and its mandatory file name
+//	Like "-c", the address from av is directly copied
 int	params_file(t_params *params, int *i, int ac, char **av)
 {
 	if (*i >= ac - 1)

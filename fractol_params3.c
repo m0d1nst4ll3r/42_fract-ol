@@ -6,12 +6,16 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:52 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/09 20:56:17 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/11 12:48:53 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+//	Used to decode the two potential floating point numbers following
+//		"julia" in the command line
+//	Note that if the numbers are incorrect, they are ignored and treated
+//		as regular flags like "-c" (and will error out)
 static void	params_julia(t_params *params, int *i, int ac, char **av)
 {
 	params->type = 'j';
@@ -25,6 +29,9 @@ static void	params_julia(t_params *params, int *i, int ac, char **av)
 	}
 }
 
+//	Used to decode the first command line argument which should contain
+//		fractal type.
+//	If it is absent, we simply print usage.
 int	params_type(t_params *params, int *i, int ac, char **av)
 {
 	if (*i >= ac)
@@ -45,6 +52,7 @@ int	params_type(t_params *params, int *i, int ac, char **av)
 	return (1);
 }
 
+//	Used to check for duplicate flags
 int	params_duplicate(int ac, char **av)
 {
 	int	i;
@@ -70,6 +78,7 @@ int	params_duplicate(int ac, char **av)
 	return (0);
 }
 
+//	The only flag which doesn't have any mandatory or optional value
 int	params_noauto(t_params *params, int *i)
 {
 	params->noauto = 1;

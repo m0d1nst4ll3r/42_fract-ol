@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/09 20:48:08 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/11 17:27:38 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,28 +83,7 @@ static int	get_color_iter(int *palette, int palette_size,
 }
 
 /* --------------------------------------------------------------------- *\
-|		draw_pixel
-|
-|	Calculates the escape time of a complex number for a given pixel.
-|	Then, calculates the color of the pixel based on that escape time.
-|	Finally, updates the pixel's color on the buffered image.
-\* --------------------------------------------------------------------- */
-static void	draw_pixel(t_fract data, int x, int y, t_complex variable)
-{
-	int	iter;
-	int	color;
-
-	if (data.type == 'm')
-		iter = escape_time(data.constant, variable, data.max_iter);
-	else
-		iter = escape_time(variable, data.constant, data.max_iter);
-	color = get_color_iter(data.current->palette, data.current->palette_size,
-			iter, data.max_iter);
-	pixel_put(data.img_temp, x, y, color);
-}
-
-/* --------------------------------------------------------------------- *\
-|		draw_fractal
+|		calculate_map
 |
 |	For each pixel in an image, transforms that pixel into a complex number
 |		and calculates how fast that complex number will escape a circle of
@@ -121,8 +100,10 @@ static void	draw_pixel(t_fract data, int x, int y, t_complex variable)
 |	We increment [pos] by [step] instead of multiplying it to save on
 |		floating point multiplications. This causes image deformation when
 |		approaching max long double precision.
+|
+|	The resulting map is then used for coloring based on a palette.
 \* --------------------------------------------------------------------- */
-void	draw_fractal(t_fract data)
+void	calculate_map(t_fract data)
 {
 	int			x;
 	int			y;
@@ -136,11 +117,40 @@ void	draw_fractal(t_fract data)
 		x = 0;
 		while (x < data.winx)
 		{
-			draw_pixel(data, x, y, variable);
+			if (data.type == 'm')
+				data.map[y][x] = escape_time(data.constant, variable,
+						data.max_iter);
+			else
+				data.map[y][x] = escape_time(variable, data.constant,
+						data.max_iter);
 			variable.x += data.step;
 			x++;
 		}
 		variable.y -= data.step;
+		y++;
+	}
+}
+
+//	Uses the map of escape times in combination with
+//		a palette to color the fractal
+void	draw_fractal(t_fract data)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	y = 0;
+	while (y < data.winy)
+	{
+		x = 0;
+		while (x < data.winx)
+		{
+			color = get_color_iter(data.curcol->palette,
+					data.curcol->palette_size,
+					data.map[y][x], data.max_iter);
+			pixel_put(data.img_temp, x, y, color);
+			x++;
+		}
 		y++;
 	}
 }

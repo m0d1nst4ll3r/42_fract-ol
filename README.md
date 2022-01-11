@@ -1,6 +1,57 @@
 # 42_fract-ol
 Started 16/12/2021
 
+# Memos
+
+
+- Keyhooks
+
+Some keyhooks are easier than others. From easiest to hardest :
+
+Zooming in and out is easy. Resetting the view. Changing max iter. Displaying info.
+
+Changing colors is going to require a complete change in how we do things.
+There's no reason to recalculate all the iterations when changing color. So, we need a way to remember them.
+We need an array of ints same size as the window. That array will need to be malloced and freed.
+About the mallocs and frees : nothing is freed so far. What needs to be freed is the colors list, and this array of ints.
+
+Moving is a matter of shifting the values in the array, recalculating a row or column, and redrawing the colors.
+
+Shifting a julia set, drawing a rectangle, and moving the fractal... more complicated.
+Drawing a rectangle is gonna require some serious tricks. Transparency not being a thing on linux mlx, we can't just make an image and display it over the one we have. We have to directly draw on the images we have. And if we want to alter between both images to prevent screen tearing, then we're gonna have to either redraw everything every time and THEN the rectangle, or detect which pixels need to be removed and rewrite those.
+Moving the fractal can just be done by offsetting the pixel we start drawing at, it shouldn't be too hard.
+Shifting the julia set is a matter of redrawing with different values which is easy.
+
+Key combinations are also complicated. Mlx has a function to turn autorepeat off, but it does so for the entire computer.
+So this is going to need turning autorepeat on and off constantly to have it on when we need it and off when we don't.
+At program exit we'll need to turn it back on (and hope the user has it on by default or we just fucked him).
+
+Opening another window with a new Julia set is... let's just say, I'll have to rewrite everything completely.
+Simply put, it'd need having several t_fract structures at once in the program. The problem is, if we want to exit the program all at once, we need to close all the windows at once. So one t_fract needs to hold a pointer to all the t_fracts. So we need to make it into a list. And it's gonna get complicated.
+What could work is simply not giving the option to close everything at once. Forcing the user to close each window. This allows us to just work with hooks... maybe...
+
+In short, these features might need to be cut because they're too complicated to implement:
+- Opening several Julia windows
+- Key combinations
+- Drawing a zoom area
+
+I'm saving them for last and focusing on :
+1. Implementing a 2D array to optimize colors and modifying my draw functions
+2. Modifying my draw functions to use 2 images
+3. Re-implementing everything : zoom, view reset, max iter, info, color change
+4. Implementing optimized movement
+5. Implementing julia shift
+6. Implement moving with RMB
+
+The problem with moving with RMB is that I have to lock the program while RMB is held, and be waiting for cursor movement. Idk how to do that. I can get updates on the cursor while RMB is held, I can know when RMB is pressed down and up, but I have no idea how to create a loop that breaks when RMB up is received. So for now this is put on hold too.
+
+7. Focus on taking a step back and re-evaluate - by this point the program is functional and almost complete, but :
+	- Colors will suck because of banding
+	- Colors will also suck because of aliasing
+	- The program will be super slow
+Only then can I think about the complicated stuff. I need to turn this in quickly and move on.
+
+
 # Todo
 
 

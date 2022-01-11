@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/08 22:05:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/11 17:07:56 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ typedef struct s_img
 |						displayed on screen, is never written on directly
 |	- colors		chained list containing all available colors
 |						used when changing colors
-|	- current		current color palette being used
+|	- curcol		current color palette being used
 |	- type			type of fractal (m for mandelbrot, j for julia)
 |						used in drawing to decide which algorithm to use
 |	- pos			fractal x, y complex position of current area
@@ -169,10 +169,11 @@ typedef struct s_fract
 	void		*win;
 	int			winx;
 	int			winy;
+	int			**map;
 	t_img		img_main;
 	t_img		img_temp;
 	t_color		*colors;
-	t_color		*current;
+	t_color		*curcol;
 	char		type;
 	t_complex	pos;
 	t_complex	constant;
@@ -187,6 +188,8 @@ typedef struct s_fract
 void	fractol_lstadd(t_color **lst, t_color *new);
 void	fractol_lstclear(t_color *lst);
 t_color	*fractol_lstseek(t_color *lst, char *name);
+t_color	*fractol_lstprev(t_color *lst, t_color *elem);
+t_color	*fractol_lstnext(t_color *lst, t_color *elem);
 
 //// Functions that print info, usage, errors
 // fractol_printf.c
@@ -205,6 +208,10 @@ int		*create_palette(char *line, int size);
 t_color	*decode_colors(char *file);
 t_color	*default_color(void);
 
+//// Contains useful color functions
+// fractol_colors.c
+void	fractol_assign_color(t_fract *data, char *name);
+
 //// Parses program arguments, fills program data
 //// Or prints a user guide
 //// Used once during program init
@@ -222,17 +229,38 @@ void	params_error(int code, char *param);
 int		params_duplicate(int ac, char **av);
 int		fill_params(t_params *params, int ac, char **av);
 
+//// Init functions to boot up the program
+// fractol_init.c
+int		fractol_init(t_fract *fract, int ac, char **av);
+
+//// Exit functions to free everything and close mlx cleanly
+// fractol_exit.c
+//int		fractol_exit();
+void	free_map(int **map, int len);
+
 //// Functions related to manipulating the minilibx
 // fractol_mlx.c
 void	pixel_put(t_img img, int x, int y, int color);
+int		fractol_init_mlx(t_fract *fw);
 
 //// Functions to calculate and draw different fractals
 // fractol_draw.c
+// fractol_draw2.c
+void	calculate_map(t_fract data);
 void	draw_fractal(t_fract data);
+void	render_fractal(t_fract fract);
+void	reset_pos(t_fract *fractal);
+void	reset_view(t_fract *fractal);
 
-//// Key and mouse functions
+//// Key and mouse hook functions and the small functions they use
 // fractol_keys.c
 int		key_hook(int key, t_fract *data);
 int		mouse_hook(int key, int x, int y, t_fract *data);
+void	next_color(t_fract *fract);
+void	prev_color(t_fract *fract);
+void	more_iter(t_fract *fract, int n);
+void	less_iter(t_fract *fract, int n);
+void	zoom_in(t_fract *fract, int x, int y);
+void	zoom_out(t_fract *fract, int x, int y);
 
 #endif

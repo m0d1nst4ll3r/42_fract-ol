@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 16:59:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/08 21:55:41 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/11 12:33:20 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_color	*decode_colors(char *file)
 }
 
 //	Quickly builds a default color in case the file was empty
-//		or could not be read
+//	or could not be read
 t_color	*default_color(void)
 {
 	t_color	*colors;

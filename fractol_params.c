@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 16:12:27 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/07 22:15:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/11 12:44:53 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	params_init(t_params *params)
 	params->constant.y = 0;
 }
 
+//	Used to check whether the user needs help
 static int	params_is_help(char *s)
 {
 	if (!ft_strcmp("help", s) || !ft_strcmp("-help", s) || !ft_strcmp("h", s)

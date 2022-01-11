@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/09 20:57:29 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/11 12:54:11 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ palette.\n", arg);
 }
 
 //	Prints out values useful for debugging, when the I key is pressed
+//	More info needs to be displayed, like :
+//		- current color
+//		- time spent processing last frame
 void	print_info(t_fract data)
 {
 	printf("=-._.-=Fractal Information=-._.-=\n");
