@@ -1,187 +1,29 @@
 # 42_fract-ol
-Started 16/12/2021
 
-# Memos
+(started 16/12/2021)
 
+Todo-list:
 
-- Keyhooks
+1. Implement auto-incrementing iterations
+2. Implement color smoothing with an option to turn off
+3. Implement anti-aliasing with an option to turn off
+4. Implement a way to time how long last frame took to render
+5. Test several configurations to optimize rendering time... mults instead of adds in complex loops... less variables... and try to optimize code where possible
+6. Implement multithreading for everything (map calculation including partial AND coloring)
+Last, details... code readability, comments...
 
-Some keyhooks are easier than others. From easiest to hardest :
+Cut content:
 
-Zooming in and out is easy. Resetting the view. Changing max iter. Displaying info.
-
-Changing colors is going to require a complete change in how we do things.
-There's no reason to recalculate all the iterations when changing color. So, we need a way to remember them.
-We need an array of ints same size as the window. That array will need to be malloced and freed.
-About the mallocs and frees : nothing is freed so far. What needs to be freed is the colors list, and this array of ints.
-
-Moving is a matter of shifting the values in the array, recalculating a row or column, and redrawing the colors.
-
-Shifting a julia set, drawing a rectangle, and moving the fractal... more complicated.
-Drawing a rectangle is gonna require some serious tricks. Transparency not being a thing on linux mlx, we can't just make an image and display it over the one we have. We have to directly draw on the images we have. And if we want to alter between both images to prevent screen tearing, then we're gonna have to either redraw everything every time and THEN the rectangle, or detect which pixels need to be removed and rewrite those.
-Moving the fractal can just be done by offsetting the pixel we start drawing at, it shouldn't be too hard.
-Shifting the julia set is a matter of redrawing with different values which is easy.
-
-Key combinations are also complicated. Mlx has a function to turn autorepeat off, but it does so for the entire computer.
-So this is going to need turning autorepeat on and off constantly to have it on when we need it and off when we don't.
-At program exit we'll need to turn it back on (and hope the user has it on by default or we just fucked him).
-
-Opening another window with a new Julia set is... let's just say, I'll have to rewrite everything completely.
-Simply put, it'd need having several t_fract structures at once in the program. The problem is, if we want to exit the program all at once, we need to close all the windows at once. So one t_fract needs to hold a pointer to all the t_fracts. So we need to make it into a list. And it's gonna get complicated.
-What could work is simply not giving the option to close everything at once. Forcing the user to close each window. This allows us to just work with hooks... maybe...
-
-In short, these features might need to be cut because they're too complicated to implement:
-- Opening several Julia windows
-- Key combinations
-- Drawing a zoom area
-
-I'm saving them for last and focusing on :
-1. Implementing a 2D array to optimize colors and modifying my draw functions
-2. Modifying my draw functions to use 2 images
-3. Re-implementing everything : zoom, view reset, max iter, info, color change
-4. Implementing optimized movement
-5. Implementing julia shift
-6. Implement moving with RMB
-
-The problem with moving with RMB is that I have to lock the program while RMB is held, and be waiting for cursor movement. Idk how to do that. I can get updates on the cursor while RMB is held, I can know when RMB is pressed down and up, but I have no idea how to create a loop that breaks when RMB up is received. So for now this is put on hold too.
-
-7. Focus on taking a step back and re-evaluate - by this point the program is functional and almost complete, but :
-	- Colors will suck because of banding
-	- Colors will also suck because of aliasing
-	- The program will be super slow
-Only then can I think about the complicated stuff. I need to turn this in quickly and move on.
-
-
-# Todo
-
-
-1. Fix keyhooks with new image buffering system
-2. Fix movement with keys to not recalculate whole screen, at the same time implement right-click moving
-3. Implement box-zooming with left-click
-4. Implement auto-changing depth based on screen size and step value
-5. Implement multiple windows julia
-6. Make colors blur together
-7. Implement anti-aliasing
-	- At this point, I believe the project is almost done, except that it'll still be incredibly slow, which is where we can start optimizing
-8. Implement a way to measure time taken to render last frame, so we can have a metric for optimization
-	- Use clock() and CLOCKS_PER_SEC - these functions are prohibited but I can remove them once I'm ready to turn in
-9. Test several configurations. Floating point mults instead of adds, code optimizing (no variables when possible), especially escape time and draw functions.
-10. Find other ways to optimize.
-11. Implement multithreading for faster calculations
-	- This could be done earlier but is left for last since it uses unauthorized functions in the project and there needs to be a functional project without multithreading, to turn in
-?. Protect mlx errors? ...
-
-# Notes
-- Fluid motion might or might not be possible up to a certain degree of precision
-	- It might be possible, look at Xaos, look at the fractol 42 vid
-	- By default, without trying to zoom fluidly, I should modify my mousewheel zoom so that it's more fluid and implement a box zoom
-- Colors are ok but can still be improved
-	- Palette size is very important if I use my iteration number as the palette's index without any modifications. Bigger palettes will be prettier when iteration counts change really really fast (in some, but not all motifs, this is a big problem)
-	- One of the problems with that is that it depends mostly on the motif you're looking at. The spirals in seahorse valley get ugly real fast with a 50 size palette, but other motifs like minibrots look better with 50 size palettes.
-	- There's no real solution for that other than asking the user what colors they want. There could be a way, calculating how fast iteration counts change in the screen and changing the palette size based on that...
-- The image is fugly and needs anti-aliasing...
-- Program can probably be way more optimized
-	- Movement can be way optimized
-- Beyond some point, even long doubles aren't big enough and the image starts being badly pixelated ... it's pretty much the point at which https://math.hws.edu/eck/js/mandelbrot/MB.html starts having to take way longer "high precision, 22 digits". There needs to be a solution for that. Look into perturbation theory.
-
-# Project goals:
-- Program opens a window where the mandelbrot set or a julia set is drawn
-- Arrow keys can be used to move around fluidly
-- Lmb/Rmb (or keys) can be used to zoom in or out centered on mouse position
-- When launching the program, parameters can be used as such:
-	- ./fractol set [x y] [-window] [-theme] [-depth]
-	- set should either be mandelbrot or julia
-	- set can be followed by x and y if it is julia, julia will default to -1 0 if x and y are absent
-	- window should be followed by x and y, defaults to 1800 1200 if absent, can't be less than 100 100
-	- theme should be followed by one of several options such as "classic" "rainbow" "drugs" which will change the colors preset (and even make the colors change in real time). Defaults to classic.
-	- depth is the max amount of iterations. Defaults to something that's not too intensive on the cpu but pleasant visually.
-- Bad params will cause a usage description
-- That's about it, but there could be bonuses such as
-	- Other fractal sets than mandelbrot and julia (which? are they any other?)
-	- An interactive menu inside the window, with, for example
-		- help menu (H key)
-		- colors menu (C key) to change on the fly
-		- colors menu could also let the user customize colors to their liking, by choosing 8 (or more? less?) different colors as a palette that goes from iterations 1 to max
-		- an additional option to enable or disable color banding
-		- an option to change depth inside the program
-		- interactive with mouse support
-	- Really smooth movement
-	- Really optimized code so the program runs as fast as possible
-
+- Moving by holding RMB
+Reason : I can call a function when RMB is pressed down and released and when the cursor moves while RMB is held, but how do I make a function get called when RMB is pressed down and wait for RMB releasing? Since idk how and it'll take too much time to figure out, this is cut.
+- Drawing a rectangle by holding LMB
+Reason : same as above plus the fact that there is no transparency in mlx so it'd be super hard to draw the outlines of a moving rectangle. Too much effort.
+- Multiple windows
+Reason : too hard to make at this point, should've structured my program around it from the start
 
 # Resources:
-- Understand how to use mlx
-	- https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-introduction/videos/introduction-to-minilibx
-	- https://elearning.intra.42.fr/notions/minilibx/subnotions/mlx-events/videos/minilibx-events
-	- https://elearning.intra.42.fr/notions/fdf/subnotions/introduction-to-fdf/videos/introduction-to-fdf
-	- https://harm-smits.github.io/42docs/libs/minilibx
-- Understand how fractals work
-	- https://youtu.be/FFftmWSzgmk
-	- https://youtu.be/NGMRB4O922I
-	- https://youtu.be/oCkQ7WK7vuY
-- Understand how to code fractals
-	- https://www.youtube.com/watch?v=bIfNwgUVjV8 (very basic fractal shapes)
-	- https://www.youtube.com/watch?v=8JmoI4q7fTg (fractal trees, still pretty basic)
-	- https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set (complicated math for drawing mandelbrot fractals)
-- Online fractal program
-	- https://math.hws.edu/eck/js/mandelbrot/MB.html
-- Anti-aliasing with fractal examples
-	- https://en.wikipedia.org/wiki/Spatial_anti-aliasing
 
-
-# Explanation on Julia and Mandelbrot:
-Take a complex number. Complex numbers are x + yi. x and y are variable, i is the square root of -1 (an imaginary number).
-
-Square it. Add c, c being another complex number (x+yi). Square it and add c. Square it and add c. Do this infinitely.
-
-There are only 2 outcomes. Either the number will approach a certain value, or it will approach infinity.
-
-There are two variables here : the starting point, and c. Let c always be the same, and let us vary starting points. This is a Julia set.
-
-Take every possible starting point in an area (the area is infinite on a mathematical graph, but finite if you impose a grid on it, such as pixels do). Operate the function on each one of them, some number of times. Some will approach infinity, some will not. Those that do are colored black, those that do not are colored white.
-
-And you're done. You've got a visualisation of a Julia set.
-
-\>\>\>This<<< is how a Julia set works. There are infinite Julia sets since there are infinite complex numbers. Each Julia set will have some starting points approaching infinity, some not. Varying c gives you differents Julia sets. 0 0 gives you a simple sphere of radius 1. -1 0 gives you an interesting julia set.
-
-Now, go back and instead of considering c to always be the same and varying the starting points, consider the starting point to always be the same (0, 0) and vary c. This time, take every possible c in an area. Operate the function on each one of them, keep the starting point at 0, 0, and once again, some will approach infinity, some won't. Color those that do black, those that don't white.
-
-\>\>\>This<<< is the Mandelbrot set. You've got a visualisation of it. The Mandelbrot set is like the mother of all Julia sets. Each point in the Mandelbrot set (each c) has its own Julia set (where the c is now constant and the starting points vary).
-
-Now... consider that any point outside a circle of radius 2 of center 0, 0 (after adding c) will always tend towards infinity. This is a mathematical rule. This is how you decide whether something approaches infinity or not, since you lack infinite computation with which to actually test every point.
-
-Also consider that some starting points will cross that line of no return faster than others. For example, 1.5 at iteration 1 with c = 0 becomes 2.25, it's gone in only 1 iteration. 1.1 will take 3 iterations. 1.01 will take 7. 1 never will.
-
-If you decide to color stuff that's gone after 1 iteration in black, 2 in dark grey, 3 in grey, 4 in light grey, etc... and those that are never gone in, say, white, you've suddenly got a gradient, and can visualize your Mandelbrot/Julia set in more than just 2 colors. Substitute the colors with whatever and however many you want.
-
-You can set the amount of iterations that's the limit. If n = 1, you'll have a simple sphere. n = 2, you'll start seeing the beginning of your fractal. n = 3, etc etc... at around n=7 you should already have something pretty pleasing visually. No need for heavy computation.
-
-
-# Zooming and moving
-Your window is an area inside the Mandelbrot set's plane. Each pixel represents a complex number.
-
-Assuming you start your calculations from the top left of your screen, the very first pixel's complex number can be considered to be your position in the set. Moving around is only a matter of changing that first pixel's complex number, or its position.
-
-Using this method, you can draw the initial Mandelbrot shape by choosing a starting point not too far from the center of the plane (0,0). When moving pixel by pixel (to draw on your window), it's just a matter of adding a certain value to your starting point. Let us consider this value to be our step.
-
-Choosing a smaller step will cause the visual to be more zoomed in, and vice versa. Now we know how we can zoom : just changing the step.
-
-This step value will also be needed when moving around, because we have to account for zoom when changing our starting position. It's a simple matter of factoring step into our movement. We can decide one key-press moves by one pixel, for example, and so we'll have to change our starting position by... you got it, step. If we want to move by 2 pixels, we change our starting position by 2 * step. Etc.
-
-So far, we're only zooming to the top-left of our screen. How can we zoom towards our mouse's position?
-
-Imagine that we're zooming in based on the cursor position. What does that mean? The step still decreases the same amount, it's just that our top-left position will change. Imagine our cursor is top-left. The position will barely change. Imagine it's bottom-right. Now the position will change a great deal.
-
-What's zooming based on the cursor, anyway? Zooming is making everything go away from the center of the zoom (in our case, the cursor). Making everything move backwards on a line that goes through the center and the thing we're moving. But our top-left position isn't a thing we're making go away, it's where our drawing starts on the plane. In fact, unlike the "objects", it should get closer to the center, since... well... we're zooming IN. The area should get smaller. And thus, the starting position of our area should get closer to the center of the zoom.
-
-One thing we can notice when playing around with zooms from other programs (such as 42's holy graph for example) is that the position will only ever move towards the cursor. That's only logical based on what we figured out right above. It moves on a line drawn between the top-left of the screen and the cursor. It will move way more if the cursor is far away, too. In fact, it will move a certain percentage of the distance, on that line.
-
-What does moving on a line mean mathematically, anyway? Thinking about it for a few minutes we can realize that our top-left x,y (xa,ya) and our cursor x,y (xb,yb) represent both extremities of the line. xb,yb is just xa,ya + ((xb,yb) - (xa,ya)) or in other words, our cursor's position is our top-left position plus the difference between our cursor and our top left. And any movement on that line will be top-left plus some fraction of the cursor's position.
-
-If that fraction is 0, we've got our top-left position. If it is 1, we've got our cursor position. If it is anything between 0 and 1, it'll be on our line.
-
-Ok so that's how we move our top-left position relative to the cursor. But how much do you move it? 1%? 99%? Well... it's going to depend on how much you want to zoom, and it's going to have to be relative to your step ratio (how much you multiply or divide your step). Moving the top-left position by 99% of the difference can make sense if you zoom really really hard. 1% can also make sense if you barely zoom at all. But what's the math formula that links them?
-
-Imagine your cursor is bottom-right. If you move top-left by 50%, you should also divide step by 2. If you move top-left by 75%, you should divide step by 4. And so on. These two examples are enough to see the formula : if you divide step by x, divide 100 by x and subtract it to 100. That's how much you move your top-left on the top-left/cursor line.
-
-This is it for the theory and mathematics of zooming and moving around. There are ways to optimize moving around, by avoiding calculations we've already done, but zooming in is much more complicated.
+https://harm-smits.github.io/42docs/libs/minilibx
+https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set (complicated math for drawing mandelbrot fractals)
+https://math.hws.edu/eck/js/mandelbrot/MB.html
+https://en.wikipedia.org/wiki/Spatial_anti-aliasing
