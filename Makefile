@@ -6,7 +6,7 @@
 #    By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/20 14:37:51 by rpohlen           #+#    #+#              #
-#    Updated: 2022/01/11 17:11:51 by rpohlen          ###   ########.fr        #
+#    Updated: 2022/01/12 21:23:21 by rpohlen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ SRCS		= fractol.c \
 			  fractol_colors_decode2.c \
 			  fractol_draw.c \
 			  fractol_draw2.c \
+			  fractol_draw3.c \
+			  fractol_draw4.c \
 			  fractol_list.c \
 			  fractol_mlx.c \
 			  fractol_printf.c \

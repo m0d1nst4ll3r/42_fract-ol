@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:35:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 17:32:09 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/12 22:00:44 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 |
 |	List of keys :
 |		65505	shift				zoom in
+|		61		-					zoom in
 |		65507	ctrl				zoom out
+|		45		=					zoom out
 |		65362	upper arrow			move up
 |		119		w					move up
 |		65364	down arrow			move down
@@ -44,21 +46,24 @@ int	key_hook(int key, t_fract *fract)
 	int x;
 	int y;
 
-	printf("Key down %d\n", key);
-	if (key == 65505)
+	if (key == 65505 || key == 61)
 	{
 		mlx_mouse_get_pos(fract->mlx, fract->win, &x, &y);
 		zoom_in(fract, x, y);
 	}
-	else if (key == 65507)
+	else if (key == 65507 || key == 45)
 	{
 		mlx_mouse_get_pos(fract->mlx, fract->win, &x, &y);
 		zoom_out(fract, x, y);
 	}
-	//else if (key == 65362 || key == 119)
-	//else if (key == 65364 || key == 115)
-	//else if (key == 65361 || key == 97)
-	//else if (key == 65363 || key == 100)
+	else if (key == 65362 || key == 119)
+		move_view(fract, 'u', MOVE_MOD);
+	else if (key == 65364 || key == 115)
+		move_view(fract, 'd', MOVE_MOD);
+	else if (key == 65361 || key == 97)
+		move_view(fract, 'l', MOVE_MOD);
+	else if (key == 65363 || key == 100)
+		move_view(fract, 'r', MOVE_MOD);
 	else if (key == 114)
 		reset_view(fract);
 	else if (key == 101)
@@ -78,7 +83,8 @@ int	key_hook(int key, t_fract *fract)
 	else if (key == 49)
 		less_iter(fract, 100);
 	//else if (key == 65289)
-	//else if (key == 105)
+	else if (key == 105)
+		print_info(*fract);
 	//else if (key == 65307)
 /*	if (key == 61 || key == 45 || (key >= 65361 && key <= 65364))
 	{

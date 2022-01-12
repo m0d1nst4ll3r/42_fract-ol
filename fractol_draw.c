@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 17:27:38 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/12 21:01:26 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 |	For any Julia set, c will always be a set value and s will vary based
 |		on the area of the set and the pixel transformations
 \* --------------------------------------------------------------------- */
-static int	escape_time(t_complex s, t_complex c, int depth)
+int	escape_time(t_complex s, t_complex c, int depth)
 {
 	long double	x2;
 	long double	y2;
@@ -75,11 +75,19 @@ static int	get_color_iter(int *palette, int palette_size,
 {
 	int	color;
 
-	if (iter == max_iter)
+	if (iter >= max_iter)
 		color = 0;
 	else
 		color = palette[iter % palette_size];
 	return (color);
+}
+
+static int	calculate_map_pixel(t_fract data, t_complex variable)
+{
+	if (data.type == 'm')
+		return (escape_time(data.constant, variable, data.max_iter));
+	else
+		return (escape_time(variable, data.constant, data.max_iter));
 }
 
 /* --------------------------------------------------------------------- *\
@@ -103,7 +111,7 @@ static int	get_color_iter(int *palette, int palette_size,
 |
 |	The resulting map is then used for coloring based on a palette.
 \* --------------------------------------------------------------------- */
-void	calculate_map(t_fract data)
+void	calculate_map(t_fract data, int highestiter)
 {
 	int			x;
 	int			y;
@@ -117,12 +125,8 @@ void	calculate_map(t_fract data)
 		x = 0;
 		while (x < data.winx)
 		{
-			if (data.type == 'm')
-				data.map[y][x] = escape_time(data.constant, variable,
-						data.max_iter);
-			else
-				data.map[y][x] = escape_time(variable, data.constant,
-						data.max_iter);
+			if (!(highestiter && data.map[y][x] < highestiter))
+				data.map[y][x] = calculate_map_pixel(data, variable);
 			variable.x += data.step;
 			x++;
 		}

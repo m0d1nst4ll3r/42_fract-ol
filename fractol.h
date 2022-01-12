@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 17:07:56 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/12 21:28:24 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 # define DEFAULT_ZOOM 1.05
 # define DEFAULT_DEPTH 200
 # define DEFAULT_FILE "colors.fract"
-# define DEPTH_MOD 1
-# define MOVE_MOD 1
+# define MOVE_MOD 4
 
 # define BASE_16 "0123456789abcdef"
 
@@ -37,6 +36,9 @@
 # define ERR_NOZOOM		6
 # define ERR_BADZOOM	61
 # define ERR_DUPLICATE	7
+
+# define RENDER_RECOLOR	1
+# define RENDER_REITER	2
 
 # include "libft.h"
 # include "mlx.h"
@@ -179,7 +181,8 @@ typedef struct s_fract
 	t_complex	constant;
 	long double	step;
 	int			max_iter;
-	int			zoom;
+	int			highest_iter;
+	float		zoom;
 	char		autoiter;
 }				t_fract;
 
@@ -246,9 +249,17 @@ int		fractol_init_mlx(t_fract *fw);
 //// Functions to calculate and draw different fractals
 // fractol_draw.c
 // fractol_draw2.c
-void	calculate_map(t_fract data);
+// fractol_draw3.c
+// fractol_draw4.c
+int		escape_time(t_complex s, t_complex c, int depth);
+void	calculate_map(t_fract data, int iterskip);
+void	fill_map_d(t_fract data, int n);
+void	fill_map_u(t_fract data, int n);
+void	fill_map_r(t_fract data, int n);
+void	fill_map_l(t_fract data, int n);
+void	calculate_map_partial(t_fract data, char direction, int n);
 void	draw_fractal(t_fract data);
-void	render_fractal(t_fract fract);
+void	render_fractal(t_fract *fract, int flag);
 void	reset_pos(t_fract *fractal);
 void	reset_view(t_fract *fractal);
 
@@ -262,5 +273,6 @@ void	more_iter(t_fract *fract, int n);
 void	less_iter(t_fract *fract, int n);
 void	zoom_in(t_fract *fract, int x, int y);
 void	zoom_out(t_fract *fract, int x, int y);
+void	move_view(t_fract *fract, char direction, int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 12:54:11 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/12 21:35:29 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	print_info(t_fract data)
 	printf("- Current pos : %Le, %Le\n", data.pos.x, data.pos.y);
 	printf("- Current step : %Le\n", data.step);
 	printf("- Current depth : %d\n", data.max_iter);
+	printf("- Current color : %s\n", data.curcol->name);
 }
 
 //	Used when program arguments are absent or wrong
