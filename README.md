@@ -4,12 +4,15 @@
 
 Todo-list:
 
-1. Implement auto-incrementing iterations
-2. Implement color smoothing with an option to turn off
-3. Implement anti-aliasing with an option to turn off
-4. Implement a way to time how long last frame took to render
-5. Test several configurations to optimize rendering time... mults instead of adds in complex loops... less variables... and try to optimize code where possible
-6. Implement multithreading for everything (map calculation including partial AND coloring)
+- Implement auto-incrementing iterations
+- DONE ===> Implement color smoothing with an option to turn off
+	- No option to turn off yet, have to add that
+	- As a bonus, implement an option to change zoom strength mid-program
+- Add mandel3, mandel4 and maybe more (it rhymes) (zn+1 = zn³ + c etc)
+- Implement anti-aliasing with an option to turn off
+- Implement a way to time how long last frame took to render
+- Test several configurations to optimize rendering time... mults instead of adds in complex loops... less variables... and try to optimize code where possible
+- Implement multithreading for everything (map calculation including partial AND coloring)
 Last, details... code readability, comments...
 
 Cut content:
