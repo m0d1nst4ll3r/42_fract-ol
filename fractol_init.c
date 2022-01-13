@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:57:42 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 17:21:19 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/13 22:13:07 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static int	init_map(t_fract *fract)
 {
 	int	i;
 
-	fract->map = malloc(fract->winy * sizeof(int *));
+	fract->map = malloc(fract->winy * sizeof(*fract->map));
 	if (!fract->map)
 		return (1);
 	i = 0;
 	while (i < fract->winy)
 	{
-		fract->map[i] = malloc(fract->winx * sizeof(int));
+		fract->map[i] = malloc(fract->winx * sizeof(**fract->map));
 		if (!fract->map[i])
 		{
 			free_map(fract->map, i);

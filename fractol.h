@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/12 21:28:24 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/13 23:46:17 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ typedef struct s_fract
 	void		*win;
 	int			winx;
 	int			winy;
-	int			**map;
+	float		**map;
 	t_img		img_main;
 	t_img		img_temp;
 	t_color		*colors;
@@ -239,7 +239,7 @@ int		fractol_init(t_fract *fract, int ac, char **av);
 //// Exit functions to free everything and close mlx cleanly
 // fractol_exit.c
 //int		fractol_exit();
-void	free_map(int **map, int len);
+void	free_map(float **map, int len);
 
 //// Functions related to manipulating the minilibx
 // fractol_mlx.c
@@ -251,7 +251,7 @@ int		fractol_init_mlx(t_fract *fw);
 // fractol_draw2.c
 // fractol_draw3.c
 // fractol_draw4.c
-int		escape_time(t_complex s, t_complex c, int depth);
+float	escape_time(t_complex s, t_complex c, int depth);
 void	calculate_map(t_fract data, int iterskip);
 void	fill_map_d(t_fract data, int n);
 void	fill_map_u(t_fract data, int n);
