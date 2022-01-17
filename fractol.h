@@ -6,19 +6,20 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/17 15:06:38 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/17 19:38:47 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define DEFAULT_WINX 1800
-# define DEFAULT_WINY 1000
-# define DEFAULT_ZOOM 1.05
-# define DEFAULT_DEPTH 200
-# define DEFAULT_FILE "colors.fract"
-# define MOVE_MOD 4
+# define NUMTHREADS		24
+# define DEFAULT_WINX	1800
+# define DEFAULT_WINY	1000
+# define DEFAULT_ZOOM	1.05
+# define DEFAULT_DEPTH	200
+# define DEFAULT_FILE	"colors.fract"
+# define MOVE_MOD		4
 
 # define BASE_16 "0123456789abcdef"
 
@@ -42,11 +43,14 @@
 
 # include "libft.h"
 # include "mlx.h"
-# include <stdlib.h>
-# include <math.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <unistd.h>
+# include <stdlib.h> //malloc free
+# include <math.h> //log
+# include <stdio.h> //printf
+# include <fcntl.h> //open
+# include <unistd.h> //read
+# include <string.h> //strerror
+# include <errno.h> //err
+# include <pthread.h>
 
 //	Used to describe complex points for escape time calculations
 typedef struct s_complex
@@ -168,25 +172,27 @@ typedef struct s_img
 \* -------------------------------------------------------------------- */
 typedef struct s_fract
 {
-	void		*mlx;
-	void		*win;
-	int			winx;
-	int			winy;
-	float		**map;
-	t_img		img_main;
-	t_img		img_temp;
-	t_color		*colors;
-	t_color		*curcol;
-	char		type;
-	t_complex	pos;
-	t_complex	constant;
-	long double	step;
-	int			max_iter;
-	int			highest_iter;
-	float		zoom;
-	char		autoiter;
-	char		smoothcol;
-}				t_fract;
+	void			*mlx;
+	void			*win;
+	int				winx;
+	int				winy;
+	float			**map;
+	t_img			img_main;
+	t_img			img_temp;
+	t_color			*colors;
+	t_color			*curcol;
+	char			type;
+	t_complex		pos;
+	t_complex		constant;
+	long double		step;
+	int				max_iter;
+	int				highest_iter;
+	float			zoom;
+	int				thread;
+	char			autoiter;
+	char			smoothcol;
+	pthread_mutex_t	mutex;
+}					t_fract;
 
 //// List functions to add, free, seek
 // fractol_list.c
@@ -254,13 +260,14 @@ int		fractol_init_mlx(t_fract *fw);
 // fractol_draw3.c
 // fractol_draw4.c
 float	escape_time(t_complex s, t_complex c, int depth);
-void	calculate_map(t_fract data);
+void	*calculate_map(void *arg);
 void	fill_map_d(t_fract data, int n);
 void	fill_map_u(t_fract data, int n);
 void	fill_map_r(t_fract data, int n);
 void	fill_map_l(t_fract data, int n);
 void	calculate_map_partial(t_fract data, char direction, int n);
-void	draw_fractal(t_fract data);
+void	*draw_fractal(void *arg);
+void	thread_task(t_fract *data, char task);
 void	render_fractal(t_fract *fract, int flag);
 void	reset_pos(t_fract *fractal);
 void	reset_view(t_fract *fractal);

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/17 15:45:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/17 19:39:04 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,12 @@ static int	get_color_iter(int *palette, int palette_size,
 	return (color);
 }
 
-static float	calculate_map_pixel(t_fract data, t_complex variable)
+static float	calculate_map_pixel(t_fract data, long double x, long double y)
 {
+	t_complex	variable;
+
+	variable.x = x;
+	variable.y = y;
 	if (data.type == 'm')
 		return (escape_time(data.constant, variable, data.max_iter));
 	else
@@ -116,50 +120,61 @@ static float	calculate_map_pixel(t_fract data, t_complex variable)
 |
 |	The resulting map is then used for coloring based on a palette.
 \* --------------------------------------------------------------------- */
-void	calculate_map(t_fract data)
+void	*calculate_map(void *arg)
 {
 	int			x;
 	int			y;
-	t_complex	variable;
+	int			thread;
+	t_fract		*data;
 
-	y = 0;
-	while (y < data.winy)
+	data = (t_fract *)arg;
+	pthread_mutex_lock(&(data->mutex));
+	data->thread++;
+	thread = data->thread;
+	pthread_mutex_unlock(&(data->mutex));
+	y = thread;
+	while (y < data->winy)
 	{
-		x = 0;
-		while (x < data.winx)
+		x = -1;
+		while (++x < data->winx)
 		{
-			if (!(data.highest_iter && (int)data.map[y][x] < data.highest_iter))
-			{
-				variable.x = data.pos.x + data.step * x;
-				variable.y = data.pos.y - data.step * y;
-				data.map[y][x] = calculate_map_pixel(data, variable);
-			}
-			x++;
+			if (data->highest_iter && (int)data->map[y][x] < data->highest_iter)
+				continue ;
+			data->map[y][x] = calculate_map_pixel(*data,
+					data->pos.x + data->step * x, data->pos.y - data->step * y);
 		}
-		y++;
+		y += NUMTHREADS;
 	}
+	pthread_exit(EXIT_SUCCESS);
 }
 
 //	Uses the map of escape times in combination with
 //		a palette to color the fractal
-void	draw_fractal(t_fract data)
+void	*draw_fractal(void *arg)
 {
-	int	x;
-	int	y;
-	int	color;
+	int		x;
+	int		y;
+	int		color;
+	int		thread;
+	t_fract	*data;
 
-	y = 0;
-	while (y < data.winy)
+	data = (t_fract *)arg;
+	pthread_mutex_lock(&(data->mutex));
+	data->thread++;
+	thread = data->thread;
+	pthread_mutex_unlock(&(data->mutex));
+	y = thread;
+	while (y < data->winy)
 	{
-		x = 0;
-		while (x < data.winx)
+		x = -1;
+		while (++x < data->winx)
 		{
-			color = get_color_iter(data.curcol->palette,
-					data.curcol->palette_size,
-					data.map[y][x], data.max_iter);
-			pixel_put(data.img_temp, x, y, color);
-			x++;
+			color = get_color_iter(data->curcol->palette,
+					data->curcol->palette_size,
+					data->map[y][x], data->max_iter);
+			pixel_put(data->img_temp, x, y, color);
 		}
-		y++;
+		y += NUMTHREADS;
 	}
+	pthread_exit(EXIT_SUCCESS);
 }
