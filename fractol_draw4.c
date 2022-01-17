@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:51:58 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/12 18:39:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/17 15:06:18 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	render_fractal(t_fract *fract, int flag)
 	{
 		if (flag != RENDER_REITER)
 			fract->highest_iter = 0;
-		calculate_map(*fract, fract->highest_iter);
+		calculate_map(*fract);
 		fract->highest_iter = fract->max_iter;
 	}
 	draw_fractal(*fract);

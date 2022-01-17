@@ -6,14 +6,15 @@
 # You can use a technically infinite amount of colors, you must use at least one
 # Each line will create a gradient based on the palette size and the colors
 
-revbow	108		ff0000 ee82ee 4b0082 0000ff 008000 ffff00 ffa500 ff0000
-wobniar	108		00ffff 117d11 b4ff7d ffff00 ff7fff 0000ff 005aff 00ffff
-wobver	108		00ffff 005aff 0000ff ff7fff ffff00 b4ff7d 117d11 00ffff
-grayr	108		000000 ffffff ff0000 ffffff 000000
-grayg	108		000000 ffffff 00ff00 ffffff 000000
-grayb	108		000000 ffffff 0000ff ffffff 000000
-gray	54		000000 ffffff 000000
-rainbow	108		ff0000 ffa500 ffff00 008000 0000ff 4b0082 ee82ee ff0000
-fire	54		000000 ff0000 ffff00 ffffff ffff00 ff0000 000000
+revbow		108		ff0000 ee82ee 4b0082 0000ff 008000 ffff00 ffa500 ff0000
+wobniar		108		00ffff 117d11 b4ff7d ffff00 ff7fff 0000ff 005aff 00ffff
+wobver		108		00ffff 005aff 0000ff ff7fff ffff00 b4ff7d 117d11 00ffff
+grayr		108		000000 ffffff ff0000 ffffff 000000
+grayg		108		000000 ffffff 00ff00 ffffff 000000
+grayb		108		000000 ffffff 0000ff ffffff 000000
+gray		54		000000 ffffff 000000
+rainbow		108		ff0000 ffa500 ffff00 008000 0000ff 4b0082 ee82ee ff0000
+fire		54		000000 ff0000 ffff00 ffffff ffff00 ff0000 000000
+inception	1000	0048c4 2173ff 005e13 2c0085 ff4a92 db5b00 ff645c fffc5e 00eaff 00ffaa ff0019 4d2200 ff007b 02007d ba1600 ccb100 fffed6 000000 fff700 000000 ff0000 000000 000396 0048c4
 
 # Add more later

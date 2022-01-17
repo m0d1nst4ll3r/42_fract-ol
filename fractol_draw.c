@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/13 23:52:32 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/17 15:45:36 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,26 +116,26 @@ static float	calculate_map_pixel(t_fract data, t_complex variable)
 |
 |	The resulting map is then used for coloring based on a palette.
 \* --------------------------------------------------------------------- */
-void	calculate_map(t_fract data, int highestiter)
+void	calculate_map(t_fract data)
 {
 	int			x;
 	int			y;
 	t_complex	variable;
 
-	variable.y = data.pos.y;
 	y = 0;
 	while (y < data.winy)
 	{
-		variable.x = data.pos.x;
 		x = 0;
 		while (x < data.winx)
 		{
-			if (!(highestiter && (int)data.map[y][x] < highestiter))
+			if (!(data.highest_iter && (int)data.map[y][x] < data.highest_iter))
+			{
+				variable.x = data.pos.x + data.step * x;
+				variable.y = data.pos.y - data.step * y;
 				data.map[y][x] = calculate_map_pixel(data, variable);
-			variable.x += data.step;
+			}
 			x++;
 		}
-		variable.y -= data.step;
 		y++;
 	}
 }

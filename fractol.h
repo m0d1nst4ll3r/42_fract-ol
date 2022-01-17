@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/13 23:46:17 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/17 15:06:38 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ typedef struct s_img
 |						all four are used for escape time and drawing
 |	- zoom			by how much to zoom in or out (higher than 1)
 |	- autoiter		whether to dynamically change max_iter based on zoom level
+|	- smoothcol		whether to display colors smoothly or with banding
 \* -------------------------------------------------------------------- */
 typedef struct s_fract
 {
@@ -184,6 +185,7 @@ typedef struct s_fract
 	int			highest_iter;
 	float		zoom;
 	char		autoiter;
+	char		smoothcol;
 }				t_fract;
 
 //// List functions to add, free, seek
@@ -252,7 +254,7 @@ int		fractol_init_mlx(t_fract *fw);
 // fractol_draw3.c
 // fractol_draw4.c
 float	escape_time(t_complex s, t_complex c, int depth);
-void	calculate_map(t_fract data, int iterskip);
+void	calculate_map(t_fract data);
 void	fill_map_d(t_fract data, int n);
 void	fill_map_u(t_fract data, int n);
 void	fill_map_r(t_fract data, int n);
