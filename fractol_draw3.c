@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 21:08:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 04:37:09 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 21:36:08 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,11 @@ void	thread_task(t_fract *data, char task)
 	while (++i < NUMTHREADS)
 	{
 		if (task == 'c')
-			err = pthread_create(threads + i, NULL,
-					&calculate_map, data);
-		else
-			err = pthread_create(threads + i, NULL,
-					&draw_fractal, data);
+			err = pthread_create(threads + i, NULL, &calculate_map, data);
+		else if (task == 'd')
+			err = pthread_create(threads + i, NULL, &draw_fractal, data);
+		else if (task == 's')
+			err = pthread_create(threads + i, NULL, &calculate_map_ssaa, data);
 		if (err)
 			return ;
 	}

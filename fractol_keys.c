@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:35:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 17:29:35 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 21:33:18 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 |		122		z					decrease zoom strength
 |		120		x					increase zoom strength
 |		105		i					display info
+|		32		spacebar			ssaa filter
 |		65307	esc					close window
 \* --------------------------------------------------------------------- */
 static int	key_hook3(int key, t_fract *fract)
@@ -58,6 +59,8 @@ static int	key_hook3(int key, t_fract *fract)
 		increase_zoom_strength(fract);
 	else if (key == 105)
 		print_info(*fract);
+	else if (key == 32)
+		activate_ssaa(fract);
 	else if (key == 65307)
 		exit_program(*fract);
 	return (0);
