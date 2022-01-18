@@ -4,21 +4,17 @@
 
 Todo-list:
 
-- Implement a clean exit with no leaks (free colors and map)
-- Clean up code... function names... variable names... file names... file structure... comments...
-	- Explicit function names
-	- Same variable names (not data, then fract, then firstwin)
-	- Explicit file names (not 2 3 4)
-	- src folder, include folder
-	- include folder for libft too (is currently includeS)
-	- revisit all comments, some are obsolete
-	- better fractal_keys.c (right now has 2 HUGE functions, split them)
-	- revisit main, might be messy
+- Leaks!
+	- Got still reachables, dunno from where, 6 (1647 allocs 1641 frees)
+	- Got an invalid read of size 4 (int) in get_gradient_palette (create_palette < create_color < decode_colors < fractol_init < main)
+	- Got a weird error I never had before, Syscall param writev points to uninitialised byte(s) - this might be mlx...
 - Add mandel3, mandel4 and also maybe more (it rhymes) (zn+1 = zn³ + c etc)
 - Implement anti-aliasing with an option to turn off
 
 Cut content:
 
+- Cleaning up code
+Reason : lazy
 - Test several configurations to optimize rendering time... mults instead of adds in complex loops... less variables... and try to optimize code where possible
 Reason : no time and multithreading already more than made up for optimization problems
 - Implement a way to time how long last frame took to render

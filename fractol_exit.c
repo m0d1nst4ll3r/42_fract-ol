@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:10:37 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/13 23:45:48 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 17:03:47 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,17 @@ void	free_map(float **map, int len)
 {
 	while (map && len--)
 		free(map[len]);
+}
+
+//	Exit program cleanly, freeing the map, the colors list,
+//		destroying the two images, and the window.
+void	exit_program(t_fract fract)
+{
+	free_map(fract.map, fract.winy);
+	fractol_lstclear(fract.colors);
+	mlx_destroy_image(fract.mlx, fract.img_main.img);
+	mlx_destroy_image(fract.mlx, fract.img_temp.img);
+	mlx_destroy_window(fract.mlx, fract.win);
+	mlx_destroy_display(fract.mlx);
+	exit(0);
 }

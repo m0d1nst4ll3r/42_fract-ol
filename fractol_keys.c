@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:35:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 04:28:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 17:29:35 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,28 @@
 |		105		i					display info
 |		65307	esc					close window
 \* --------------------------------------------------------------------- */
-int	key_hook(int key, t_fract *fract)
+static int	key_hook3(int key, t_fract *fract)
 {
-	int x;
-	int y;
+	if (key == 50)
+		more_iter(fract, 1000);
+	else if (key == 49)
+		less_iter(fract, 1000);
+	else if (key == 65289)
+		enable_autoiter(fract);
+	else if (key == 122)
+		decrease_zoom_strength(fract);
+	else if (key == 120)
+		increase_zoom_strength(fract);
+	else if (key == 105)
+		print_info(*fract);
+	else if (key == 65307)
+		exit_program(*fract);
+	return (0);
+}
 
-	printf("%d\n", key);
-	if (key == 65505 || key == 61)
-	{
-		mlx_mouse_get_pos(fract->mlx, fract->win, &x, &y);
-		zoom_in(fract, x, y);
-	}
-	else if (key == 65507 || key == 45)
-	{
-		mlx_mouse_get_pos(fract->mlx, fract->win, &x, &y);
-		zoom_out(fract, x, y);
-	}
-	else if (key == 65362 || key == 119)
-		move_view(fract, 'u', MOVE_MOD);
-	else if (key == 65364 || key == 115)
-		move_view(fract, 'd', MOVE_MOD);
-	else if (key == 65361 || key == 97)
-		move_view(fract, 'l', MOVE_MOD);
-	else if (key == 65363 || key == 100)
-		move_view(fract, 'r', MOVE_MOD);
-	else if (key == 114)
+static int	key_hook2(int key, t_fract *fract)
+{
+	if (key == 114)
 		reset_view(fract);
 	else if (key == 101)
 		next_color(fract);
@@ -88,40 +85,36 @@ int	key_hook(int key, t_fract *fract)
 		more_iter(fract, 100);
 	else if (key == 51)
 		less_iter(fract, 100);
-	else if (key == 50)
-		more_iter(fract, 1000);
-	else if (key == 49)
-		less_iter(fract, 1000);
-	else if (key == 65289)
-		enable_autoiter(fract);
-	else if (key == 122)
-		decrease_zoom_strength(fract);
-	else if (key == 120)
-		increase_zoom_strength(fract);
-	else if (key == 105)
-		print_info(*fract);
-	//else if (key == 65307)
-/*	if (key == 61 || key == 45 || (key >= 65361 && key <= 65364))
+	else
+		return (key_hook3(key, fract));
+	return (0);
+}
+
+int	key_hook(int key, t_fract *fract)
+{
+	int	x;
+	int	y;
+
+	if (key == 65505 || key == 61)
 	{
-		if (key == 61)
-			data->max_iter += DEPTH_MOD;
-		else if (key == 45 && data->max_iter <= DEPTH_MOD)
-			data->max_iter = 1;
-		else if (key == 45)
-			data->max_iter -= DEPTH_MOD;
-		else if (key == 65362)
-			data->pos.y += MOVE_MOD * data->step;
-		else if (key == 65361)
-			data->pos.x -= MOVE_MOD * data->step;
-		else if (key == 65364)
-			data->pos.y -= MOVE_MOD * data->step;
-		else if (key == 65363)
-			data->pos.x += MOVE_MOD * data->step;
-		draw_fractal(*data);
-		mlx_put_image_to_window(data->mlx, data->win, data->img_main.img, 0, 0);
+		mlx_mouse_get_pos(fract->mlx, fract->win, &x, &y);
+		zoom_in(fract, x, y);
 	}
-	else if (key == 104)
-		print_info(*data);*/
+	else if (key == 65507 || key == 45)
+	{
+		mlx_mouse_get_pos(fract->mlx, fract->win, &x, &y);
+		zoom_out(fract, x, y);
+	}
+	else if (key == 65362 || key == 119)
+		move_view(fract, 'u', MOVE_MOD);
+	else if (key == 65364 || key == 115)
+		move_view(fract, 'd', MOVE_MOD);
+	else if (key == 65361 || key == 97)
+		move_view(fract, 'l', MOVE_MOD);
+	else if (key == 65363 || key == 100)
+		move_view(fract, 'r', MOVE_MOD);
+	else
+		return (key_hook2(key, fract));
 	return (0);
 }
 
@@ -129,35 +122,22 @@ int	key_hook(int key, t_fract *fract)
 |		mouse_hook
 |
 |	List of mouse buttons :
-|		3		right mouse button		(hold) move view
-|										(click) zoom in
-|		1		left mouse button		(hold) draw zoom area
-|										(click) zoom out
+|		1		left mouse button		zoom in
 |		4		mousewheel up			zoom in
+|		3		right mouse button		zoom out
 |		5		mousewheel down			zoom out
 \* --------------------------------------------------------------------- */
-int	mouse_hook(int key, int x, int y, t_fract *data)
+int	mouse_hook(int key, int x, int y, t_fract *fract)
 {
-	printf("Mouse down %d\t\t%d\t%d\n", key, x, y);
-	(void)data;
-	(void)x;
-	(void)y;
-	/*if (key == 4 || key == 5)
-	{
-		if (key == 4)
-		{
-			data->pos.x += x * data->step - x * data->step / data->zoom;
-			data->pos.y -= y * data->step - y * data->step / data->zoom;
-			data->step = data->step / data->zoom;
-		}
-		else if (key == 5)
-		{
-			data->pos.x -= x * data->step - x * data->step / data->zoom;
-			data->pos.y += y * data->step - y * data->step / data->zoom;
-			data->step = data->step * data->zoom;
-		}
-		draw_fractal(*data);
-		mlx_put_image_to_window(data->mlx, data->win, data->img_main.img, 0, 0);
-	}*/
+	if (key == 1 || key == 4)
+		zoom_in(fract, x, y);
+	else if (key == 3 || key == 5)
+		zoom_out(fract, x, y);
+	return (0);
+}
+
+int	clientmsg_hook(t_fract *fract)
+{
+	exit_program(*fract);
 	return (0);
 }

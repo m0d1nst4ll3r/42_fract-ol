@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 04:15:54 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 15:32:32 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,8 @@ palette.\n", arg);
 		print_error2(code, arg);
 }
 
-//	Prints out values useful for debugging, when the I key is pressed
-//	More info needs to be displayed, like :
-//		- current color
-//		- time spent processing last frame
+//	Prints out values useful for debugging (when the I key is pressed)
+//	Color codes are used to add flavor
 void	print_info(t_fract data)
 {
 	printf("\e[0;31m=-._.-=Fractal Information=-._.-=\e[0m\n");
@@ -78,6 +76,7 @@ void	print_info(t_fract data)
 }
 
 //	Used when program arguments are absent or wrong
+//	This is meant as a first read
 void	print_usage(void)
 {
 	printf("\n\e[4;31mFractol usage:\e[0m\n\n\
@@ -107,6 +106,7 @@ void	print_usage(void)
 }
 
 //	Used when help is found in program arguments
+//	This is meant as a second read
 void	print_guide(void)
 {
 	printf("\n\e[4;31mFractol user guide:\e[0m\n\n\

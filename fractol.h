@@ -6,24 +6,27 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 04:35:56 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 17:29:32 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define NUMTHREADS		24
+# define NUMTHREADS		24 //for multithreading
 # define DEFAULT_WINX	1800
 # define DEFAULT_WINY	1000
 # define DEFAULT_ZOOM	1.05
 # define DEFAULT_DEPTH	200
 # define DEFAULT_FILE	"colors.fract"
-# define MOVE_MOD		4
+# define MOVE_MOD		4 //by how many pixels to move each keypress
+# define AI_A			400 //autoiter values used in the inverse log function
+# define AI_B			2196
+# define AI_T			0.00364 //where max_iter < 50 in the inverse log func
 
-# define BASE_16 "0123456789abcdef"
+# define BASE_16 "0123456789abcdef" //used by convert_base for colors decoding
 
-# define ERR_TYPE		1
+# define ERR_TYPE		1 //error codes used in print_error
 # define ERR_PARAM		2
 # define ERR_NOWIN		3
 # define ERR_BADWIN		31
@@ -38,13 +41,13 @@
 # define ERR_BADZOOM	61
 # define ERR_DUPLICATE	7
 
-# define RENDER_RECOLOR	1
+# define RENDER_RECOLOR	1 //flag codes used in render_fractal
 # define RENDER_REITER	2
 
 # include "libft.h"
 # include "mlx.h"
 # include <stdlib.h> //malloc free
-# include <math.h> //log
+# include <math.h> //logl
 # include <stdio.h> //printf
 # include <fcntl.h> //open
 # include <unistd.h> //read
@@ -65,7 +68,7 @@ typedef struct s_complex
 |	See fractol_params.c
 |
 |	Used to hold parameters during their decoding before using them
-|		to create our first t_fract structure.
+|		to create the t_fract structure.
 |
 |	- winx		horizontal size of the window
 |	- winy		vertical size of the window
@@ -95,7 +98,7 @@ typedef struct s_params
 |
 |	See fractol_colors_decode2.c
 |
-|	Structure used to create a chained list of available colors
+|	Structure used to create a chained list of available colors.
 |	Colors are defined in colors.fract, decoded in the program, and
 |		added to the chained list.
 |
@@ -120,7 +123,7 @@ typedef struct s_color
 |	Typically used in pairs to avoid writing on an image being displayed.
 |
 |	- img		img address to be used when displaying the image
-|	- addr		address of the image's pixels to be used when updating them
+|	- addr		address of the image's contents to be used when updating them
 |	- bpp		bits per pixel
 |	- end		endian
 |	- llen		line length
@@ -143,24 +146,23 @@ typedef struct s_img
 |	Used to memorize information relevant to the drawing of a fractal.
 |
 |	Only one instance of this structure ever exists at once in the
-|		program, but more could be used later on when Julia-Mandelbrot
-|		linking is implemented.
+|		program, although there once were plans to have several at once.
 |
 |	- mlx			mlx address to use when updating window
 |	- win			window address pertaining to this particular fractal
 |						both are used in every window pixel writing function call
 |	- winx			horizontal size of the window
 |	- winy			vertical size of the window
-|						both are used to create new julia windows
+|						both are used for calculations dependent on window size
 |	- img_main		the two images used in tandem to avoid screen tearing
 |	- img_temp			the images are swapped so that img_main, the image
-|						displayed on screen, is never written on directly
+|						displayed on screen, is never written to directly
 |	- colors		chained list containing all available colors
 |						used when changing colors
 |	- curcol		current color palette being used
-|	- type			type of fractal (m for mandelbrot, j for julia)
+|	- type			type of fractal (m for mandelbrot, j for julia...)
 |						used in drawing to decide which algorithm to use
-|	- pos			fractal x, y complex position of current area
+|	- pos			fractal x, y complex position of current area (top left)
 |	- constant		mandel/julia value that will never change
 |					(either starting point or c that we add every iteration)
 |	- step			fractal step value (describes level of zoom)
@@ -169,6 +171,7 @@ typedef struct s_img
 |	- zoom			by how much to zoom in or out (higher than 1)
 |	- autoiter		whether to dynamically change max_iter based on zoom level
 |	- smoothcol		whether to display colors smoothly or with banding
+|	- mutex			special mutex variable needed for multi-threading
 \* -------------------------------------------------------------------- */
 typedef struct s_fract
 {
@@ -224,7 +227,7 @@ t_color	*default_color(void);
 void	fractol_assign_color(t_fract *data, char *name);
 
 //// Parses program arguments, fills program data
-//// Or prints a user guide
+//// Or prints a user guide on error
 //// Used once during program init
 // fractol_params.c
 // fractol_params2.c
@@ -248,11 +251,11 @@ int		fractol_init(t_fract *fract, int ac, char **av);
 // fractol_exit.c
 //int		fractol_exit();
 void	free_map(float **map, int len);
+void	exit_program(t_fract fract);
 
 //// Functions related to manipulating the minilibx
 // fractol_mlx.c
 void	pixel_put(t_img img, int x, int y, int color);
-int		fractol_init_mlx(t_fract *fw);
 
 //// Functions to calculate and draw different fractals
 // fractol_draw.c
@@ -276,6 +279,7 @@ void	reset_view(t_fract *fractal);
 // fractol_keys.c
 int		key_hook(int key, t_fract *data);
 int		mouse_hook(int key, int x, int y, t_fract *data);
+int		clientmsg_hook(t_fract *fract);
 void	next_color(t_fract *fract);
 void	prev_color(t_fract *fract);
 void	more_iter(t_fract *fract, int n);
