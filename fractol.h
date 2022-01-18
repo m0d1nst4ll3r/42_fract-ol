@@ -6,15 +6,13 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 21:48:13 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 17:29:32 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define SSAA_LAYERS	7
-# define SSAA_DIV		4
 # define NUMTHREADS		24 //for multithreading
 # define DEFAULT_WINX	1800
 # define DEFAULT_WINY	1000
@@ -264,8 +262,6 @@ void	pixel_put(t_img img, int x, int y, int color);
 // fractol_draw2.c
 // fractol_draw3.c
 // fractol_draw4.c
-// fractol_draw_ssaa.c
-void	*calculate_map_ssaa(void *arg);
 float	escape_time(t_complex s, t_complex c, int depth);
 void	*calculate_map(void *arg);
 void	fill_map_d(t_fract data, int n);
@@ -295,6 +291,5 @@ void	enable_autoiter(t_fract *fract);
 void	decrease_zoom_strength(t_fract *fract);
 void	increase_zoom_strength(t_fract *fract);
 void	toggle_smooth_colors(t_fract *data);
-void	activate_ssaa(t_fract *fract);
 
 #endif
