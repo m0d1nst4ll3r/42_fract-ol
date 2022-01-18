@@ -4,17 +4,18 @@
 
 Todo-list:
 
-- Implement auto-incrementing iterations
-	- Nothing to be done, no single solution is gonna be one size fits all. So, what I'm gonna do is try a value, and if it looks off somewhere, increase it. Look at the seahorse valley to know where it might look off. Settle for a value that doesn't go too high either.
-	- Seahorse valley can be extreme : 18k iterations for e-13
-	- Minibrots are forgiving : 8.5k for e-11
-	- Extreme minibrots (to the left) need almost nothing : 800 for e-13
-- DONE ===> Implement color smoothing with an option to turn off
-	- No option to turn off yet, have to add that
-	- As a bonus, implement an option to change zoom strength mid-program
+- Implement a clean exit with no leaks (free colors and map)
+- Clean up code... function names... variable names... file names... file structure... comments...
+	- Explicit function names
+	- Same variable names (not data, then fract, then firstwin)
+	- Explicit file names (not 2 3 4)
+	- src folder, include folder
+	- include folder for libft too (is currently includeS)
+	- revisit all comments, some are obsolete
+	- better fractal_keys.c (right now has 2 HUGE functions, split them)
+	- revisit main, might be messy
 - Add mandel3, mandel4 and also maybe more (it rhymes) (zn+1 = zn³ + c etc)
 - Implement anti-aliasing with an option to turn off
-Last, details... code readability, comments...
 
 Cut content:
 

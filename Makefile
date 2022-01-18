@@ -6,7 +6,7 @@
 #    By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/20 14:37:51 by rpohlen           #+#    #+#              #
-#    Updated: 2022/01/17 18:05:46 by rpohlen          ###   ########.fr        #
+#    Updated: 2022/01/18 04:29:00 by rpohlen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS		= fractol.c \
 			  fractol_keys.c \
 			  fractol_keys2.c \
 			  fractol_keys3.c \
+			  fractol_keys4.c \
 			  fractol_init.c \
 			  fractol_exit.c
 

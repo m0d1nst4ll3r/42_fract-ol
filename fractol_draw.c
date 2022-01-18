@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/17 19:39:04 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 04:36:10 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,19 @@ float	escape_time(t_complex s, t_complex c, int depth)
 |		number of iterations as the index. If the number is greater than
 |		the palette allows, we just circle back to its beginning.
 \* --------------------------------------------------------------------- */
-static int	get_color_iter(int *palette, int palette_size,
-			float iter, int max_iter)
+static int	get_color_iter(t_fract data, float iter)
 {
 	int	color;
 
-	if ((int)iter >= max_iter)
+	if ((int)iter >= data.max_iter)
 		color = 0;
+	else if (!data.smoothcol)
+		color = data.curcol->palette[(int)iter % data.curcol->palette_size];
 	else
-		color = get_gradient(palette[(int)iter % palette_size],
-				palette[((int)iter + 1) % palette_size],
+		color = get_gradient(
+				data.curcol->palette[(int)iter % data.curcol->palette_size],
+				data.curcol->palette[
+				((int)iter + 1) % data.curcol->palette_size],
 				iter - (int)iter);
 	return (color);
 }
@@ -169,9 +172,7 @@ void	*draw_fractal(void *arg)
 		x = -1;
 		while (++x < data->winx)
 		{
-			color = get_color_iter(data->curcol->palette,
-					data->curcol->palette_size,
-					data->map[y][x], data->max_iter);
+			color = get_color_iter(*data, data->map[y][x]);
 			pixel_put(data->img_temp, x, y, color);
 		}
 		y += NUMTHREADS;

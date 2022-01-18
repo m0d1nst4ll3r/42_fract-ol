@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/12 21:35:29 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 04:15:54 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,67 +65,69 @@ palette.\n", arg);
 //		- time spent processing last frame
 void	print_info(t_fract data)
 {
-	printf("=-._.-=Fractal Information=-._.-=\n");
-	printf("- Current pos : %Le, %Le\n", data.pos.x, data.pos.y);
-	printf("- Current step : %Le\n", data.step);
-	printf("- Current depth : %d\n", data.max_iter);
-	printf("- Current color : %s\n", data.curcol->name);
+	printf("\e[0;31m=-._.-=Fractal Information=-._.-=\e[0m\n");
+	printf("\e[0;33m- Position :\e[0m\t\t%Le, %Le\n", data.pos.x, data.pos.y);
+	printf("\e[0;33m- Step :\e[0m\t\t%Le\n", data.step);
+	printf("\e[0;33m- Max iter :\e[0m\t\t%d\n", data.max_iter);
+	if (data.autoiter)
+		printf("\e[0;33m- Iterations :\e[0m\t\tauto\n");
+	else
+		printf("\e[0;33m- Iterations :\e[0m\t\tmanual\n");
+	printf("\e[0;33m- Zoom strength:\e[0m\t%.2f\n", data.zoom);
+	printf("\e[0;33m- Color :\e[0m\t\t%s\n", data.curcol->name);
 }
 
 //	Used when program arguments are absent or wrong
 void	print_usage(void)
 {
-	printf("\
-Usage:\n\
-	./fractol [SET] [OPTION]\n\
+	printf("\n\e[4;31mFractol usage:\e[0m\n\n\
+	  \e[0;32m./fractol [SET] [OPTION]\e[0m\n\
 \n\
-	Supported sets:\n\
-	  mandelbrot\n\
-	  julia [constant] (defaults to [0,-0.8])\n\
-	  (more later)\n\
+	\e[0;31mSupported sets:\e[0m\n\
+	  \e[0;33mmandelbrot\e[0m\n\
+	  \e[0;33mmandel3\e[0m\n\
+	  \e[0;33mmandel4\e[0m\n\
+	  \e[0;33mmandel5\e[0m\n\
+	  \e[0;33mjulia [constant]\e[0m (defaults to [0,-0.8])\n\
 \n\
-	OPTIONS:\n\
-	  -help or -h	displays the user guide\n\
-	  -c		specify a color theme (defaults to a random one)\n\
-	  -w [x] [y]	window size, 200x200 minimum, defaults to 1800x1000\n\
-	  -d [max_iter]	specify a starting value for max iterations (defaults to 200)\n\
-	  -z [zoom]	specify a zoom value (higher than 1, defaults to 1.05)\n\
-	  -f [file]	specify another config file for colors\n\
-	  -noauto	disable auto-increasing max iterations (implied by -d)\n\
+	\e[0;31mOptions:\e[0m\n\
+	  \e[0;33m-help or -h\e[0m	displays the user guide\n\
+	  \e[0;33m-c\e[0m		specify a color theme (defaults to a random one)\n\
+	  \e[0;33m-w [x] [y]\e[0m	window size, 200x200 minimum, defaults to 1800x1000\n\
+	  \e[0;33m-d [max_iter]\e[0m	specify a starting value for max iterations (defaults to ~200)\n\
+	  \e[0;33m-z [zoom]\e[0m	specify a zoom value (higher than 1, defaults to 1.05)\n\
+	  \e[0;33m-f [file]\e[0m	specify another config file for colors\n\
+	  \e[0;33m-noauto\e[0m	disable auto-increasing max iterations (implied by -d)\n\
 \n\
-	Examples:\n\
+	\e[0;31mExamples:\e[0m\n\
 	  ./fractol help\n\
 	  ./fractol mandelbrot\n\
 	  ./fractol m -c rainbow\n\
-	  ./fractol julia 0.15 1.15 -w 800 600 -d 1000 -z 1.01\n\
-");
+	  ./fractol julia 0.15 1.15 -w 800 600 -d 1000 -z 1.01\n\n");
 }
 
 //	Used when help is found in program arguments
 void	print_guide(void)
 {
-	printf("fractol user guide:\n\n\
-	- Run the program\n\
-	   ./fractol mandelbrot\n\n\
-	- Use the following mouse commands to explore the fractal\n\
-	    RMB		hold and move the mouse to move around the fractal\n\
-	    LMB		hold and move the mouse to draw an area to zoom into\n\
-	    Mousewheel	zoom in and out\n\n\
-	  Alternatively, you can use keyboard keys\n\
-	    Shift	hold to zoom in\n\
-	    Ctrl	hold to zoom out\n\
-	    Arrow keys	hold to move around the fractal\n\n\
-	  More useful commands\n\
-	    r		go back to the beginning (reset)\n\
-	    v, c	change color\n\
-	    b, n	change max iterations by 1 (disables auto iterations)\n\
-	    shift+b, n	change max iterations by 10\n\
-	    ctrl+b, n	change max iterations by 100\n\
-	    m		re-enable auto iterations\n\
-	    i		displays useful information\n\
-	    j		open a new window with a julia set based on cursor position\n\
-	    Spacebar	hold to shift the julia set based on cursor position\n\
-	    Esc		close current window\n\n\
-	- Close all windows or press Shift + Esc to exit\n\n\
-	- You can look at and configure colors by editing colors.fract\n");
+	printf("\n\e[4;31mFractol user guide:\e[0m\n\n\
+	\e[0;31mRun the program\e[0m\n\
+	   \e[0;32m./fractol mandelbrot\e[0m\n\n\
+	\e[0;31mUse the following commands to explore the fractal\e[0m\n\
+	    \e[0;33mLMB / Shift / =\e[0m	hold to zoom in\n\
+	    \e[0;33mRMB / Ctrl  / -\e[0m	hold to zoom out\n\
+	    \e[0;33mWASD / Arrow keys\e[0m	hold to move around the fractal\n\n\
+	\e[0;31mMore useful commands\n\
+	    \e[0;33mr\e[0m			go back to the beginning (reset)\n\
+	    \e[0;33mSpacebar\e[0m		run SSAA filter on current image\n\
+		\e[0;33mc\e[0m			toggle color smoothing\n\
+	    \e[0;33mq, e\e[0m		change color\n\
+	    \e[0;33mz, x\e[0m		change zoom strength\n\
+	    \e[0;33m7, 8\e[0m		change max iterations by 1 (disables auto iterations)\n\
+	    \e[0;33m5, 6\e[0m		change max iterations by 10\n\
+	    \e[0;33m3, 4\e[0m		change max iterations by 100\n\
+	    \e[0;33m1, 2\e[0m		change max iterations by 1000\n\
+	    \e[0;33mTab\e[0m			re-enable auto iterations\n\
+	    \e[0;33mi\e[0m			displays useful information\n\
+	    \e[0;33mEsc\e[0m			exit the program\n\n\
+	\e[0;31mYou can look at and configure colors by editing colors.fract\n\n");
 }

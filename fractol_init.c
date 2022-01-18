@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:57:42 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/13 22:13:07 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 04:14:48 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	init_copy(t_params params, t_fract *firstwin)
 	firstwin->type = params.type;
 	firstwin->constant = params.constant;
 	firstwin->autoiter = !params.noauto;
+	firstwin->smoothcol = 1;
 }
 
 //	Malloc the map - it needs to be freed later

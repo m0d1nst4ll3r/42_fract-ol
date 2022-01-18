@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/17 19:38:47 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 04:35:56 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,5 +283,9 @@ void	less_iter(t_fract *fract, int n);
 void	zoom_in(t_fract *fract, int x, int y);
 void	zoom_out(t_fract *fract, int x, int y);
 void	move_view(t_fract *fract, char direction, int n);
+void	enable_autoiter(t_fract *fract);
+void	decrease_zoom_strength(t_fract *fract);
+void	increase_zoom_strength(t_fract *fract);
+void	toggle_smooth_colors(t_fract *data);
 
 #endif

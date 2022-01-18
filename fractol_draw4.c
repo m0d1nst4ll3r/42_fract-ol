@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:51:58 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/17 18:12:46 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/18 03:58:25 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,32 @@ void	render_fractal(t_fract *fract, int flag)
 |		x	-2 to 2
 |		y	-1.5 to 1.5
 \* --------------------------------------------------------------------- */
-void	reset_pos(t_fract *fractal)
+void	reset_pos(t_fract *fract)
 {
 	long double	step_tmp;
 
-	if (fractal->type == 'm')
+	if (fract->type == 'm')
 	{
-		fractal->step = 2.5 / fractal->winx;
-		step_tmp = 2.5 / fractal->winy;
-		if (fractal->step < step_tmp)
-			fractal->step = step_tmp;
-		fractal->pos.x = -fractal->winx / 2 * fractal->step - 0.75;
-		fractal->pos.y = fractal->winy / 2 * fractal->step;
+		fract->step = 2.5 / fract->winx;
+		step_tmp = 2.5 / fract->winy;
+		if (fract->step < step_tmp)
+			fract->step = step_tmp;
+		fract->pos.x = -fract->winx / 2 * fract->step - 0.75;
+		fract->pos.y = fract->winy / 2 * fract->step;
 	}
 	else
 	{
-		fractal->step = 4.0 / fractal->winx;
-		step_tmp = 3.0 / fractal->winy;
-		if (fractal->step < step_tmp)
-			fractal->step = step_tmp;
-		fractal->pos.x = -fractal->winx / 2 * fractal->step;
-		fractal->pos.y = fractal->winy / 2 * fractal->step;
+		fract->step = 4.0 / fract->winx;
+		step_tmp = 3.0 / fract->winy;
+		if (fract->step < step_tmp)
+			fract->step = step_tmp;
+		fract->pos.x = -fract->winx / 2 * fract->step;
+		fract->pos.y = fract->winy / 2 * fract->step;
 	}
+	if (fract->autoiter && fract->step <= 0.00364)
+		fract->max_iter = (int)(-400 * logl(fract->step) - 2196);
+	else if (fract->autoiter)
+		fract->max_iter = 50;
 }
 
 //	Resets view back to the beginning and renders the fractal
