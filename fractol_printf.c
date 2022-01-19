@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 15:32:32 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/19 17:16:20 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	print_info(t_fract data)
 	else
 		printf("\e[0;33m- Iterations :\e[0m\t\tmanual\n");
 	printf("\e[0;33m- Zoom strength:\e[0m\t%.2f\n", data.zoom);
+	printf("\e[0;33m- SSAA strength:\e[0m\t%d\n", data.ssaa_samples);
 	printf("\e[0;33m- Color :\e[0m\t\t%s\n", data.curcol->name);
 }
 
@@ -129,5 +130,10 @@ void	print_guide(void)
 	    \e[0;33mTab\e[0m			re-enable auto iterations\n\
 	    \e[0;33mi\e[0m			displays useful information\n\
 	    \e[0;33mEsc\e[0m			exit the program\n\n\
-	\e[0;31mYou can look at and configure colors by editing colors.fract\n\n");
+	\e[0;31mYou can look at and configure colors by editing colors.fract\n\n\
+	\e[0;31mCool Julia sets to check out\e[0m\n\
+	    \e[0;33m[\e[0m0, -0.8\e[0;33m]\e[0m \e[0;33m[\e[0m-0.4, 0.6\e[0;33m]\e[0m\
+ \e[0;33m[\e[0m0.285, 0\e[0;33m]\e[0m \e[0;33m[\e[0m0.285, 0.01\e[0;33m]\e[0m\n\
+	    \e[0;33m[\e[0m-0.835, -0.2321\e[0;33m]\e[0m \e[0;33m[\e[0m-0.8, 0.156\e[0;33m]\e[0m\
+ \e[0;33m[\e[0m-0.7269, 0.1889\e[0;33m]\e[0m\n\n");
 }

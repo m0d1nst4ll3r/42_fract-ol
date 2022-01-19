@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:57:42 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 04:14:48 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/19 15:34:59 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@ static void	init_null(t_fract *fract)
 }
 
 //	Adds the params, as read from the command line, to the data structure
-static void	init_copy(t_params params, t_fract *firstwin)
+static void	init_copy(t_params params, t_fract *fract)
 {
-	firstwin->winx = params.winx;
-	firstwin->winy = params.winy;
-	firstwin->zoom = params.zoom;
-	firstwin->max_iter = params.depth;
-	firstwin->type = params.type;
-	firstwin->constant = params.constant;
-	firstwin->autoiter = !params.noauto;
-	firstwin->smoothcol = 1;
+	fract->winx = params.winx;
+	fract->winy = params.winy;
+	fract->zoom = params.zoom;
+	fract->max_iter = params.depth;
+	fract->type = params.type;
+	fract->constant = params.constant;
+	fract->autoiter = !params.noauto;
+	fract->smoothcol = 1;
+	fract->ssaa_samples = 2;
 }
 
 //	Malloc the map - it needs to be freed later

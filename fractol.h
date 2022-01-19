@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 17:29:32 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/19 15:38:37 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,9 @@ typedef struct s_img
 |	- max_iter		max iterations of our fractal calculations (or depth)
 |						all four are used for escape time and drawing
 |	- zoom			by how much to zoom in or out (higher than 1)
+|	- thread		used in multi-threading to order threads
+|	- ssaa_samples	number of samples to use in ssaa - this can be changed
+|						by keyboard comands. defaults at 2.
 |	- autoiter		whether to dynamically change max_iter based on zoom level
 |	- smoothcol		whether to display colors smoothly or with banding
 |	- mutex			special mutex variable needed for multi-threading
@@ -192,6 +195,7 @@ typedef struct s_fract
 	int				highest_iter;
 	float			zoom;
 	int				thread;
+	int				ssaa_samples;
 	char			autoiter;
 	char			smoothcol;
 	pthread_mutex_t	mutex;
@@ -257,12 +261,18 @@ void	exit_program(t_fract fract);
 // fractol_mlx.c
 void	pixel_put(t_img img, int x, int y, int color);
 
+//// Escape time functions for all fractals
+// fractol_escape_time.c
+float	escape_time(t_complex s, t_complex c, int depth);
+float	escape_time_global(t_complex variable, t_complex constant,
+			int depth, char type);
+
 //// Functions to calculate and draw different fractals
 // fractol_draw.c
 // fractol_draw2.c
 // fractol_draw3.c
 // fractol_draw4.c
-float	escape_time(t_complex s, t_complex c, int depth);
+// fractol_draw_ssaa.c
 void	*calculate_map(void *arg);
 void	fill_map_d(t_fract data, int n);
 void	fill_map_u(t_fract data, int n);
@@ -274,6 +284,7 @@ void	thread_task(t_fract *data, char task);
 void	render_fractal(t_fract *fract, int flag);
 void	reset_pos(t_fract *fractal);
 void	reset_view(t_fract *fractal);
+void	*render_ssaa(void *arg);
 
 //// Key and mouse hook functions and the small functions they use
 // fractol_keys.c
@@ -291,5 +302,8 @@ void	enable_autoiter(t_fract *fract);
 void	decrease_zoom_strength(t_fract *fract);
 void	increase_zoom_strength(t_fract *fract);
 void	toggle_smooth_colors(t_fract *data);
+void	apply_ssaa_filter(t_fract *fract);
+void	decrease_ssaa_strength(t_fract *fract);
+void	increase_ssaa_strength(t_fract *fract);
 
 #endif
