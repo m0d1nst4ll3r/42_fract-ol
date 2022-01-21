@@ -5,9 +5,9 @@
 Todo-list:
 
 - Leaks!
-	- Got still reachables, dunno from where, 6 (1647 allocs 1641 frees)
-	- Got an invalid read of size 4 (int) in get_gradient_palette (create_palette < create_color < decode_colors < fractol_init < main)
+	- Got still reachables - these HAVE to be mlx since I don't use globals or statics.
 	- Got a weird error I never had before, Syscall param writev points to uninitialised byte(s) - this might be mlx...
+		- Can't get it again at home.
 - Add burning ship, and maybe mandel power 100?
 
 Cut content:
