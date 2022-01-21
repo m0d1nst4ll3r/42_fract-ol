@@ -8,8 +8,7 @@ Todo-list:
 	- Got still reachables, dunno from where, 6 (1647 allocs 1641 frees)
 	- Got an invalid read of size 4 (int) in get_gradient_palette (create_palette < create_color < decode_colors < fractol_init < main)
 	- Got a weird error I never had before, Syscall param writev points to uninitialised byte(s) - this might be mlx...
-- Add mandel3, mandel4 and also maybe more (it rhymes) (zn+1 = zn³ + c etc)
-- Implement anti-aliasing with an option to turn off
+- Add burning ship, and maybe mandel power 100?
 
 Cut content:
 
@@ -23,6 +22,8 @@ Reason : not enough payoff, need to finish this quick
 Reason : I can call a function when RMB is pressed down and released and when the cursor moves while RMB is held, but how do I make a function get called when RMB is pressed down and wait for RMB releasing? Since idk how and it'll take too much time to figure out, this is cut.
 - Drawing a rectangle by holding LMB
 Reason : same as above plus the fact that there is no transparency in mlx so it'd be super hard to draw the outlines of a moving rectangle. Too much effort.
+- Switch Julia set when holding spacebar
+Reason : same as above even though now I understand how to do this: add a variable to the struct, variable becomes 1 when button is pressed, conditional activates in function that fires on pointer motion
 - Multiple windows
 Reason : too hard to make at this point, should've structured my program around it from the start
 - A way to save locations and load them up so when you find something cool you can get back to it quickly
