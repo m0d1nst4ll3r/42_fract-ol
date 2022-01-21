@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:52 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 12:48:53 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/20 22:56:03 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,27 @@ static void	params_julia(t_params *params, int *i, int ac, char **av)
 int	params_type(t_params *params, int *i, int ac, char **av)
 {
 	if (*i >= ac)
+	{
 		print_usage();
+		return (1);
+	}
 	else if (!ft_strxcmp("julia", av[*i]))
-	{
 		params_julia(params, i, ac, av);
-		(*i)++;
-		return (0);
-	}
-	else if (!ft_strxcmp("mandelbrot", av[*i]))
-	{
-		(*i)++;
-		return (0);
-	}
+	else if (!ft_strxcmp("mandelbrot", av[*i]) || !ft_strcmp("m2", av[*i]))
+		params->type = 'm';
+	else if (!ft_strcmp("mandel3", av[*i]) || !ft_strcmp("m3", av[*i]))
+		params->type = '3';
+	else if (!ft_strcmp("mandel4", av[*i]) || !ft_strcmp("m4", av[*i]))
+		params->type = '4';
+	else if (!ft_strcmp("mandel5", av[*i]) || !ft_strcmp("m5", av[*i]))
+		params->type = '5';
 	else
+	{
 		params_error(ERR_TYPE, av[*i]);
-	return (1);
+		return (1);
+	}
+	(*i)++;
+	return (0);
 }
 
 //	Used to check for duplicate flags

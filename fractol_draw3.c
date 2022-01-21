@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 21:08:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/19 14:15:35 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/20 19:30:37 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,8 @@ void	fill_map_d(t_fract data, int n)
 		x = 0;
 		while (x < data.winx)
 		{
-			if (data.type == 'm')
-				data.map[y][x] = escape_time(data.constant, variable,
-						data.max_iter);
-			else
-				data.map[y][x] = escape_time(variable, data.constant,
-						data.max_iter);
+			data.map[y][x] = escape_time_global(variable, data.constant,
+					data.max_iter, data.type);
 			variable.x += data.step;
 			x++;
 		}
@@ -54,12 +50,8 @@ void	fill_map_u(t_fract data, int n)
 		x = 0;
 		while (x < data.winx)
 		{
-			if (data.type == 'm')
-				data.map[y][x] = escape_time(data.constant, variable,
-						data.max_iter);
-			else
-				data.map[y][x] = escape_time(variable, data.constant,
-						data.max_iter);
+			data.map[y][x] = escape_time_global(variable, data.constant,
+					data.max_iter, data.type);
 			variable.x += data.step;
 			x++;
 		}
@@ -82,12 +74,8 @@ void	fill_map_r(t_fract data, int n)
 		y = 0;
 		while (y < data.winy)
 		{
-			if (data.type == 'm')
-				data.map[y][x] = escape_time(data.constant, variable,
-						data.max_iter);
-			else
-				data.map[y][x] = escape_time(variable, data.constant,
-						data.max_iter);
+			data.map[y][x] = escape_time_global(variable, data.constant,
+					data.max_iter, data.type);
 			variable.y -= data.step;
 			y++;
 		}
@@ -110,12 +98,8 @@ void	fill_map_l(t_fract data, int n)
 		y = 0;
 		while (y < data.winy)
 		{
-			if (data.type == 'm')
-				data.map[y][x] = escape_time(data.constant, variable,
-						data.max_iter);
-			else
-				data.map[y][x] = escape_time(variable, data.constant,
-						data.max_iter);
+			data.map[y][x] = escape_time_global(variable, data.constant,
+					data.max_iter, data.type);
 			variable.y -= data.step;
 			y++;
 		}

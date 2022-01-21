@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/19 15:38:37 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/20 19:26:57 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,10 +211,13 @@ t_color	*fractol_lstnext(t_color *lst, t_color *elem);
 
 //// Functions that print info, usage, errors
 // fractol_printf.c
+// fractol_printf_strings.c
 void	print_error(int code, char *arg);
 void	print_info(t_fract data);
 void	print_usage(void);
 void	print_guide(void);
+char	*str_iter(char autoiter);
+char	*str_color(char smoothcol);
 
 //// Parses colors.fract file and fills palettes
 //// Used once during program init
@@ -263,7 +266,6 @@ void	pixel_put(t_img img, int x, int y, int color);
 
 //// Escape time functions for all fractals
 // fractol_escape_time.c
-float	escape_time(t_complex s, t_complex c, int depth);
 float	escape_time_global(t_complex variable, t_complex constant,
 			int depth, char type);
 

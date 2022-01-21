@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:59:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/19 14:13:32 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/20 23:49:55 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 |	For any Julia set, c will always be a set value and s will vary based
 |		on the area of the set and the pixel transformations
 \* --------------------------------------------------------------------- */
-float	escape_time(t_complex s, t_complex c, int depth)
+static float	escape_time(t_complex s, t_complex c, int depth)
 {
 	long double	x2;
 	long double	y2;
@@ -48,7 +48,7 @@ float	escape_time(t_complex s, t_complex c, int depth)
 	iter = 0;
 	while (x2 + y2 <= (1 << 16) && iter < depth)
 	{
-		s.y = c.y + (s.x + s.x) * s.y;
+		s.y = c.y + 2 * s.x * s.y;
 		s.x = c.x + x2 - y2;
 		x2 = s.x * s.x;
 		y2 = s.y * s.y;
@@ -56,7 +56,80 @@ float	escape_time(t_complex s, t_complex c, int depth)
 	}
 	if (iter < depth)
 		return ((float)iter + 1
-			- logf((logf((float)x2 + (float)y2) / 2) / logf(2.0)) / logf(2.0));
+			- logf((logf((float)x2 + (float)y2) / 2) / logf(2)) / logf(2));
+	return ((float)iter);
+}
+
+static float	escape_time_m3(t_complex s, t_complex c, int depth)
+{
+	long double	x2;
+	long double	y2;
+	int			iter;
+
+	x2 = s.x * s.x;
+	y2 = s.y * s.y;
+	iter = 0;
+	while (x2 + y2 <= (1 << 16) && iter < depth)
+	{
+		s.y = c.y - y2 * s.y + 3 * x2 * s.y;
+		s.x = c.x + x2 * s.x - 3 * y2 * s.x;
+		x2 = s.x * s.x;
+		y2 = s.y * s.y;
+		iter++;
+	}
+	if (iter < depth)
+		return ((float)iter + 1
+			- logf((logf((float)x2 + (float)y2) / 2) / logf(3)) / logf(3));
+	return ((float)iter);
+}
+
+static float	escape_time_m4(t_complex s, t_complex c, int depth)
+{
+	long double	x2;
+	long double	y2;
+	int			iter;
+
+	x2 = s.x * s.x;
+	y2 = s.y * s.y;
+	iter = 0;
+	while (x2 + y2 <= (1 << 16) && iter < depth)
+	{
+		s.y = c.y + 4 * x2 * s.x * s.y - 4 * y2 * s.y * s.x;
+		s.x = c.x + x2 * x2 + y2 * y2 - 6 * x2 * y2;
+		x2 = s.x * s.x;
+		y2 = s.y * s.y;
+		iter++;
+	}
+	if (iter < depth)
+		return ((float)iter + 1
+			- logf((logf((float)x2 + (float)y2) / 2) / logf(4)) / logf(4));
+	return ((float)iter);
+}
+
+//	(x4 + y4 - 6x²y² + 4x³yi - 4xy³i)(x + yi)
+//	x5 + x4yi + xy4 + y5i - 6x³y² - 6x²y³i + 4x4yi - 4x³y² - 4x²y³i + 4xy4
+//	x = x5 + 5xy4 - 10x³y²
+//	y = y5 + 5x4y - 10x²y³
+static float	escape_time_m5(t_complex s, t_complex c, int depth)
+{
+	long double	x2;
+	long double	y2;
+	int			iter;
+
+	x2 = s.x * s.x;
+	y2 = s.y * s.y;
+	iter = 0;
+	while (x2 + y2 <= (1 << 16) && iter < depth)
+	{
+		s.y = c.y + y2 * y2 * s.y + 5 * x2 * x2 * s.y - 10 * y2 * s.y * x2;
+		s.x = c.x + x2 * x2 * s.x + 5 * y2 * y2 * s.x - 10 * x2 * s.x * y2;
+		x2 = s.x * s.x;
+		y2 = s.y * s.y;
+		iter++;
+	}
+	if (iter < depth)
+		return ((float)iter + 1
+			- logf((logf((float)x2 + (float)y2) / 2) / logf(5)) / logf(5));
 	return ((float)iter);
 }
 
@@ -78,6 +151,12 @@ float	escape_time_global(t_complex variable, t_complex constant,
 {
 	if (type == 'm')
 		return (escape_time(constant, variable, depth));
+	if (type == '3')
+		return (escape_time_m3(constant, variable, depth));
+	if (type == '4')
+		return (escape_time_m4(constant, variable, depth));
+	if (type == '5')
+		return (escape_time_m5(constant, variable, depth));
 	else if (type == 'j')
 		return (escape_time(variable, constant, depth));
 	return (0);

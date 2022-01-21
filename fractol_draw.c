@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/19 15:57:38 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/20 19:30:12 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,8 @@ static float	calculate_map_pixel(t_fract data, long double x, long double y)
 
 	variable.x = x;
 	variable.y = y;
-	if (data.type == 'm')
-		return (escape_time(data.constant, variable, data.max_iter));
-	else
-		return (escape_time(variable, data.constant, data.max_iter));
+	return (escape_time_global(
+			variable, data.constant, data.max_iter, data.type));
 }
 
 /* --------------------------------------------------------------------- *\

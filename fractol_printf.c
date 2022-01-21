@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/19 17:16:20 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/20 16:53:17 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ void	print_info(t_fract data)
 	printf("\e[0;31m=-._.-=Fractal Information=-._.-=\e[0m\n");
 	printf("\e[0;33m- Position :\e[0m\t\t%Le, %Le\n", data.pos.x, data.pos.y);
 	printf("\e[0;33m- Step :\e[0m\t\t%Le\n", data.step);
-	printf("\e[0;33m- Max iter :\e[0m\t\t%d\n", data.max_iter);
-	if (data.autoiter)
-		printf("\e[0;33m- Iterations :\e[0m\t\tauto\n");
-	else
-		printf("\e[0;33m- Iterations :\e[0m\t\tmanual\n");
+	printf("\e[0;33m- Max iter :\e[0m\t\t%d (%s)\n", data.max_iter,
+		str_iter(data.autoiter));
 	printf("\e[0;33m- Zoom strength:\e[0m\t%.2f\n", data.zoom);
 	printf("\e[0;33m- SSAA strength:\e[0m\t%d\n", data.ssaa_samples);
-	printf("\e[0;33m- Color :\e[0m\t\t%s\n", data.curcol->name);
+	printf("\e[0;33m- Color :\e[0m\t\t%s (%s)\n", data.curcol->name,
+		str_color(data.smoothcol));
 }
 
 //	Used when program arguments are absent or wrong
@@ -89,6 +87,7 @@ void	print_usage(void)
 	  \e[0;33mmandel4\e[0m\n\
 	  \e[0;33mmandel5\e[0m\n\
 	  \e[0;33mjulia [constant]\e[0m (defaults to [0,-0.8])\n\
+	  \e[0;33burning_ship\e[0m\n\
 \n\
 	\e[0;31mOptions:\e[0m\n\
 	  \e[0;33m-help or -h\e[0m	displays the user guide\n\
@@ -102,7 +101,7 @@ void	print_usage(void)
 	\e[0;31mExamples:\e[0m\n\
 	  ./fractol help\n\
 	  ./fractol mandelbrot\n\
-	  ./fractol m -c rainbow\n\
+	  ./fractol m5 -c rainbow\n\
 	  ./fractol julia 0.15 1.15 -w 800 600 -d 1000 -z 1.01\n\n");
 }
 
@@ -118,17 +117,18 @@ void	print_guide(void)
 	    \e[0;33mRMB / Ctrl  / -\e[0m	hold to zoom out\n\
 	    \e[0;33mWASD / Arrow keys\e[0m	hold to move around the fractal\n\n\
 	\e[0;31mMore useful commands\n\
+	    \e[0;33mi\e[0m			displays useful information\n\
 	    \e[0;33mr\e[0m			go back to the beginning (reset)\n\
 	    \e[0;33mSpacebar\e[0m		run SSAA filter on current image\n\
-		\e[0;33mc\e[0m			toggle color smoothing\n\
+	    \e[0;33mc\e[0m			toggle color smoothing\n\
 	    \e[0;33mq, e\e[0m		change color\n\
 	    \e[0;33mz, x\e[0m		change zoom strength\n\
+	    \e[0;33mv, b\e[0m		change SSAA strength\n\
 	    \e[0;33m7, 8\e[0m		change max iterations by 1 (disables auto iterations)\n\
 	    \e[0;33m5, 6\e[0m		change max iterations by 10\n\
 	    \e[0;33m3, 4\e[0m		change max iterations by 100\n\
 	    \e[0;33m1, 2\e[0m		change max iterations by 1000\n\
 	    \e[0;33mTab\e[0m			re-enable auto iterations\n\
-	    \e[0;33mi\e[0m			displays useful information\n\
 	    \e[0;33mEsc\e[0m			exit the program\n\n\
 	\e[0;31mYou can look at and configure colors by editing colors.fract\n\n\
 	\e[0;31mCool Julia sets to check out\e[0m\n\
