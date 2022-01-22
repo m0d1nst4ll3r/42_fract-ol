@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/20 19:26:57 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 12:21:05 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ typedef struct s_fract
 	int				ssaa_samples;
 	char			autoiter;
 	char			smoothcol;
+	char			shiftmode;
 	pthread_mutex_t	mutex;
 }					t_fract;
 
@@ -286,6 +287,7 @@ void	thread_task(t_fract *data, char task);
 void	render_fractal(t_fract *fract, int flag);
 void	reset_pos(t_fract *fractal);
 void	reset_view(t_fract *fractal);
+int		draw_ssaa(t_fract data, t_complex point, float init);
 void	*render_ssaa(void *arg);
 
 //// Key and mouse hook functions and the small functions they use
@@ -293,6 +295,7 @@ void	*render_ssaa(void *arg);
 int		key_hook(int key, t_fract *data);
 int		mouse_hook(int key, int x, int y, t_fract *data);
 int		clientmsg_hook(t_fract *fract);
+int		pointer_motion_hook(int x, int y, t_fract *fract);
 void	next_color(t_fract *fract);
 void	prev_color(t_fract *fract);
 void	more_iter(t_fract *fract, int n);
@@ -307,5 +310,6 @@ void	toggle_smooth_colors(t_fract *data);
 void	apply_ssaa_filter(t_fract *fract);
 void	decrease_ssaa_strength(t_fract *fract);
 void	increase_ssaa_strength(t_fract *fract);
+void	toggle_shift_mode(t_fract *fract);
 
 #endif

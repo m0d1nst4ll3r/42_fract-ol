@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:57:42 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/19 15:34:59 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 11:30:43 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	init_copy(t_params params, t_fract *fract)
 	fract->autoiter = !params.noauto;
 	fract->smoothcol = 1;
 	fract->ssaa_samples = 2;
+	fract->shiftmode = 0;
 }
 
 //	Malloc the map - it needs to be freed later
