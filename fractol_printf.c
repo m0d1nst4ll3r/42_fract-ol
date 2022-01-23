@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/20 16:53:17 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 22:55:52 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	print_guide(void)
 	    \e[0;33m3, 4\e[0m		change max iterations by 100\n\
 	    \e[0;33m1, 2\e[0m		change max iterations by 1000\n\
 	    \e[0;33mTab\e[0m			re-enable auto iterations\n\
+	    \e[0;33mReturn\e[0m			toggle cursor-shift mode for julia sets (move your mouse around!)\n\
 	    \e[0;33mEsc\e[0m			exit the program\n\n\
 	\e[0;31mYou can look at and configure colors by editing colors.fract\n\n\
 	\e[0;31mCool Julia sets to check out\e[0m\n\

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 18:20:27 by rpohlen           #+#    #+#             */
-/*   Updated: 2021/12/23 18:29:36 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:07:50 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	get_color_count(char *line)
 	return (count);
 }
 
-//	Returns how many colors are in our line AND allocates
-//		and fills an array with said colors
+//	Fills an array of ints with color values read from
+//		the given line
 //	The array is freed in the parent function
 static int	*get_colors(char *line, int color_count)
 {
@@ -61,12 +61,13 @@ static int	*get_colors(char *line, int color_count)
 |		create_palette
 |
 |	Creates and returns a complete palette featuring a gradient
-|		between all colors given in our line string
+|		between all colors given in our line string.
 |
-|	This palette is added to a chained list and freed when the program ends
+|	This palette is added to a chained list and freed when the
+|		program ends.
 |
-|	This function only converts colors from the line into an array of ints
-|		which get_gradient_palette can then use
+|	Colors from the line are transformed into an array of ints
+|		which get_gradient_palette can then use.
 \* --------------------------------------------------------------------- */
 int	*create_palette(char *line, int size)
 {

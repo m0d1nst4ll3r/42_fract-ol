@@ -6,13 +6,15 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 19:42:44 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/12 21:20:13 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/23 01:28:19 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	offset_map_d(t_fract data, int n)
+//	Shifts the map in 1 of 4 directions, by a certain offset
+//	The data left over is written over by new calculations
+static void	shift_map_d(t_fract data, int n)
 {
 	int	x;
 	int	y;
@@ -30,7 +32,7 @@ static void	offset_map_d(t_fract data, int n)
 	}
 }
 
-static void	offset_map_u(t_fract data, int n)
+static void	shift_map_u(t_fract data, int n)
 {
 	int	x;
 	int	y;
@@ -48,7 +50,7 @@ static void	offset_map_u(t_fract data, int n)
 	}
 }
 
-static void	offset_map_r(t_fract data, int n)
+static void	shift_map_r(t_fract data, int n)
 {
 	int	x;
 	int	y;
@@ -66,7 +68,7 @@ static void	offset_map_r(t_fract data, int n)
 	}
 }
 
-static void	offset_map_l(t_fract data, int n)
+static void	shift_map_l(t_fract data, int n)
 {
 	int	x;
 	int	y;
@@ -84,26 +86,31 @@ static void	offset_map_l(t_fract data, int n)
 	}
 }
 
+//	Shifts the map and recalculates remaining rows/columns in
+//		1 of 4 possible directions.
+//	This is used to optimize moving.
+//	Sadly I was too lazy to optimize this with multi-threading
+//		but it really needs it since moving is still too slow.
 void	calculate_map_partial(t_fract data, char direction, int n)
 {
 	if (direction == 'u')
 	{
-		offset_map_u(data, n);
+		shift_map_u(data, n);
 		fill_map_u(data, n);
 	}
 	else if (direction == 'd')
 	{
-		offset_map_d(data, n);
+		shift_map_d(data, n);
 		fill_map_d(data, n);
 	}
 	else if (direction == 'r')
 	{
-		offset_map_r(data, n);
+		shift_map_r(data, n);
 		fill_map_r(data, n);
 	}
 	else
 	{
-		offset_map_l(data, n);
+		shift_map_l(data, n);
 		fill_map_l(data, n);
 	}
 }

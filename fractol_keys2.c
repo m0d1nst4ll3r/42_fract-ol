@@ -6,13 +6,13 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:05:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/19 15:49:21 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:50:38 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-//	Simply change colors with lst functions (see those)
+//	Simply changes colors with lst functions (see those)
 //	At the end or beginning of the list, we loop back
 void	next_color(t_fract *fract)
 {
@@ -81,6 +81,7 @@ void	less_iter(t_fract *fract, int n)
 |		e-6 to e-22 would roughly have the same value (close to 20 000).
 |	Rising linearly on a log scale means dividing step by 10 makes
 |		max_iter rise by the same amount every time.
+|		(roughly 1000 in our case)
 |
 |	log(x) does exactly this, but it rises when x rises.
 |	-log(x) is inverted : it rises when x decreases.

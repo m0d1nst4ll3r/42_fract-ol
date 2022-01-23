@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 15:57:42 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 11:30:43 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:23:28 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	init_null(t_fract *fract)
 }
 
 //	Adds the params, as read from the command line, to the data structure
+//	smoothcol, ssaa_samples and shiftmode are initalized to their defaults
 static void	init_copy(t_params params, t_fract *fract)
 {
 	fract->winx = params.winx;
@@ -39,7 +40,7 @@ static void	init_copy(t_params params, t_fract *fract)
 	fract->shiftmode = 0;
 }
 
-//	Malloc the map - it needs to be freed later
+//	Malloc the map - it's freed in exit_program
 static int	init_map(t_fract *fract)
 {
 	int	i;

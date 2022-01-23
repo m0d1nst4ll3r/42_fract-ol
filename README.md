@@ -2,6 +2,12 @@
 
 (started 16/12/2021)
 
+Status:
+
+As good as done. Can always add more features but I need to move on.
+
+Code is fugly but I'll just do better next time - waste of time to re-organize it now.
+
 Todo-list:
 
 - Leaks!
@@ -12,6 +18,7 @@ Todo-list:
 
 Cut content:
 
+- Better colors (like log scale colors to avoid rainbow pukes)
 - Cleaning up code
 Reason : lazy
 - Test several configurations to optimize rendering time... mults instead of adds in complex loops... less variables... and try to optimize code where possible
@@ -22,8 +29,6 @@ Reason : not enough payoff, need to finish this quick
 Reason : I can call a function when RMB is pressed down and released and when the cursor moves while RMB is held, but how do I make a function get called when RMB is pressed down and wait for RMB releasing? Since idk how and it'll take too much time to figure out, this is cut.
 - Drawing a rectangle by holding LMB
 Reason : same as above plus the fact that there is no transparency in mlx so it'd be super hard to draw the outlines of a moving rectangle. Too much effort.
-- Switch Julia set when holding spacebar
-Reason : same as above even though now I understand how to do this: add a variable to the struct, variable becomes 1 when button is pressed, conditional activates in function that fires on pointer motion
 - Multiple windows
 Reason : too hard to make at this point, should've structured my program around it from the start
 - A way to save locations and load them up so when you find something cool you can get back to it quickly

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:10:24 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/03 15:43:53 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:01:06 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	is_valid_hex(char *line)
 |		-> back to 8
 |
 |	A step less than 8 means the line is incomplete.
-|	The string has to be incremented by 6 after steps 6 and 8.
+|	The index has to be incremented by 6 after steps 6 and 8.
 |
 |	Note that this could be done much more efficiently if we would
 |		program a function that can dynamically check syntax based
@@ -70,6 +70,7 @@ static int	is_valid_hex(char *line)
 |		<6hex>[space]<6hex>(space)(6hex)-repeatlast2
 |
 |	[] being at least one, () being any amount, <> being a set amount
+|	(yes this is a very rough first draft)
 |
 |	Such a program would make it effortless to check for syntax and
 |		avoid if forests.
@@ -138,6 +139,8 @@ static int	step_check(char c, int *step)
 |		failure resulting in the possible crash of your program,
 |		destruction of your PC, house, and/or slow agonizing death
 |		of everyone you hold dear)
+|
+|	(Used in fract_colors_decode2.c)
 \* -------------------------------------------------------------------- */
 int	is_valid_line(char *line)
 {

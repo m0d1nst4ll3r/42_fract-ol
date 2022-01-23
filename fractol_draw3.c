@@ -6,12 +6,14 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 21:08:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/20 19:30:37 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/23 01:37:18 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+//	Recaculates map partially according to an offset value
+//	This is done after shifting the map, to optimize moving the view
 void	fill_map_d(t_fract data, int n)
 {
 	int			x;
@@ -108,6 +110,29 @@ void	fill_map_l(t_fract data, int n)
 	}
 }
 
+/* --------------------------------------------------------------------- *\
+|		thread_task
+|
+|	Executes a job in multiple threads, with the help of pthread.
+|
+|	Each instance of the job will auto-assign an id, using mutex locking,
+|		so that they do so in an orderly and structured manner.
+|
+|	The id is initialized at -1 and the first thread increments it directly
+|		to 0.
+|
+|	This id is then used to decide where to start each instance's loop, and
+|		the number of threads is used to decide by how much to increment
+|		the index.
+|
+|	The threads are then automatically handled by the cpu, and distributed
+|		in an optimized manner to the available cores.
+|
+|	NUMTHREADS should be set at least to the amount of available cores to
+|		see the best results. Too high a number causes slowdowns, but
+|		anything below 100 typically does not see enough diminishing returns
+|		to make a difference.
+\* --------------------------------------------------------------------- */
 void	thread_task(t_fract *data, char task)
 {
 	int			err;

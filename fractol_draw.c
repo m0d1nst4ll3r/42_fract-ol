@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 17:01:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/20 19:30:12 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/23 01:24:54 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 |	Otherwise, the color is taken from a palette of colors with the
 |		number of iterations as the index. If the number is greater than
 |		the palette allows, we just circle back to its beginning.
+|
+|	When drawing smooth colors, we use the partial iteration value to
+|		calculate a gradient between 2 colors.
 \* --------------------------------------------------------------------- */
 static int	get_color_iter(t_fract data, float iter)
 {
@@ -57,21 +60,26 @@ static float	calculate_map_pixel(t_fract data, long double x, long double y)
 |
 |	For each pixel in an image, transforms that pixel into a complex number
 |		and calculates how fast that complex number will escape a circle of
-|		radius 2, centered at point (0, 0) of the complex numbers graph.
+|		radius 2^8, centered at point (0, 0) of the complex numbers graph.
 |
 |	This is called an escape time algorithm and is the basis of drawing a
 |		mandelbrot or julia set fractal.
 |
 |	data contains the starting, first pixel, top-left complex number, [pos],
 |		initialized at the start of the program based on window size.
-|	[pos] is then incremented for each pixel by [step] to update our complex
-|		number. The bigger step is, the less zoomed-in the image.
+|	[step] is then added to [pos] to get the complex number for each pixel.
 |
-|	We increment [pos] by [step] instead of multiplying it to save on
-|		floating point multiplications. This causes image deformation when
-|		approaching max long double precision.
+|	Each result is added to a 2D iteration map which is then used for
+|		coloring based on a palette.
 |
-|	The resulting map is then used for coloring based on a palette.
+|	The function returns and receives void * in order to comply with
+|		pthread specifications. In order to allow multi-threading, since
+|		the function is called multiple times simultaneously, before it
+|		begins any work, each instance assigns itself a thread id.
+|	A mutex is necessary for assigning ids in a structured manner.
+|	The map is then divided so that each instance works on separate rows,
+|		meaning each instance starts at a row, and increments rows, according
+|		to their own id.
 \* --------------------------------------------------------------------- */
 void	*calculate_map(void *arg)
 {
@@ -103,6 +111,8 @@ void	*calculate_map(void *arg)
 
 //	Uses the map of escape times in combination with
 //		a palette to color the fractal
+//	Multi-threading works exactly like calculate_map
+//	Draws to a buffered image for double-buffering
 void	*draw_fractal(void *arg)
 {
 	int		x;

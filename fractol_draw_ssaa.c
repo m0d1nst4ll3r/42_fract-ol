@@ -6,12 +6,13 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:07:56 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 12:20:22 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/23 01:46:33 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+//	Adds r, g and b values from an rgb color to total r, g, b values
 static void	addcol(int color, int *rgb)
 {
 	rgb[0] += get_r(color);
@@ -19,19 +20,17 @@ static void	addcol(int color, int *rgb)
 	rgb[2] += get_b(color);
 }
 
+//	Averages all the colors and returns the combined rgb result
 static int	getavg(int *rgb, int samples)
 {
 	rgb[0] /= samples;
 	rgb[1] /= samples;
 	rgb[2] /= samples;
-	if (rgb[0] > 0xff || rgb[1] > 0xff || rgb[2] > 0xff)
-	{
-		printf("Caution! Color overflow at ");
-		printf("%d\t%d\t%d\n", rgb[0], rgb[1], rgb[2]);
-	}
 	return (get_rgb(rgb[0], rgb[1], rgb[2]));
 }
 
+//	Gets color from a floating point iteration according to a palette
+//	See fractol_draw.c for further explanation in similar function
 static int	getcol(t_fract data, float iter)
 {
 	int	color;
@@ -47,6 +46,8 @@ static int	getcol(t_fract data, float iter)
 	return (color);
 }
 
+//	The first (and original) pixel's color can be directly used
+//		without needing to run the escape_time function again
 static void	initcol(t_fract data, float init, int *rgb)
 {
 	int	color;
@@ -57,6 +58,28 @@ static void	initcol(t_fract data, float init, int *rgb)
 	rgb[2] = get_b(color);
 }
 
+/* --------------------------------------------------------------------- *\
+|		draw_ssaa
+|
+|	For a given complex point, calculate the escape time of a grid of
+|		complex points around it, add their resulting colors together,
+|		and average them out.
+|
+|	The grid is of size ssaa_samples x ssaa_samples. For a value of 2,
+|		we will calculate 3 new points (the first one already having
+|		been calculated beforehand). For a value of 10, 99 new points.
+|
+|	Since the grid needs to be located between the given complex point and
+|		the next pixel's complex point (located one step ahead), we
+|		divide step by the grid's size. For a grid of 2, our new step is
+|		step / 2.
+|
+|	The bigger the grid, the longer the calculations, but the more accurate
+|		the resulting colors.
+|
+|	This is essentially upscaling the resolution, and downscaling the
+|		resulting image by color averages.
+\* --------------------------------------------------------------------- */
 int	draw_ssaa(t_fract data, t_complex point, float init)
 {
 	int			rgb[3];

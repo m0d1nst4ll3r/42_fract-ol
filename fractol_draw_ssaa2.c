@@ -6,12 +6,24 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 12:20:31 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 12:20:44 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/23 01:53:10 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+/* --------------------------------------------------------------------- *\
+|		render_ssaa
+|
+|	Like calculate_map, iterates over each pixel, but this time, instead
+|		of calculating their escape time, we assume it has already been
+|		calculated, and we calculate escape times of intermediary pixels
+|		in a grid of size ssaa_samples * ssaa_samples.
+|
+|	See fractol_draw_ssaa.c for further explanations.
+|
+|	This function is optimized for multi-threading.
+\* --------------------------------------------------------------------- */
 void	*render_ssaa(void *arg)
 {
 	int			x;

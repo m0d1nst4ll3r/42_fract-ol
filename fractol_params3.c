@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 16:36:52 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/20 22:56:03 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:13:45 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //	Used to decode the two potential floating point numbers following
 //		"julia" in the command line
 //	Note that if the numbers are incorrect, they are ignored and treated
-//		as regular flags like "-c" (and will error out)
+//		as regular flags like "-c" (and will error out if bad)
 static void	params_julia(t_params *params, int *i, int ac, char **av)
 {
 	params->type = 'j';

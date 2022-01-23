@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 12:21:05 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:57:38 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define DEFAULT_FILE	"colors.fract"
 # define MOVE_MOD		4 //by how many pixels to move each keypress
 # define AI_A			400 //autoiter values used in the inverse log function
-# define AI_B			2196
+# define AI_B			2196 //(see fractol_keys2.c)
 # define AI_T			0.00364 //where max_iter < 50 in the inverse log func
 
 # define BASE_16 "0123456789abcdef" //used by convert_base for colors decoding
@@ -257,7 +257,6 @@ int		fractol_init(t_fract *fract, int ac, char **av);
 
 //// Exit functions to free everything and close mlx cleanly
 // fractol_exit.c
-//int		fractol_exit();
 void	free_map(float **map, int len);
 void	exit_program(t_fract fract);
 
@@ -292,6 +291,10 @@ void	*render_ssaa(void *arg);
 
 //// Key and mouse hook functions and the small functions they use
 // fractol_keys.c
+// fractol_keys2.c
+// fractol_keys3.c
+// fractol_keys_hooks.c
+// fractol_keys_hooks2.c
 int		key_hook(int key, t_fract *data);
 int		mouse_hook(int key, int x, int y, t_fract *data);
 int		clientmsg_hook(t_fract *fract);

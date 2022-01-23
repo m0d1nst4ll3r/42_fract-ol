@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 16:59:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 12:33:20 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:04:08 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ void	create_color(char *line, t_color **lst)
 |	Each element of a list contains the palette's name (e.g "galaxy"),
 |		the palette's size (e.g 100),
 |		and the palette's array of colors (in hex form e.g 084fe1)
+|
+|	Invalid lines are ignored - if no valid lines are found, returns a
+|		NULL list to be handled later on.
 \* --------------------------------------------------------------------- */
 t_color	*decode_colors(char *file)
 {
@@ -109,7 +112,7 @@ t_color	*decode_colors(char *file)
 }
 
 //	Quickly builds a default color in case the file was empty
-//	or could not be read
+//		or could not be read.
 t_color	*default_color(void)
 {
 	t_color	*colors;

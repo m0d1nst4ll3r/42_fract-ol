@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol_keys.c                                     :+:      :+:    :+:   */
+/*   fractol_keys_hooks.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:35:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 11:39:51 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:27:31 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int	mouse_hook(int key, int x, int y, t_fract *fract)
 	return (0);
 }
 
+//	Fires when the red X is clicked - causes program exit
 int	clientmsg_hook(t_fract *fract)
 {
 	exit_program(*fract);

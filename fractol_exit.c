@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:10:37 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/18 17:03:47 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:15:17 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	free_map(float **map, int len)
 }
 
 //	Exit program cleanly, freeing the map, the colors list,
-//		destroying the two images, and the window.
+//		destroying the two images, the window, and the mlx
+//		instance.
 void	exit_program(t_fract fract)
 {
 	free_map(fract.map, fract.winy);

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:59:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/20 23:49:55 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/23 01:11:51 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 |	Iterates at maximum [depth] times, squaring the result of the last
 |		iteration ([s] if first) and adding [c] to it
 |
-|	When the resulting complex number is farther than a radius of 2 from
+|	When the resulting complex number is farther than a certain radius from
 |		the center of our complex numbers graph (0, 0), stop iterating
 |	(this is calculated with pythagore's theorem)
 |
@@ -36,6 +36,18 @@
 |		on the area of the set and the pixel transformations
 |	For any Julia set, c will always be a set value and s will vary based
 |		on the area of the set and the pixel transformations
+|
+|	The iteration value is returned as a float and not an int - it accounts
+|		for differences in the escaped value to allow smooth coloring.
+|	When the result from an iteration escapes (we set the limit to 2^8), it
+|		does not always escape the same distance. The closer it is to 2^8,
+|		the closer it would've been to have taken another iteration to
+|		escape. The closer it is from 2^16, the closer it would've been to
+|		have not needed this iteration at all.
+|	Hence, the value that escaped is transformed into a ratio between 0 and
+|		1 with logarithms to produce a partial iteration value.
+|	Don't ask me what that log formula does exactly though... I still don 't
+|		get it.
 \* --------------------------------------------------------------------- */
 static float	escape_time(t_complex s, t_complex c, int depth)
 {
@@ -60,6 +72,7 @@ static float	escape_time(t_complex s, t_complex c, int depth)
 	return ((float)iter);
 }
 
+//	mandelbrot power 3
 static float	escape_time_m3(t_complex s, t_complex c, int depth)
 {
 	long double	x2;
@@ -83,6 +96,7 @@ static float	escape_time_m3(t_complex s, t_complex c, int depth)
 	return ((float)iter);
 }
 
+//	mandelbrot power 4
 static float	escape_time_m4(t_complex s, t_complex c, int depth)
 {
 	long double	x2;
@@ -106,10 +120,7 @@ static float	escape_time_m4(t_complex s, t_complex c, int depth)
 	return ((float)iter);
 }
 
-//	(x4 + y4 - 6x²y² + 4x³yi - 4xy³i)(x + yi)
-//	x5 + x4yi + xy4 + y5i - 6x³y² - 6x²y³i + 4x4yi - 4x³y² - 4x²y³i + 4xy4
-//	x = x5 + 5xy4 - 10x³y²
-//	y = y5 + 5x4y - 10x²y³
+//	mandelbrot power 5
 static float	escape_time_m5(t_complex s, t_complex c, int depth)
 {
 	long double	x2;
@@ -143,7 +154,7 @@ static float	escape_time_m5(t_complex s, t_complex c, int depth)
 |		3		mandel cube		Zn³ + C				  0
 |		4		mandel 4		Zn⁴ + C				  0
 |		5		mandel 5		Zn⁵ + C				  0
-|		j		julia			Zn² + C		starts at X
+|		j		julia			Zn² + C		starts at (variable)
 |		b		burning ship	something	starts at 0
 \* --------------------------------------------------------------------- */
 float	escape_time_global(t_complex variable, t_complex constant,

@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:07:24 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/21 02:29:58 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/23 00:00:42 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ void	zoom_out(t_fract *fract, int x, int y)
 |		entire frame, only we do it partially.
 |
 |	The second and third steps are done in calculate_map_partial.
+|
+|	Unlike other rendering tasks, calculate_map_partial is not optimized
+|		for multi-threading (and I'm too lazy to make it).
 \* --------------------------------------------------------------------- */
 void	move_view(t_fract *fract, char direction, int n)
 {

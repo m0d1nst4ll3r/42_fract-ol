@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 16:12:27 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/11 12:44:53 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/01/22 23:11:36 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 |	- type			Defaults to mandelbrot
 |	- noauto		Defaults to 0, auto max_iter incrementation is on
 |	- file			Defaults to "colors.fract" as per define
-|	- color			Defaults to a random color (NULL is handled later)
+|	- color			Defaults to the first color (NULL is handled later)
 |	- constant		Defaults to 0, 0, the mandelbrot value
 \* --------------------------------------------------------------------- */
 static void	params_init(t_params *params)
