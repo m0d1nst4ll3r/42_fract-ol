@@ -6,7 +6,7 @@
 #    By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/20 14:37:51 by rpohlen           #+#    #+#              #
-#    Updated: 2022/01/26 22:22:36 by rpohlen          ###   ########.fr        #
+#    Updated: 2022/01/27 19:46:27 by rpohlen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ OBJS		= $(SRCS:.c=.o)
 $(NAME):	$(OBJS)
 			make -C mlx
 			make -C libft
-			$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) -O3
+			$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
 all:		$(NAME)
 
