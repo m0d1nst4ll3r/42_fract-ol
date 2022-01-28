@@ -6,7 +6,7 @@
 #    By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/20 14:37:51 by rpohlen           #+#    #+#              #
-#    Updated: 2022/01/27 19:46:27 by rpohlen          ###   ########.fr        #
+#    Updated: 2022/01/28 08:28:47 by rpohlen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRCS		= fractol.c \
 			  fractol_exit.c
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -O3 -I mlx -I libft/includes
+CFLAGS		= -Wall -Wextra -Werror -O3 -I mlx -I libft/include
 
 LIBS		= mlx/libmlx_Linux.a \
 			  libft/libft.a \
