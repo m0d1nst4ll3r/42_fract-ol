@@ -6,14 +6,14 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 23:57:38 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/12 15:17:09 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# define NUMTHREADS		24 //for multithreading
+# define NUMTHREADS		48 //for multithreading
 # define DEFAULT_WINX	1800
 # define DEFAULT_WINY	1000
 # define DEFAULT_ZOOM	1.05
@@ -168,6 +168,8 @@ typedef struct s_img
 |	- step			fractal step value (describes level of zoom)
 |	- max_iter		max iterations of our fractal calculations (or depth)
 |						all four are used for escape time and drawing
+|	- highest_iter	remembers the highest iteration we calculated so far
+|						this avoids useless recalculations
 |	- zoom			by how much to zoom in or out (higher than 1)
 |	- thread		used in multi-threading to order threads
 |	- ssaa_samples	number of samples to use in ssaa - this can be changed

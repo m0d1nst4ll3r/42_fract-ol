@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 18:35:07 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 23:27:31 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/12 15:38:41 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 |
 |	List of keys :
 |		65505	shift				zoom in
-|		61		-					zoom in
+|		61		=					zoom in
 |		65507	ctrl				zoom out
-|		45		=					zoom out
+|		45		-					zoom out
 |		65362	upper arrow			move up
 |		119		w					move up
 |		65364	down arrow			move down
@@ -32,12 +32,14 @@
 |		101		e					next color
 |		113		q					prev color
 |		99		c					toggle smooth coloring
-|		54		6					increase max iter by 1
-|		53		5					decrease max iter by 1
-|		52		3					increase max iter by 10
-|		51		4					decrease max iter by 10
-|		50		2					increase max iter by 100
-|		49		1					decrease max iter by 100
+|		56		8					increase max iter by 1
+|		55		7					decrease max iter by 1
+|		54		6					increase max iter by 10
+|		53		5					decrease max iter by 10
+|		52		3					increase max iter by 100
+|		51		4					decrease max iter by 100
+|		50		2					increase max iter by 1000
+|		49		1					decrease max iter by 1000
 |		65289	tab					enable auto iter
 |		122		z					decrease zoom strength
 |		120		x					increase zoom strength

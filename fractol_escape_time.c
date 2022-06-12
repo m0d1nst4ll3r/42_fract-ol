@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 13:59:29 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/23 01:11:51 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/12 14:50:40 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ static float	escape_time_m5(t_complex s, t_complex c, int depth)
 |		4		mandel 4		Zn⁴ + C				  0
 |		5		mandel 5		Zn⁵ + C				  0
 |		j		julia			Zn² + C		starts at (variable)
-|		b		burning ship	something	starts at 0
 \* --------------------------------------------------------------------- */
 float	escape_time_global(t_complex variable, t_complex constant,
 		int depth, char type)

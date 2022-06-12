@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 15:10:24 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 23:01:06 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/12 13:27:42 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,7 @@ int	is_valid_line(char *line)
 		{
 			if (is_valid_hex(line))
 			{
-				if (step == 6)
-					step = 7;
-				else
-					step = 9;
+				step++;
 				line += 5;
 			}
 			else

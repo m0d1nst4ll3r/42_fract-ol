@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 16:59:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 23:04:08 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/12 13:59:28 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_color	*decode_colors(char *file)
 	if (fd < 3)
 	{
 		print_error(ERR_BADFILE, file);
-		return (NULL);
+		return (default_color());
 	}
 	colors = NULL;
 	line = get_next_line(fd);
