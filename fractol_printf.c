@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 22:55:52 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/12 03:00:12 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ mandelbrot, julia.\n", arg);
 	else if (code == ERR_NOFILE)
 		printf("Flag '-f' requires a filename.\n");
 	else if (code == ERR_NOWIN)
-		printf("Flag '-w' requires two integers higher than 100. Ex: '-w 800 \
+		printf("Flag '-w' requires two integers higher than 200. Ex: '-w 800 \
 600'\n");
 	else if (code == ERR_NODEPTH)
 		printf("Flag '-d' requires an integer number.\n");
@@ -87,7 +87,6 @@ void	print_usage(void)
 	  \e[0;33mmandel4\e[0m\n\
 	  \e[0;33mmandel5\e[0m\n\
 	  \e[0;33mjulia [constant]\e[0m (defaults to [0,-0.8])\n\
-	  \e[0;33burning_ship\e[0m\n\
 \n\
 	\e[0;31mOptions:\e[0m\n\
 	  \e[0;33m-help or -h\e[0m	displays the user guide\n\
