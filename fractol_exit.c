@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 16:10:37 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/06/12 16:41:23 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/13 10:45:46 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void	exit_program(t_fract fract)
 	if (fract.win)
 		mlx_destroy_window(fract.mlx, fract.win);
 	if (fract.mlx)
+	{
 		mlx_destroy_display(fract.mlx);
+		free(fract.mlx);
+	}
 	exit(0);
 }
