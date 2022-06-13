@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:07:24 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/06/12 16:06:56 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/13 13:34:10 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ void	decrease_zoom_strength(t_fract *fract)
 		fract->zoom -= 0.2;
 	else
 		fract->zoom -= 1;
-	printf("\e[0;36mZoom strength:\e[0m %.2f\n", fract->zoom);
+	ft_printf("\e[0;36mZoom strength:\e[0m ", fract->zoom);
+	print_float(fract->zoom, 2);
+	ft_printf("\n");
 }
 
 void	increase_zoom_strength(t_fract *fract)
@@ -132,5 +134,7 @@ void	increase_zoom_strength(t_fract *fract)
 		fract->zoom += 0.2;
 	else
 		fract->zoom += 1;
-	printf("\e[0;36mZoom strength:\e[0m %.2f\n", fract->zoom);
+	ft_printf("\e[0;36mZoom strength:\e[0m ", fract->zoom);
+	print_float(fract->zoom, 2);
+	ft_printf("\n");
 }

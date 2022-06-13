@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 15:24:50 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 23:30:29 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/13 13:30:11 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	decrease_ssaa_strength(t_fract *fract)
 	if (fract->ssaa_samples > 2)
 	{
 		fract->ssaa_samples--;
-		printf("\e[0;32mSSAA Strength:\e[0m %d\n", fract->ssaa_samples);
+		ft_printf("\e[0;32mSSAA Strength:\e[0m %d\n", fract->ssaa_samples);
 	}
 }
 
 void	increase_ssaa_strength(t_fract *fract)
 {
 	fract->ssaa_samples++;
-	printf("\e[0;32mSSAA Strength:\e[0m %d\n", fract->ssaa_samples);
+	ft_printf("\e[0;32mSSAA Strength:\e[0m %d\n", fract->ssaa_samples);
 }
 
 //	Toggles julia set shifting (see fractol_keys_hooks2.c)

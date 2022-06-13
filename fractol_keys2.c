@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:05:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/01/22 23:50:38 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/13 13:30:22 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 void	next_color(t_fract *fract)
 {
 	fract->curcol = fractol_lstnext(fract->colors, fract->curcol);
-	printf("\e[0;33mSwitching to color\e[0m %s\n", fract->curcol->name);
+	ft_printf("\e[0;33mSwitching to color\e[0m %s\n", fract->curcol->name);
 	render_fractal(fract, RENDER_RECOLOR);
 }
 
 void	prev_color(t_fract *fract)
 {
 	fract->curcol = fractol_lstprev(fract->colors, fract->curcol);
-	printf("\e[0;33mSwitching to color\e[0m %s\n", fract->curcol->name);
+	ft_printf("\e[0;33mSwitching to color\e[0m %s\n", fract->curcol->name);
 	render_fractal(fract, RENDER_RECOLOR);
 }
 
