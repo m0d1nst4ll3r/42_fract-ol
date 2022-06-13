@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 16:59:32 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/06/12 13:59:28 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/13 22:49:13 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_color	*decode_colors(char *file)
 		free(line);
 		line = get_next_line(fd);
 	}
+	close(fd);
 	return (colors);
 }
 
