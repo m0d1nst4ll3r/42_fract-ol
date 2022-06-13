@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/21 10:11:46 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/06/12 03:00:12 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/13 14:03:25 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,45 +16,45 @@
 static void	print_error2(int code, char *arg)
 {
 	if (code == ERR_BADZOOM)
-		printf("Incorrect zoom value. Must be higher than 1.\n");
+		ft_printf("Incorrect zoom value. Must be higher than 1.\n");
 	else if (code == ERR_BADCOLOR)
-		printf("Color '%s' not found. Defaulting to a random color.\n", arg);
+		ft_printf("Color '%s' not found. Defaulting to a random color.\n", arg);
 	else if (code == ERR_NOCOLORS)
-		printf("No valid color line found in color file. Using default \
+		ft_printf("No valid color line found in color file. Using default \
 palette.\n");
 	else if (code == ERR_NOCOLOR)
-		printf("Flag '-c' requires a color name.\n");
+		ft_printf("Flag '-c' requires a color name.\n");
 	else if (code == ERR_DUPLICATE)
-		printf("Duplicate flag detected. Please use each flag only once.\n");
+		ft_printf("Duplicate flag detected. Please use each flag only once.\n");
 	else
-		printf("Undefined error\n");
+		ft_printf("Undefined error\n");
 }
 
 void	print_error(int code, char *arg)
 {
 	if (code == ERR_TYPE)
-		printf("Incorrect fractal type '%s'. Valid fractal types include: \
+		ft_printf("Incorrect fractal type '%s'. Valid fractal types include: \
 mandelbrot, julia.\n", arg);
 	else if (code == ERR_PARAM)
-		printf("Incorrect flag '%s'. See usage for a list of valid flags.\n",
+		ft_printf("Incorrect flag '%s'. See usage for a list of valid flags.\n",
 			arg);
 	else if (code == ERR_NOFILE)
-		printf("Flag '-f' requires a filename.\n");
+		ft_printf("Flag '-f' requires a filename.\n");
 	else if (code == ERR_NOWIN)
-		printf("Flag '-w' requires two integers higher than 200. Ex: '-w 800 \
+		ft_printf("Flag '-w' requires two integers higher than 200. Ex: '-w 800 \
 600'\n");
 	else if (code == ERR_NODEPTH)
-		printf("Flag '-d' requires an integer number.\n");
+		ft_printf("Flag '-d' requires an integer number.\n");
 	else if (code == ERR_NOZOOM)
-		printf("Flag '-z' requires a rational number.\n");
+		ft_printf("Flag '-z' requires a rational number.\n");
 	else if (code == ERR_BADFILE)
-		printf("Could not open color config file '%s'. Using default \
+		ft_printf("Could not open color config file '%s'. Using default \
 palette.\n", arg);
 	else if (code == ERR_BADWIN)
-		printf("Incorrect window size. Must be two integers higher than \
+		ft_printf("Incorrect window size. Must be two integers higher than \
 200x200.\n");
 	else if (code == ERR_BADDEPTH)
-		printf("Incorrect max iterations value. Must be higher than 0.\n");
+		ft_printf("Incorrect max iterations value. Must be higher than 0.\n");
 	else
 		print_error2(code, arg);
 }
@@ -63,14 +63,22 @@ palette.\n", arg);
 //	Color codes are used to add flavor
 void	print_info(t_fract data)
 {
-	printf("\e[0;31m=-._.-=Fractal Information=-._.-=\e[0m\n");
-	printf("\e[0;33m- Position :\e[0m\t\t%Le, %Le\n", data.pos.x, data.pos.y);
-	printf("\e[0;33m- Step :\e[0m\t\t%Le\n", data.step);
-	printf("\e[0;33m- Max iter :\e[0m\t\t%d (%s)\n", data.max_iter,
+	ft_printf("\e[0;31m=-._.-=Fractal Information=-._.-=\e[0m\n");
+	ft_printf("\e[0;33m- Position :\e[0m\t\t");
+	print_ld(data.pos.x, 25);
+	ft_printf(", ");
+	print_ld(data.pos.y, 25);
+	ft_printf("\n");
+	ft_printf("\e[0;33m- Step :\e[0m\t\t");
+	print_ld(data.step, 25);
+	ft_printf("\n");
+	ft_printf("\e[0;33m- Max iter :\e[0m\t\t%d (%s)\n", data.max_iter,
 		str_iter(data.autoiter));
-	printf("\e[0;33m- Zoom strength:\e[0m\t%.2f\n", data.zoom);
-	printf("\e[0;33m- SSAA strength:\e[0m\t%d\n", data.ssaa_samples);
-	printf("\e[0;33m- Color :\e[0m\t\t%s (%s)\n", data.curcol->name,
+	ft_printf("\e[0;33m- Zoom strength:\e[0m\t");
+	print_float(data.zoom, 2);
+	ft_printf("\n");
+	ft_printf("\e[0;33m- SSAA strength:\e[0m\t%d\n", data.ssaa_samples);
+	ft_printf("\e[0;33m- Color :\e[0m\t\t%s (%s)\n", data.curcol->name,
 		str_color(data.smoothcol));
 }
 
@@ -78,7 +86,7 @@ void	print_info(t_fract data)
 //	This is meant as a first read
 void	print_usage(void)
 {
-	printf("\n\e[4;31mFractol usage:\e[0m\n\n\
+	ft_printf("\n\e[4;31mFractol usage:\e[0m\n\n\
 	  \e[0;32m./fractol [SET] [OPTION]\e[0m\n\
 \n\
 	\e[0;31mSupported sets:\e[0m\n\
@@ -108,7 +116,7 @@ void	print_usage(void)
 //	This is meant as a second read
 void	print_guide(void)
 {
-	printf("\n\e[4;31mFractol user guide:\e[0m\n\n\
+	ft_printf("\n\e[4;31mFractol user guide:\e[0m\n\n\
 	\e[0;31mRun the program\e[0m\n\
 	   \e[0;32m./fractol mandelbrot\e[0m\n\n\
 	\e[0;31mUse the following commands to explore the fractal\e[0m\n\

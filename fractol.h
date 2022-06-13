@@ -6,7 +6,7 @@
 /*   By: rpohlen <rpohlen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 14:53:40 by rpohlen           #+#    #+#             */
-/*   Updated: 2022/06/12 15:17:09 by rpohlen          ###   ########.fr       */
+/*   Updated: 2022/06/13 13:52:34 by rpohlen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@
 # include "mlx.h"
 # include <stdlib.h> //malloc free
 # include <math.h> //logl
-# include <stdio.h> //printf
 # include <fcntl.h> //open
 # include <unistd.h> //read
 # include <string.h> //strerror
@@ -316,5 +315,10 @@ void	apply_ssaa_filter(t_fract *fract);
 void	decrease_ssaa_strength(t_fract *fract);
 void	increase_ssaa_strength(t_fract *fract);
 void	toggle_shift_mode(t_fract *fract);
+
+//// printflol because printf is suddenly not allowed anymore, lol
+// fractol_printflol.c
+void	print_float(float f, int length);
+void	print_ld(long double ld, int length);
 
 #endif
